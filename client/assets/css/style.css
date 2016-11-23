@@ -1,0 +1,964 @@
+/* line 7, sass/_main.scss */
+body {
+  background-color: #eee;
+  font-family: "Roboto", sans-serif;
+  color: #3b5343;
+}
+
+/* line 13, sass/_main.scss */
+button:focus {
+  outline: none !important;
+}
+
+/* line 17, sass/_main.scss */
+.btn:active, .dropdown-toggle {
+  box-shadow: none !important;
+}
+
+/* line 21, sass/_main.scss */
+.transition, .header-li, .navigation li, .profile-menu li, [ui-view].ng-enter, .toggle.ng-enter, .toggle.ng-leave, .smooth-change.ng-enter, .product, .drag-area, .drag-area-gallery .drag-area-item, .dragover {
+  -webkit-transition: all 0.25s ease-in-out 0s;
+  -moz-transition: all 0.25s ease-in-out 0s;
+  -o-transition: all 0.25s ease-in-out 0s;
+  -ms-transition: all 0.25s ease-in-out 0s;
+  transition: all 0.25s ease-in-out 0s;
+}
+
+/* line 29, sass/_main.scss */
+.header-li, .navigation li, .profile-menu li {
+  font-family: "Cormorant Garamond", serif;
+  padding: 5px 5px;
+  list-style: none;
+  cursor: pointer;
+}
+/* line 36, sass/_main.scss */
+.header-li:hover, .navigation li:hover, .profile-menu li:hover {
+  background-color: rgba(175, 182, 149, 0.3);
+}
+
+/* line 45, sass/_main.scss */
+[ui-view].ng-enter {
+  opacity: 0;
+}
+/* line 50, sass/_main.scss */
+[ui-view].ng-enter-active {
+  opacity: 1;
+}
+/* line 54, sass/_main.scss */
+[ui-view].ng-leave {
+  opacity: 1;
+}
+/* line 58, sass/_main.scss */
+[ui-view].ng-leave-active {
+  opacity: 0;
+}
+
+/* line 63, sass/_main.scss */
+.head {
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.3);
+  background-color: #e9e1d4;
+  width: 100%;
+  z-index: 11;
+  top: 0;
+  left: 0;
+  position: fixed;
+}
+
+/* line 73, sass/_main.scss */
+.head + [ui-view] {
+  margin-top: 210px;
+}
+
+/* line 1, sass/_header.scss */
+.header {
+  padding-bottom: 15px;
+}
+/* line 5, sass/_header.scss */
+.header .img-logo {
+  cursor: pointer;
+}
+
+/* line 10, sass/_header.scss */
+.popover-content {
+  padding: 0 !important;
+}
+
+/* line 14, sass/_header.scss */
+.goToAdmin {
+  margin-right: 100px;
+}
+
+/* line 19, sass/_header.scss */
+.authentication {
+  font-family: "Cormorant Garamond", serif;
+  color: #3b5343;
+  font-size: 18px;
+  margin-top: 65px;
+}
+/* line 25, sass/_header.scss */
+.authentication i {
+  cursor: pointer;
+}
+/* line 29, sass/_header.scss */
+.authentication .fa-user, .authentication .fa-user-plus, .authentication .fa-sign-in, .authentication .fa-sign-out {
+  margin-right: 5px;
+}
+/* line 33, sass/_header.scss */
+.authentication span {
+  cursor: pointer;
+}
+/* line 37, sass/_header.scss */
+.authentication .margins {
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: default;
+}
+
+/* line 44, sass/_header.scss */
+.login-form {
+  padding: 15px;
+}
+
+/* line 49, sass/_header.scss */
+.navigation {
+  font-size: 22px;
+  margin-top: 120px;
+}
+/* line 53, sass/_header.scss */
+.navigation li {
+  float: left;
+  margin-right: 40px;
+}
+/* line 59, sass/_header.scss */
+.navigation .submenu {
+  margin-top: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* line 65, sass/_header.scss */
+.navigation .submenu li {
+  width: 100%;
+  font-size: 19px;
+  clear: both;
+}
+
+/* line 73, sass/_header.scss */
+.profile-menu {
+  padding: 0;
+  margin-bottom: 0;
+}
+/* line 77, sass/_header.scss */
+.profile-menu li {
+  width: 100%;
+  font-size: 19px;
+  margin-left: 0;
+  padding: 5px 20px 5px 20px;
+}
+
+/* line 2, sass/_signup.scss */
+.card-container {
+  border-radius: 4px;
+  border: 1px solid lightgray;
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  position: relative;
+  box-shadow: 5px 5px 10px -2px rgba(0, 0, 0, 0.3);
+}
+/* line 11, sass/_signup.scss */
+.card-container .required-field {
+  color: #d9534f;
+  margin-left: 5px;
+}
+
+/* line 19, sass/_signup.scss */
+.form-control:focus {
+  border-color: #ccc;
+  box-shadow: 0 0 0 transparent !important;
+}
+/* line 24, sass/_signup.scss */
+.form-control.incorrect-input {
+  border-color: #d9534f;
+}
+/* line 27, sass/_signup.scss */
+.form-control.incorrect-input:focus {
+  border-color: #d9534f;
+  box-shadow: 0 0 0 transparent !important;
+}
+/* line 33, sass/_signup.scss */
+.form-control.correct-input {
+  border-color: #5cb85c;
+}
+/* line 36, sass/_signup.scss */
+.form-control.correct-input:focus {
+  border-color: #5cb85c;
+  box-shadow: 0 0 0 transparent !important;
+}
+
+/* line 43, sass/_signup.scss */
+.error-message {
+  height: 65px;
+}
+
+/* line 47, sass/_signup.scss */
+.extend-prop {
+  background-color: transparent;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+/* line 55, sass/_signup.scss */
+.toggle.ng-enter {
+  opacity: 0;
+}
+/* line 60, sass/_signup.scss */
+.toggle.ng-enter-active {
+  opacity: 1;
+}
+/* line 64, sass/_signup.scss */
+.toggle.ng-leave {
+  opacity: 1;
+}
+/* line 69, sass/_signup.scss */
+.toggle.ng-leave-active {
+  opacity: 0;
+}
+
+/* line 74, sass/_signup.scss */
+.verify-msg {
+  font-size: 16px;
+}
+
+/* line 1, sass/_profile.scss */
+.profile-caption {
+  margin-bottom: 40px;
+}
+
+/* line 6, sass/_profile.scss */
+.smooth-change.ng-enter {
+  opacity: 0;
+}
+/* line 11, sass/_profile.scss */
+.smooth-change.ng-enter-active {
+  opacity: 1;
+}
+/* line 15, sass/_profile.scss */
+.smooth-change.ng-leave {
+  opacity: 1;
+}
+/* line 19, sass/_profile.scss */
+.smooth-change.ng-leave-active {
+  opacity: 0;
+}
+
+/* line 24, sass/_profile.scss */
+.extend-property {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+}
+
+/* line 30, sass/_profile.scss */
+.modal-profile {
+  margin: 40px 50px 50px 50px;
+}
+
+/* line 34, sass/_profile.scss */
+.close-icon {
+  padding-top: 10px;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+/* line 1, sass/_store.scss */
+.product {
+  border: 1px solid lightgray;
+  background-color: #fff;
+  border-radius: 4px;
+  width: 100%;
+  height: 450px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px -2px rgba(0, 0, 0, 0.3);
+}
+/* line 12, sass/_store.scss */
+.product:hover {
+  -webkit-box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
+  -moz-transform: translateX(-1px) translateY(-1px);
+  -webkit-transform: translateX(-1px) translateY(-1px);
+  -o-transform: translateX(-1px) translateY(-1px);
+  -ms-transform: translateX(-1px) translateY(-1px);
+  transform: translateX(-1px) translateY(-1px);
+}
+/* line 26, sass/_store.scss */
+.product img, .product .drag-area .picture-preview, .drag-area .product .picture-preview, .product .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .product .picture-preview, .product .drag-area .no-picture, .drag-area .product .no-picture, .product .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .product .no-picture {
+  width: 100%;
+}
+/* line 30, sass/_store.scss */
+.product .product_caption {
+  height: 45px;
+}
+/* line 34, sass/_store.scss */
+.product .product_description {
+  padding: 5px 25px 5px 25px;
+  height: 90px;
+}
+/* line 39, sass/_store.scss */
+.product .price {
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 45, sass/_store.scss */
+.product .detail-info {
+  color: #275bec;
+  font-size: 1.2em;
+  margin-right: 20px;
+}
+
+/* line 52, sass/_store.scss */
+.filters {
+  margin-top: -20px;
+}
+
+/* line 58, sass/_store.scss */
+.toggle-view {
+  margin: 0 5px 0 5px;
+  color: #76808e;
+}
+
+/* line 63, sass/_store.scss */
+.active-tab {
+  color: #211818;
+}
+
+/* line 68, sass/_store.scss */
+.product-list tr {
+  cursor: pointer;
+}
+/* line 72, sass/_store.scss */
+.product-list td {
+  vertical-align: middle !important;
+}
+/* line 76, sass/_store.scss */
+.product-list img, .product-list .drag-area .picture-preview, .drag-area .product-list .picture-preview, .product-list .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .product-list .picture-preview, .product-list .drag-area .no-picture, .drag-area .product-list .no-picture, .product-list .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .product-list .no-picture {
+  width: 100%;
+}
+/* line 80, sass/_store.scss */
+.product-list .price {
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 86, sass/_store.scss */
+.product-list .detail-info {
+  color: #275bec;
+  font-size: 1.2em;
+  margin-right: 20px;
+}
+
+/* line 93, sass/_store.scss */
+.bets {
+  padding: 0 0 10px 40px !important;
+}
+/* line 96, sass/_store.scss */
+.bets span {
+  font-size: 15px;
+}
+/* line 100, sass/_store.scss */
+.bets .font-icon {
+  margin-right: 10px;
+}
+
+/* line 105, sass/_store.scss */
+.bets-as-list {
+  padding-left: 15px !important;
+}
+
+/* line 110, sass/_store.scss */
+.dropdown-submenu {
+  position: relative;
+}
+
+/* line 114, sass/_store.scss */
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+/* line 124, sass/_store.scss */
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+
+/* line 128, sass/_store.scss */
+.dropdown-submenu > a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+/* line 142, sass/_store.scss */
+.dropdown-submenu:hover > a:after {
+  border-left-color: #fff;
+}
+
+/* line 146, sass/_store.scss */
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+/* line 150, sass/_store.scss */
+.dropdown-submenu.pull-left > .dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
+
+/* line 158, sass/_store.scss */
+input[type="search"] {
+  background-image: url("../img/lupa.png");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 98% 50%;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+/* line 17, sass/_adminAddProduct.scss */
+.product-caption {
+  margin-bottom: 10px;
+}
+
+/* line 21, sass/_adminAddProduct.scss */
+.product-description {
+  margin-top: 65px;
+}
+
+/* line 26, sass/_adminAddProduct.scss */
+.availability-checkbox {
+  margin-top: 8px;
+}
+
+/* line 30, sass/_adminAddProduct.scss */
+.product-prop {
+  margin-bottom: 15px;
+}
+
+/* line 34, sass/_adminAddProduct.scss */
+.product-price-uah {
+  padding-left: -0 !important;
+  margin-top: 10px;
+}
+
+/* line 39, sass/_adminAddProduct.scss */
+.info-msg {
+  height: 55px;
+}
+
+/* line 44, sass/_adminAddProduct.scss */
+.drag-area, .drag-area-gallery .drag-area-item {
+  position: relative;
+  width: 100%;
+  background-color: rgba(50, 50, 50, 0.15);
+  border: 2px dashed gray;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+/* line 53, sass/_adminAddProduct.scss */
+.drag-area:before, .drag-area-gallery .drag-area-item:before {
+  content: "";
+  display: block;
+  padding-top: 50%;
+}
+/* line 59, sass/_adminAddProduct.scss */
+.drag-area img, .drag-area-gallery .drag-area-item img, .drag-area .picture-preview, .drag-area-gallery .drag-area-item .picture-preview, .drag-area .no-picture, .drag-area-gallery .drag-area-item .no-picture {
+  position: absolute;
+}
+/* line 63, sass/_adminAddProduct.scss */
+.drag-area .picture-preview, .drag-area-gallery .drag-area-item .picture-preview {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+/* line 71, sass/_adminAddProduct.scss */
+.drag-area .no-picture, .drag-area-gallery .drag-area-item .no-picture {
+  width: 30%;
+  top: 20%;
+  left: 35%;
+}
+/* line 78, sass/_adminAddProduct.scss */
+.drag-area .remove-photo, .drag-area-gallery .drag-area-item .remove-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+}
+
+/* line 87, sass/_adminAddProduct.scss */
+.drag-area-gallery {
+  font-size: 0;
+}
+/* line 90, sass/_adminAddProduct.scss */
+.drag-area-gallery .drag-area-item {
+  display: inline-block;
+  width: 30%;
+  font-size: 13px;
+}
+/* line 96, sass/_adminAddProduct.scss */
+.drag-area-gallery .drag-area-item:not(:last-child) {
+  margin-right: 5%;
+}
+/* line 100, sass/_adminAddProduct.scss */
+.drag-area-gallery .drag-area-item:before {
+  padding-top: 100%;
+}
+/* line 104, sass/_adminAddProduct.scss */
+.drag-area-gallery .drag-area-item .no-picture {
+  width: 50%;
+  top: 25%;
+  left: 25%;
+}
+/* line 112, sass/_adminAddProduct.scss */
+.drag-area-gallery .dragover {
+  border: 2px dashed blue;
+}
+
+/* line 118, sass/_adminAddProduct.scss */
+.dragover {
+  border: 2px dashed blue;
+}
+
+/* line 123, sass/_adminAddProduct.scss */
+.processing {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 10;
+}
+/* line 132, sass/_adminAddProduct.scss */
+.processing .processing-icon {
+  width: 100px;
+  margin: 350px auto;
+  animation: spin 1s linear infinite;
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+}
+
+/* line 1, sass/_product.scss */
+.avatar, .img-list .img-item {
+  position: relative;
+  border: 1px solid lightgray;
+  width: 100%;
+  background-color: rgba(50, 50, 50, 0.15);
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+/* line 9, sass/_product.scss */
+.avatar:before, .img-list .img-item:before {
+  content: "";
+  display: block;
+  padding-top: 50%;
+}
+/* line 15, sass/_product.scss */
+.avatar img, .img-list .img-item img, .avatar .drag-area .picture-preview, .drag-area .avatar .picture-preview, .img-list .img-item .drag-area .picture-preview, .drag-area .img-list .img-item .picture-preview, .avatar .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .avatar .picture-preview, .img-list .img-item .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .img-list .img-item .picture-preview, .avatar .drag-area .no-picture, .drag-area .avatar .no-picture, .img-list .img-item .drag-area .no-picture, .drag-area .img-list .img-item .no-picture, .avatar .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .avatar .no-picture, .img-list .img-item .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .img-list .img-item .no-picture {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* line 23, sass/_product.scss */
+.img-list {
+  font-size: 0;
+}
+/* line 26, sass/_product.scss */
+.img-list .img-item {
+  display: inline-block;
+  width: 30%;
+}
+/* line 29, sass/_product.scss */
+.img-list .img-item:before {
+  padding-top: 100%;
+}
+/* line 36, sass/_product.scss */
+.img-list .img-item:not(:last-child) {
+  margin-right: 5%;
+}
+
+/* line 42, sass/_product.scss */
+.main-description {
+  font-size: 16px;
+  padding: 0 20px 20px 20px;
+}
+
+/* line 47, sass/_product.scss */
+.product-properties {
+  font-size: 16px;
+  list-style: none;
+  padding-left: 20px;
+}
+/* line 52, sass/_product.scss */
+.product-properties li {
+  padding: 5px;
+}
+/* line 55, sass/_product.scss */
+.product-properties li strong {
+  margin-right: 10px;
+}
+
+/* line 61, sass/_product.scss */
+.product_price {
+  display: inline-block;
+  color: #4cae4c;
+  margin: 10px 50px 20px 20px;
+}
+
+/* line 67, sass/_product.scss */
+.basketMsg {
+  height: 30px;
+  display: inline-block;
+  color: #275bec;
+  cursor: pointer;
+}
+
+/* line 3, sass/_basket.scss */
+.items-table td {
+  vertical-align: middle !important;
+}
+/* line 6, sass/_basket.scss */
+.items-table td input {
+  cursor: pointer;
+}
+/* line 11, sass/_basket.scss */
+.items-table .remove-item {
+  cursor: pointer;
+}
+/* line 16, sass/_basket.scss */
+.items-table .item-avatar img, .items-table .item-avatar .drag-area .picture-preview, .drag-area .items-table .item-avatar .picture-preview, .items-table .item-avatar .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .items-table .item-avatar .picture-preview, .items-table .item-avatar .drag-area .no-picture, .drag-area .items-table .item-avatar .no-picture, .items-table .item-avatar .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .items-table .item-avatar .no-picture {
+  cursor: default;
+  width: 180px;
+  height: 90px;
+}
+/* line 24, sass/_basket.scss */
+.items-table img, .items-table .drag-area .picture-preview, .drag-area .items-table .picture-preview, .items-table .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .items-table .picture-preview, .items-table .drag-area .no-picture, .drag-area .items-table .no-picture, .items-table .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .items-table .no-picture {
+  cursor: pointer;
+  width: 180px;
+  height: 90px;
+  float: left;
+}
+/* line 33, sass/_basket.scss */
+.items-table .item-prop h4 {
+  margin-top: 30px;
+}
+/* line 37, sass/_basket.scss */
+.items-table .item-prop p {
+  margin-left: 200px;
+}
+
+/* line 43, sass/_basket.scss */
+.sum-price {
+  margin-top: 30px;
+  margin-bottom: -20px;
+}
+
+/* line 48, sass/_basket.scss */
+.confirm-order {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* line 75, sass/_basket.scss */
+.tab-wrap {
+  width: 100%;
+  position: relative;
+  display: flex;
+  top: 0;
+}
+/* line 81, sass/_basket.scss */
+.tab-wrap input[type="radio"][name="tabs"] {
+  position: absolute;
+  display: none;
+}
+/* line 88, sass/_basket.scss */
+.tab-wrap input[type="radio"][name="tabs"]:checked + .tab-label-content .tab-content {
+  display: block;
+}
+/* line 67, sass/_basket.scss */
+.tab-wrap input[type="radio"][name="tabs"]:nth-of-type(1):checked ~ .slide {
+  left: calc((100% / 2) * 0);
+}
+/* line 67, sass/_basket.scss */
+.tab-wrap input[type="radio"][name="tabs"]:nth-of-type(2):checked ~ .slide {
+  left: calc((100% / 2) * 1);
+}
+/* line 100, sass/_basket.scss */
+.tab-wrap input[type="radio"][name="tabs"]:first-of-type:checked ~ .slide {
+  left: 0;
+}
+/* line 107, sass/_basket.scss */
+.tab-wrap label {
+  cursor: pointer;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 56px;
+  transition: color 0.2s ease;
+  width: 100%;
+}
+/* line 119, sass/_basket.scss */
+.tab-wrap .slide {
+  background: #3b5343;
+  width: calc(100% / 2);
+  height: 3px;
+  position: absolute;
+  left: 0;
+  top: calc(100% - 4px);
+  transition: left 0.3s ease-out;
+}
+/* line 129, sass/_basket.scss */
+.tab-wrap .tab-label-content {
+  width: 100%;
+}
+/* line 132, sass/_basket.scss */
+.tab-wrap .tab-label-content .tab-content {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 100px;
+  display: none;
+}
+
+/* line 1, sass/_admin.scss */
+.sidebar {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  background-color: #1b273e;
+  color: #dacece;
+  box-shadow: 4px 0 14px 0 rgba(0, 0, 0, 0.5);
+}
+/* line 12, sass/_admin.scss */
+.sidebar .underline {
+  margin-top: 40px;
+  border-bottom: 1px solid lightgray;
+}
+/* line 17, sass/_admin.scss */
+.sidebar .logout-btn {
+  margin: 20px 30px 0 30px;
+  cursor: pointer;
+}
+/* line 21, sass/_admin.scss */
+.sidebar .logout-btn .come-back {
+  color: #99d883;
+}
+/* line 25, sass/_admin.scss */
+.sidebar .logout-btn .fa-sign-out {
+  margin-left: 5px;
+}
+/* line 30, sass/_admin.scss */
+.sidebar .user_email {
+  margin-top: 30px;
+}
+/* line 34, sass/_admin.scss */
+.sidebar .edit_profile {
+  cursor: pointer;
+  color: #99d883;
+}
+/* line 39, sass/_admin.scss */
+.sidebar .menu_item {
+  margin-left: 40px;
+}
+/* line 42, sass/_admin.scss */
+.sidebar .menu_item h4 {
+  padding: 5px;
+}
+/* line 46, sass/_admin.scss */
+.sidebar .menu_item li {
+  list-style: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+/* line 1, sass/_adminUsers.scss */
+.test {
+  background-color: gray;
+}
+
+/* line 5, sass/_adminUsers.scss */
+.addUser {
+  width: 40px;
+  height: 40px;
+  background-color: #5cb85c;
+  color: #eee;
+  border-radius: 20px;
+  border: none;
+  margin-top: 17px;
+  box-shadow: 3px 3px 12px -1px rgba(0, 0, 0, 0.4);
+}
+
+/* line 16, sass/_adminUsers.scss */
+.no-border {
+  border: none;
+  background-color: transparent;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* line 23, sass/_adminUsers.scss */
+.users_controls {
+  margin-top: 20px;
+  margin-bottom: -20px;
+}
+/* line 27, sass/_adminUsers.scss */
+.users_controls span:nth-child(odd) {
+  cursor: pointer;
+}
+
+/* line 32, sass/_adminUsers.scss */
+.inline-btns {
+  display: inline-block;
+}
+
+/* line 36, sass/_adminUsers.scss */
+.list-switch {
+  color: #428bca;
+  font-weight: bold;
+}
+
+/* line 41, sass/_adminUsers.scss */
+.rolePopover {
+  margin: 15px;
+}
+
+/* line 45, sass/_adminUsers.scss */
+input[type="checkbox"], input[type="radio"] {
+  cursor: pointer;
+}
+
+/* line 49, sass/_adminUsers.scss */
+.pagination {
+  margin-top: 0;
+}
+
+/* line 53, sass/_adminUsers.scss */
+.order-done {
+  color: #03b303;
+}
+
+/* line 1, sass/_adminAttrs.scss */
+.valueList {
+  margin-top: 20px;
+}
+/* line 4, sass/_adminAttrs.scss */
+.valueList li {
+  font-size: 16px;
+  padding: 5px 100px 5px 10px;
+}
+/* line 8, sass/_adminAttrs.scss */
+.valueList li i {
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* line 15, sass/_adminAttrs.scss */
+.propPlus {
+  margin-top: 15px;
+}
+
+/* line 2, sass/_adminProducts.scss */
+.prod-preview img, .prod-preview .drag-area .picture-preview, .drag-area .prod-preview .picture-preview, .prod-preview .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .prod-preview .picture-preview, .prod-preview .drag-area .no-picture, .drag-area .prod-preview .no-picture, .prod-preview .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .prod-preview .no-picture {
+  float: left;
+  width: 140px;
+  height: 70px;
+}
+
+/* line 11, sass/_adminProducts.scss */
+.prodList td {
+  vertical-align: middle !important;
+}
+/* line 15, sass/_adminProducts.scss */
+.prodList .prodName {
+  display: inline-block;
+  margin-left: 50px;
+  margin-top: 23px;
+}
+
+/* line 1, sass/_adminAuction.scss */
+.dateToStart {
+  margin-top: 40px;
+  font-size: 17px;
+  margin-left: -45px;
+}
+
+/* line 7, sass/_adminAuction.scss */
+.auction-caption {
+  position: relative;
+}
+/* line 10, sass/_adminAuction.scss */
+.auction-caption .crud-controls {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+}
+
+/* line 17, sass/_adminAuction.scss */
+.publish-btn {
+  margin: 20px 0 50px 0;
+}
+
+/* line 1, sass/_home.scss */
+.auction-timer {
+  font-size: 60px;
+}

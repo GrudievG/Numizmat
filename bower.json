@@ -1,0 +1,33 @@
+{
+  "name": "numizmat",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "GG"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "animate.css": "^3.5.2",
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "bootstrap": "^3.3.7",
+    "normalize-css": "normalize.css#^4.2.0",
+    "angular-bootstrap": "^2.1.3",
+    "angular-animate": "^1.5.8",
+    "ng-file-upload": "^12.2.9",
+    "angular-bootstrap-lightbox": "^0.12.0",
+    "moment": "^2.15.2"
+  },
+  "resolutions": {
+    "angular-bootstrap": "^2.1.4"
+  }
+}

@@ -1,0 +1,64 @@
+<div class="container-fluid" ng-controller="StatisticController as statistic">
+	<div class="row">
+		<div class="col-md-3">
+			<h2>Текущий аукцион:</h2>
+		</div>
+	</div>
+	<div class="row" ng-if="!statistic.activeAuc">
+		<h1>В данный момент нет активных аукционов</h1>
+	</div>
+
+	<div class="row" ng-if="statistic.activeAuc" style="margin-top: 20px; margin-bottom: -20px;">
+		<div class="col-md-2">
+			<input type="search" class="form-control" placeholder="Поиск по названию" ng-model="statistic.query" ng-change="statistic.searchLots()">
+		</div>
+		<div class="col-md-6">
+			<button type="button" class="btn btn-danger btn-lg center-block" style="margin-top: -5px;" ng-click="statistic.changeStatus()">Отправить в архив</button>
+		</div>
+		<div class="col-md-4">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="statistic.pagination.pageSize" total-items="statistic.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="statistic.pagination.currentPage" ng-change="statistic.changePage()"></ul>
+		</div>
+	</div>
+	<div class="card-container" ng-if="statistic.activeAuc">
+    	<table class="table table-hover prodList">
+    		<thead>
+	    		<tr class="row">
+	    			<td class="col-xs-5 text-center"><strong>Товар</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Кол-во ставок</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Email лидера</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Статус</strong></td>
+	    			<td class="col-xs-1 text-center"><strong>Текущая цена</strong></td>
+	    		</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="lot in statistic.pagination.filtered" class="row">
+	    			<td class="col-xs-5 prod-preview">
+	    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70,w_140/{{lot.imgIds[0]}}.png">
+	    				<div class="prodName">
+	    					<span><strong>"{{lot.name}}"</strong></span>
+	    				</div>
+	    			</td>
+	    			<td class="col-xs-2 text-center">
+	    				<span>{{lot.bets}}</span>
+	    			</td>
+	    			<td class="col-xs-2 text-center">
+	    				<span>{{lot.customer}}</span>
+	    			</td>
+	    			<td class="col-xs-2 text-center">
+		    			<span>{{lot.status}}</span>
+	    			</td>
+	    			<td class="col-xs-1 text-center">
+		    			<span>{{lot.price}} грн</span>
+	    			</td>
+	    		</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <div class="row" ng-if="statistic.activeAuc" style="margin-top: 20px; margin-bottom: -20px;">
+		<div class="col-md-4 col-md-offset-8">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="statistic.pagination.pageSize" total-items="statistic.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="statistic.pagination.currentPage" ng-change="statistic.changePage()"></ul>
+		</div>
+	</div>
+</div>

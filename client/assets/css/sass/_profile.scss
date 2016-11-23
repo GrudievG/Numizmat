@@ -1,0 +1,38 @@
+.profile-caption {
+	margin-bottom: 40px;
+}
+
+.smooth-change {
+	&.ng-enter {
+		@extend .transition;
+	  	opacity: 0;
+	}
+
+	&.ng-enter-active {
+	  	opacity: 1;
+	}
+
+	&.ng-leave {
+	  	opacity: 1;
+	}
+
+	&.ng-leave-active {
+  		opacity: 0;
+	}
+}
+
+.extend-property {
+	background-color: transparent;
+	border: none;
+	font-size: 18px;
+}
+
+.modal-profile {
+	margin: 40px 50px 50px 50px;
+}
+
+.close-icon {
+	padding-top: 10px;
+	padding-right: 30px;
+	cursor: pointer;
+}

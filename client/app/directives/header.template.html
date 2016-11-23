@@ -1,0 +1,62 @@
+<div class="container">
+	<div class="row header">
+		<div class="col-md-3">
+			<img ui-sref="home" class="img-logo" src="assets/img/logo.png">
+		</div>
+		<div class="col-md-9">
+			<div class="authentication pull-right">
+				<div ng-if="!$root.loggedIn">
+					<span ui-sref="signup"><i class="fa fa-user-plus" aria-hidden="true"></i>Регистрация</span>
+					<span class="margins">/</span>
+					<span uib-popover-template="dynamicPopover.loginTemplateUrl" popover-placement="bottom-right" popover-append-to-body="true" popover-trigger="'outsideClick'"><i class="fa fa-sign-in" aria-hidden="true"></i>Вход</span>
+				</div>
+				<div ng-if="$root.loggedIn">
+					<span class="goToAdmin" ui-sref="admin" ng-if="$root.admin">Перейти к админ. панели</span>
+					<span uib-popover-template="dynamicPopover.userTemplateUrl" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'"><i class="fa fa-user" aria-hidden="true"></i>{{user}}</span>
+					<span class="margins">/</span>
+					<span ng-click="doLogout()"><i class="fa fa-sign-out" aria-hidden="true"></i>Выйти</span>
+				</div>
+			</div>
+			<ul class="navigation">
+				<li ui-sref="home">Главная</li>
+				<li ui-sref="auction">Аукцион</li>
+				<li ui-sref="store">Магазин</li>
+				<div class="btn-group">
+					<li class="dropdown-toggle" data-toggle="dropdown">Информация<span class="caret"></span></li>
+					<ul class="submenu dropdown-menu" role="menu">
+						<li ui-sref="aboutUs">О нас</li>
+						<li ui-sref="payments">Оплата и доставка</li>
+						<li ui-sref="rules">Правила онлайн аукциона</li>
+						<li ui-sref="archive">Архив аукционов</li>
+					</ul>
+				</div>
+			</ul>
+		</div>
+	</div>
+	<script type="text/ng-template" id="loginPopoverTemplate.html">
+		<div class="login-form">
+	    	<form role="form" ng-submit="doLogin()">
+	  			<div class="form-group">
+				    <input type="email" class="form-control" id="InputEmail1" placeholder="Ваш Email" ng-model="loginData.email">
+	  			</div>
+	 		 	<div class="form-group">
+				    <input type="password" class="form-control" id="InputPassword1" placeholder="Пароль" ng-model="loginData.password">
+	  			</div>
+	  			<div class="form-group failAuth" ng-if="alert.show">
+				    <div class="alert alert-danger toggle">{{alert.message}}</div>
+	  			</div>
+	  			<div class="form-group">
+	  				<button type="submit" class="btn btn-default">Войти</button>
+	  				<span class="text-primary" style="cursor: pointer" ui-sref="resetPass">Забыли пароль?</span>
+	  			</div>
+			</form> 
+		</div>
+    </script>
+    <script type="text/ng-template" id="userPopoverTemplate.html">
+    	<ul class="profile-menu" role="menu">
+			<li ui-sref="profile">Профиль</li>
+			<li ui-sref="bets">Мои ставки</li>
+			<li ui-sref="basket">Корзина</li>
+		</ul>
+    </script>
+</div>

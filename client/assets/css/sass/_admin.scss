@@ -1,0 +1,54 @@
+.sidebar {
+	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 300px;
+	background-color: #1b273e;
+	color: #dacece;
+	box-shadow: 4px 0 14px 0 rgba(0,0,0,0.5); 
+
+	.underline {
+		margin-top: 40px;
+		border-bottom: 1px solid lightgray;
+	}
+
+	.logout-btn {
+		margin: 20px 30px 0 30px;
+		cursor: pointer;
+		
+		.come-back {
+			color: #99d883;
+		}
+		
+		.fa-sign-out {
+			margin-left: 5px;
+		}
+	}
+
+	.user_email {
+		margin-top: 30px;
+	}
+
+	.edit_profile {
+		cursor: pointer;
+		color: #99d883;
+	}
+
+	.menu_item {
+		margin-left: 40px;
+
+		h4 {
+			padding: 5px;
+		}
+
+		li {
+			list-style: none;
+			padding: 5px;
+			cursor: pointer;
+		}
+	}
+}
+
+

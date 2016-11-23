@@ -1,0 +1,145 @@
+<div class="container" ng-controller="AuctionController as auction">
+
+	<div class="row" style="margin-top:20px" ng-if="!auction.notExist">
+		<div class="col-md-9 prods">
+			<div class="row" style="margin-bottom:20px">
+				<div class="col-md-4">
+					<div class="dropdown">
+				      	<button type="button" data-toggle="dropdown" class="btn">
+				            Фильтровать по категориям 
+				            <span style="margin-left: 10px">
+				            	<i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+				            </span>
+				        </button>
+				      	<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+				      		<li>
+				      			<a href="#" ng-click="auction.showAll()">Все категории</a>
+				      		</li>
+				        	<li class="dropdown-submenu" ng-repeat="category in auction.categories track by $index"><a href="#" tabindex="-1" ng-click="auction.selectCat(category.name)">{{category.name}}</a>
+				          		<ul class="dropdown-menu">
+				            		<li ng-repeat="subcat in category.subcats"><a tabindex="-1" href="#" ng-click="auction.selectCat(category.name, subcat)">{{subcat}}</a></li>
+				          		</ul>
+				        	</li>
+				      	</ul>
+				    </div>
+				</div>
+				<div class="col-md-6">
+					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.searchLots()">
+				</div>
+				<div class="col-md-2">
+					<button class="btn pull-right toggle-view" ng-class="{ 'active-tab': $root.showAsBlocks == true }" ng-click="auction.changeActiveTab('block')">
+						<i class="fa fa-th-large fa-lg" aria-hidden="true"></i>
+					</button>
+					<button class="btn pull-right toggle-view" ng-class="{ 'active-tab': $root.showAsList == true}" ng-click="auction.changeActiveTab('list')">
+						<i class="fa fa-list fa-lg" aria-hidden="true"></i>
+					</button>	
+				</div>
+			</div>
+			<div class="row" ng-show="$root.showAsBlocks">
+				<div class="col-md-6" ng-repeat="product in auction.pagination.filtered">
+					<div class="product" ui-sref="lot({ lot_id: product._id })">
+						<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250,w_500/{{product.imgIds[0]}}.png">
+						<div class="product_caption">
+							<h4 class="text-center">{{product.name}}</h4>
+						</div>
+						<div class="product_description">
+							<p>{{product.short_description}}</p>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 bets">
+								<span class="font-icon"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></span>
+								<span><b>Онлайн торги:</b> {{product.timeToStart}}</span>
+							</div>
+							<div class="col-xs-12 bets">
+								<span class="font-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+								<span><b>Ставки:</b> {{product.bets}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 bets">
+								<span class="text-center price">{{product.price}} грн</span>
+							</div>
+							<div class="col-xs-6">
+								<span class="detail-info pull-right"><strong>Подробнее</strong></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" ng-show="$root.showAsList">
+				<div class="card-container" style="margin-bottom: 30px;">
+					<table class="table table-hover product-list">
+						<tbody>
+							<tr class="row" ng-repeat="product in auction.pagination.filtered" ui-sref="lot({ lot_id: product._id })">
+								<td class="col-md-3">
+									<h4 class="text-center">{{product.name}}</h4>
+									<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_100,w_200/{{product.imgIds[0]}}.png">
+								</td>
+								<td class="col-md-5">
+									<p>{{product.short_description}}</p>
+									<div class="row">
+										<div class="col-xs-12 bets bets-as-list">
+											<span class="font-icon">
+												<i class="fa fa-clock-o fa-lg" aria-hidden="true"></i>
+											</span>
+											<span><b>Онлайн торги:</b> {{product.timeToStart}}</span>
+										</div>
+										<div class="col-xs-12 bets bets-as-list">
+											<span class="font-icon">
+												<i class="fa fa-users" aria-hidden="true"></i>
+											</span>
+											<span><b>Ставки:</b> {{product.bets}}</span>
+										</div>
+									</div>
+								</td>
+								<td class="col-md-2 text-center">
+									<span class="price">{{product.price}} грн</span>
+								</td>
+								<td class="col-md-2">
+									<span class="detail-info pull-right"><strong>Подробнее</strong></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="text-center" ng-if="auction.mode == 'pagination'">
+	            <ul uib-pagination first-text="&laquo;" last-text="&raquo;" next-text="&rsaquo;" previous-text="&lsaquo;" total-items="auction.pagination.totalItems" items-per-page="auction.pagination.pageSize" ng-model="auction.pagination.currentPage" max-size="4" boundary-links="true" boundary-link-numbers="true" ng-change="auction.changePage()"></ul>
+	        </div>
+		</div>
+		<div class="col-md-3 filters">
+			<div class="card-container">
+				<form role="form">
+					<h2 class="text-center">Фильтры</h2>
+					<div class="form-group" ng-repeat="filter in auction.filters">
+						<label>{{filter.name}}:</label>
+						<select class="form-control" ng-model="auction.filter[filter.meta]" ng-change="auction.filterLots()">
+							<option selected>< не выбрано ></option>
+							<option ng-repeat="value in filter.values">{{value}}</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<h4>Отображать товары:</h4>
+						<div class="radio">
+						  	<label>
+						        <input type="radio" name="optionsRadios" value="pagination" ng-model="auction.mode" ng-change="auction.changePage()">
+						          Постранично
+						    </label>
+						</div>
+						<div class="radio">
+						  	<label>
+						        <input type="radio" name="optionsRadios" value="all" ng-model="auction.mode" ng-change="auction.changePage()">
+						          Все лоты на одной странице
+						    </label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="auction.notExist">
+		<div class="col-xs-8 col-xs-offset-2 text-center">
+			<h3 style="margin-top: 100px;">Сейчас нет активных аукционов.</h3>
+		</div>
+	</div>
+</div>

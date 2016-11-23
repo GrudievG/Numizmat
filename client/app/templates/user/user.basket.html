@@ -1,0 +1,143 @@
+<div class="container" ng-controller="BasketController as basket">
+	<div class="tab-wrap">
+	    <input type="radio" name="tabs" id="tab1" checked>
+	    <div class="tab-label-content" id="tab1-content">
+			<label for="tab1"><h4>Корзина</h4></label>
+			<div class="tab-content">
+				<div ng-if="!basket.confirmOrder && !basket.confirmMsg && basket.products.length > 0" class="smooth-change">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="card-container">
+								<div class="table-responsive">
+									<table class="table table-hover items-table">
+										<thead>
+											<tr>
+												<td class="text-center">
+													<input type="checkbox" ng-model="basket.selectAll" ng-change="basket.changeVar()">
+												</td>
+												<td class="text-center"><strong>Товар</strong></td>
+												<td class="text-center"><strong>Цена</strong></td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="product in basket.products">
+												<td class="text-center">
+													<input type="checkbox" ng-model="product.selected" ng-click="basket.recalculateSum()">
+												</td>
+												<td>
+													<img ui-sref="product({ product_id: product._id })" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_90,w_180/{{product.imgIds[0]}}.png">
+													<div class="item-prop">
+														<h4 class="text-center">"{{product.name}}"</h4>
+													</div>
+												</td>
+												<td class="text-center"><strong>{{product.price}} грн</strong></td>
+												<td class="text-center"><i class="fa fa-times fa-lg remove-item" aria-hidden="true" ng-click="basket.removeItem(product._id)"></i></td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-md-offset-8 sum-price">
+							<h4>Сумма заказа: {{basket.summary}} грн</h4>
+						</div>
+						<div class="col-md-4 col-md-offset-8">
+							<button type="button" class="btn btn-success btn-lg confirm-order" ng-click="basket.confirm()" ng-disabled="basket.summary == 0" ng-if="!basket.errorMessage">Оформить заказ</button>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 30px;">
+						<div class="col-xs-12 error-message">
+	                		<div class="alert alert-warning toggle" ng-if="basket.errorMessage">
+	                  			<span>{{basket.errorMessage}}</span>
+	                		</div>
+	              		</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 smooth-change" ng-if="basket.confirmOrder && !basket.confirmMsg">
+						<h3>Ваш заказ:</h3>
+						<div class="card-container">
+							<div class="table-responsive">
+								<table class="table items-table">
+									<thead>
+										<tr>	
+											<td class="text-center"><strong>Товар</strong></td>
+											<td class="text-center"><strong>Цена</strong></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="product in basket.productsSelected">
+											<td class="item-avatar">
+												<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_90,w_180/{{product.imgIds[0]}}.png">
+												<div class="item-prop">
+													<h4 class="text-center">"{{product.name}}"</h4>
+												</div>
+											</td>
+											<td class="text-center"><strong>{{product.price}} грн</strong></td>
+										</tr>	
+										<tr>
+											<td><h3>Итого:</h3></td>
+											<td class="text-center"><h3>{{basket.summary}} грн</h3></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<h3>Примечания:</h3>
+						<div class="card-container">
+							<textarea class="form-control" rows="8" placeholder="Дополнительные пожелания" maxlength="720" ng-model="basket.orderComment"></textarea>
+						</div>
+						<div class="col-md-6">
+							<button class="btn btn-success btn-lg center-block confirm-order pull-right" ng-click="basket.createOrder()">Подтвердить заказ</button>
+						</div>
+						<div class="col-md-6">
+							<button class="btn btn-primary btn-lg center-block confirm-order pull-left" ng-click="basket.backToBasket()">Вернуться к корзине</button>
+						</div>	
+					</div>
+					<div class="col-xs-10 col-xs-offset-1 smooth-change" ng-if="basket.confirmMsg">
+						<div class="alert alert-success extend-property text-center">
+					      	<span><strong>Заказ принят! </strong>Мы свяжемся с Вами в ближайшее время для уточнения деталей оплаты и доставки. Вы можете посмотреть свои заказы, перейдя во вкладку "Мои заказы".</span>
+					    </div>
+					    <button type="button" class="btn btn-primary btn-lg confirm-order center-block" ng-click="basket.backToBasket()">Вернуться к корзине</button>
+					</div>
+					<div class="col-xs-12" ng-if="basket.products.length == 0 && !basket.confirmMsg">
+						<h1 class="text-center">Корзина пуста</h1>
+					</div>
+				</div>
+			</div>
+	    </div>
+	    <input type="radio" name="tabs" id="tab2">
+	    <div class="tab-label-content" id="tab2-content">
+	      	<label for="tab2"><h4>Мои заказы</h4></label>
+	      	<div class="tab-content" ng-if="basket.orders.length > 0">
+	      		<uib-accordion close-others="basket.oneAtATime">
+	      			<div uib-accordion-group class="panel-default" ng-repeat="order in basket.orders">
+	      				<uib-accordion-heading>ID заказа: {{order.orderNumber}}</uib-accordion-heading>
+				    	<div class="table-responsive">
+							<table class="table items-table">
+								<tr ng-repeat="product in order.items">
+									<td class="item-avatar">
+										<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_80,w_160/{{product.imgIds[0]}}.png">
+										<div class="item-prop">
+											<h4 class="text-center">"{{product.name}}"</h4>
+											<p>{{product.short_description}}</p>
+										</div>
+									</td>
+									<td class="text-center"><strong>{{product.price}} грн</strong></td>
+								</tr>	
+								<tr>
+									<td><h3>Итого:</h3></td>
+									<td class="text-center"><h3>{{order.price}} грн</h3></td>
+								</tr>
+							</table>
+						</div>
+				    </div>
+	      		</uib-accordion>
+	      	</div>
+	      	<div class="tab-content" ng-if="basket.orders.length == 0">
+	      		<h2 class="text-center">Сейчас нет активных заказов</h2>
+	      	</div>
+	    </div>
+    	<div class="slide"></div>  
+	</div>		
+</div>

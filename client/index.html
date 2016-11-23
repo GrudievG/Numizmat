@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="numizmat">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>Numizmat</title>
+
+		<base href="/">
+
+		<meta name="description" content="Some description">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+	    <link rel="stylesheet" type="text/css" href="assets/libs/normalize-css/normalize.css">
+	    <link rel="stylesheet" type="text/css" href="assets/libs/animate.css/animate.css">
+	    <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap/dist/css/bootstrap.css">
+	    <link rel="stylesheet" type="text/css" href="assets/libs/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
+	    <link rel="stylesheet" type="text/css" href="assets/libs/font-awesome/css/font-awesome.min.css">
+	    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,500|Muli:300|Roboto:400,500" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		
+	</head>
+	<body>
+
+		<!--[if lt IE 8]>
+            <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+		<div ng-controller="MainController as main">
+			<div class="head" ng-if="$root.showHeader">
+				<app-header></app-header>
+			</div>
+			<div ui-view></div>	
+		</div>	
+
+		<script src="assets/libs/socket.io-client/socket.io.js"></script>
+		<script src="assets/libs/jquery/dist/jquery.js"></script>
+		<script src="assets/libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="assets/libs/angular/angular.js"></script>
+		<script src="assets/libs/angular-animate/angular-animate.js"></script>
+		<script src="assets/libs/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="assets/libs/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
+		<script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script src="assets/libs/moment/min/moment-with-locales.min.js"></script>
+		<script src="assets/libs/ng-file-upload/ng-file-upload.js"></script>
+		<script src="assets/libs/ng-file-upload/ng-file-upload-shim.js"></script>
+
+		<script src="app/app.module.js"></script>
+		<script src="app/app.routes.js"></script>
+
+		<script src="app/controllers/main.controller.js"></script>
+		<script src="app/controllers/user/user.activation.controller.js"></script>
+		<script src="app/controllers/user/user.resetPass.controller.js"></script>
+		<script src="app/controllers/user/user.dropPass.controller.js"></script>
+		<script src="app/controllers/user/user.signup.controller.js"></script>
+		<script src="app/controllers/user/user.profile.controller.js"></script>
+		<script src="app/controllers/user/user.home.controller.js"></script>
+		<script src="app/controllers/user/user.auction.controller.js"></script>
+		<script src="app/controllers/user/user.lot.controller.js"></script>
+		<script src="app/controllers/user/user.store.controller.js"></script>
+		<script src="app/controllers/user/user.product.controller.js"></script>
+		<script src="app/controllers/user/user.basket.controller.js"></script>
+		<script src="app/controllers/user/user.bets.controller.js"></script>
+
+		<script src="app/controllers/admin/admin.controller.js"></script>
+		<script src="app/controllers/admin/admin.users.controller.js"></script>
+		<script src="app/controllers/admin/admin.editProfile.controller.js"></script>
+		<script src="app/controllers/admin/admin.createUser.controller.js"></script>
+		<script src="app/controllers/admin/admin.products.controller.js"></script>
+		<script src="app/controllers/admin/admin.createProduct.controller.js"></script>
+		<script src="app/controllers/admin/admin.editProduct.controller.js"></script>
+		<script src="app/controllers/admin/admin.orders.controller.js"></script>
+		<script src="app/controllers/admin/admin.attributes.controller.js"></script>
+		<script src="app/controllers/admin/admin.categories.controller.js"></script>
+		<script src="app/controllers/admin/admin.auction.controller.js"></script>
+		<script src="app/controllers/admin/admin.createAuction.controller.js"></script>
+		<script src="app/controllers/admin/admin.createLot.controller.js"></script>
+		<script src="app/controllers/admin/admin.editLot.controller.js"></script>
+		<script src="app/controllers/admin/admin.auctionSettings.controller.js"></script>
+		<script src="app/controllers/admin/admin.statistic.controller.js"></script>
+		
+		<script src="app/directives/header.directive.js"></script>
+		
+		<script src="app/services/socket.js"></script>
+		<script src="app/services/authService.js"></script>
+	</body>
+</html>

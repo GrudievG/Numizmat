@@ -1,0 +1,91 @@
+<div class="container-fluid" ng-controller="AdminUsersController as adminUsers">
+	<div class="row">
+		<div class="col-md-2">
+			<h2>Пользователи:</h2>
+		</div>
+		<div class="col-md-1">
+			<button class="addUser" type="button" title="Добавить пользователя" ui-sref="admin.createUser"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+		</div>
+	</div>
+	<div class="row users_controls">
+		<div class="col-md-2">
+			<input type="search" class="form-control" placeholder="Поиск по email" ng-model="adminUsers.query" ng-change="adminUsers.searchUsers()">
+		</div>
+		<div class="col-md-3">
+			<button class="btn btn-default" ng-if="adminUsers.selectedUsers.length > 0" uib-popover-template="'changeRole.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'focus'">Изменить роль</button>
+			<button class="btn btn-default" ng-if="adminUsers.selectedUsers.length > 0" ng-click="adminUsers.deleteSelectedUser()">Удалить выбранные</button>
+		</div>
+		<div class="col-md-3" style="margin-top: 7px;">
+			<span ng-class="{'list-switch': adminUsers.switcherAll == true}" ng-click="adminUsers.switchArray('all')" ng-init="adminUsers.switcherAll = true">Все ( {{adminUsers.allUsers.length}} )</span>
+			<span class="margins">|</span>
+			<span ng-class="{'list-switch': adminUsers.switcherAdmins == true}" ng-click="adminUsers.switchArray('admins')">Администраторы ( {{adminUsers.admins.length}} )</span>
+			<span class="margins">|</span>
+			<span ng-class="{'list-switch': adminUsers.switcherUsers == true}" ng-click="adminUsers.switchArray('users')">Пользователи ( {{adminUsers.users.length}} )</span>
+		</div>
+		
+		<div class="col-md-4">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="adminUsers.pagination.pageSize" total-items="adminUsers.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminUsers.pagination.currentPage" ng-change="adminUsers.changePage()"></ul>
+		</div>
+	</div>
+    <div class="card-container">
+    	<table class="table table-hover userList">
+    		<thead>
+	    		<tr class="row">
+	    			<td class="col-xs-1">
+	    				<input type="checkbox" ng-model="adminUsers.selectAll" ng-change="adminUsers.changeVar()">
+	    			</td>
+	    			<td class="col-xs-6"><strong>Пользователь</strong></td>
+	    			<td class="col-xs-4"><strong>Роль</strong></td>
+	    			<td class="col-xs-1"></td>
+	    		</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="user in adminUsers.pagination.filtered" ng-mouseover="user.hovered = true" ng-mouseleave="user.hovered = false" class="row">
+	    			<td class="col-xs-1">
+	    				<input type="checkbox" ng-model="user.selected" ng-click="adminUsers.checkSelect(user)">
+	    			</td>
+	    			<td class="col-xs-6">
+	    				<span>{{user.email}}</span>
+	    			</td>
+	    			<td class="col-xs-4">
+		    			<span ng-if="user.admin">Администратор</span>
+		    			<span ng-if="!user.admin">Пользователь</span>
+	    			</td>
+	    			<td class="col-xs-1">
+	    				<div class="inline-btns" ng-show="user.hovered">
+		    				<button type="button" class="no-border" title="Редактировать профиль" ui-sref="admin.editUser({ user_id: user._id })">
+		    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+		    				</button>
+		    				<button type="button" class="no-border" title="Удалить пользователя" ng-click="adminUsers.removeUser(user)">
+		    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+		    				</button>
+		    			</div>
+	    			</td>
+	    		</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+    	<div class="col-md-4 col-md-offset-8">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="adminUsers.pagination.pageSize" total-items="adminUsers.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminUsers.pagination.currentPage" ng-change="adminUsers.changePage()"></ul>
+		</div>
+    </div>
+    <script type="text/ng-template" id="changeRole.html">
+	    <div class="rolePopover">
+	    	<div class="radio">
+	  			<label>
+	          		<input type="radio" name="changeRole" id="changeRole1" value="option1" ng-click="adminUsers.changeRole('user')">
+	          		Пользователь
+	        	</label>
+			</div>
+			<div class="radio">
+	  			<label>
+	          		<input type="radio" name="changeRole" id="changeRole2" value="option2" ng-click="adminUsers.changeRole('admin')">
+	          		Администратор
+	    		</label>
+			</div>
+		</div>
+    </script>
+</div>

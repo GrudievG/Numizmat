@@ -1,0 +1,132 @@
+<div class="container" ng-controller="AdminEditProduct as adminEditProd">
+    <div class="card-container">
+	    <div ng-if="!adminEditProd.addProductSuccess" class="smooth-change">
+		    <div class="row">
+			    <div class="col-md-6 col-md-offset-3">
+			    	<input type="text" class="form-control input-lg product-caption" name="product-caption" placeholder="Название товара" ng-model="adminEditProd.product.name">
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-md-5">
+					<div class="info-msg">
+						<h5><i>Чтобы изменить фото товара, нажмите на выделенную область или перетащите сюда изображение.</i></h5>
+					</div>
+					<div class="drag-area" ngf-select ngf-drop ng-model="adminEditProd.files[0]" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-drag-over-class="'dragover'" ng-change="adminEditProd.check()">
+						<img class="picture-preview" ng-if="adminEditProd.files[0]" ngf-thumbnail="adminEditProd.files[0]">
+						<img class="picture-preview" ng-if="!adminEditProd.files[0] && adminEditProd.product.imgIds[0]" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/{{adminEditProd.product.imgIds[0]}}.jpg">
+						<div class="remove-photo" ng-if="!adminEditProd.files[0] && adminEditProd.product.imgIds[0]" ng-click="adminEditProd.removePhoto(0); $event.stopPropagation()">
+							<i class="fa fa-times fa-lg" aria-hidden="true" title="Удалить фото"></i>
+						</div>
+						<img class="no-picture" ng-if="!adminEditProd.files[0] && !adminEditProd.product.imgIds[0]" src="assets/img/icon-photo.png">
+					</div>
+					<div class="drag-area-gallery">
+						<div class="drag-area-item" ngf-select ngf-drop ng-model="adminEditProd.files[1]" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-drag-over-class="'dragover'" ng-change="adminEditProd.check()">
+							<img class="picture-preview" ng-if="adminEditProd.files[1]" ngf-thumbnail="adminEditProd.files[1]">
+							<img class="picture-preview" ng-if="!adminEditProd.files[1] && adminEditProd.product.imgIds[1]" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/{{adminEditProd.product.imgIds[1]}}.jpg">
+							<div class="remove-photo" ng-if="!adminEditProd.files[1] && adminEditProd.product.imgIds[1]" ng-click="adminEditProd.removePhoto(1); $event.stopPropagation()">
+								<i class="fa fa-times fa-lg" aria-hidden="true" title="Удалить фото"></i>
+							</div>
+							<img class="no-picture" ng-if="!adminEditProd.files[1] && !adminEditProd.product.imgIds[1]" src="assets/img/icon-photo.png">
+						</div>
+						<div class="drag-area-item" ngf-select ngf-drop ng-model="adminEditProd.files[2]" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-drag-over-class="'dragover'" ng-change="adminEditProd.check()">
+							<img class="picture-preview" ng-if="adminEditProd.files[2]" ngf-thumbnail="adminEditProd.files[2]">
+							<img class="picture-preview" ng-if="!adminEditProd.files[2] && adminEditProd.product.imgIds[2]" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/{{adminEditProd.product.imgIds[2]}}.jpg">
+							<div class="remove-photo" ng-if="!adminEditProd.files[2] && adminEditProd.product.imgIds[2]" ng-click="adminEditProd.removePhoto(2); $event.stopPropagation()">
+								<i class="fa fa-times fa-lg" aria-hidden="true" title="Удалить фото"></i>
+							</div>
+							<img class="no-picture" ng-if="!adminEditProd.files[2] && !adminEditProd.product.imgIds[2]" src="assets/img/icon-photo.png">
+						</div>
+						<div class="drag-area-item" ngf-select ngf-drop ng-model="adminEditProd.files[3]" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-drag-over-class="'dragover'" ng-change="adminEditProd.check()">
+							<img class="picture-preview" ng-if="adminEditProd.files[3]" ngf-thumbnail="adminEditProd.files[3]">
+							<img class="picture-preview" ng-if="!adminEditProd.files[3] && adminEditProd.product.imgIds[3]" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/{{adminEditProd.product.imgIds[3]}}.jpg">
+							<div class="remove-photo" ng-if="!adminEditProd.files[3] && adminEditProd.product.imgIds[3]" ng-click="adminEditProd.removePhoto(3); $event.stopPropagation()">
+								<i class="fa fa-times fa-lg" aria-hidden="true" title="Удалить фото"></i>
+							</div>
+							<img class="no-picture" ng-if="!adminEditProd.files[3] && !adminEditProd.product.imgIds[3]" src="assets/img/icon-photo.png">
+						</div>
+					</div>
+					<div class="short-description">
+						<textarea maxlength="120" rows="4" class="form-control" placeholder="Короткое описание товара (до 120 символов). Будет отображаться в магазине в списке товаров." ng-model="adminEditProd.product.short_description"></textarea>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<form class="form-horizontal" role="form" name="productEditing" novalidate ng-submit="adminEditProd.addProduct()">
+						<div class="form-group">
+							<div class="col-xs-12">
+								<textarea maxlength="768" rows="10" class="form-control product-description" placeholder="Полное описание товара. Будет отображаться в детальной информации о товаре." ng-model="adminEditProd.product.main_description"></textarea>
+							</div>
+						</div>
+		  				<div class="form-group">
+		  					<div class="col-sm-6 product-prop" ng-repeat="prop in adminEditProd.product.props">
+		  						<div class="row">
+					    			<label class="col-xs-4 control-label">{{prop.name}}</label>
+					    			<div class="col-xs-8">
+					    				<input type="text" class="form-control" ng-if="prop.type == 'Текст'" ng-model="prop.currentValue">
+					      				<select class="form-control" ng-if="prop.type == 'Выбор'" ng-model="prop.currentValue">
+					      					<option ng-repeat="type in prop.values">{{type}}</option>
+					      				</select>
+					    			</div>
+					    		</div>
+			    			</div>
+		  				</div>
+		  				<div class="form-group">
+			    			<label class="col-sm-2 control-label">Категория</label>
+			    			<div class="col-sm-4">
+			      				<select class="form-control" ng-model="adminEditProd.product.category" ng-change="adminEditProd.getSubCat()">
+			      					<option ng-repeat="category in adminEditProd.categories">{{category.name}}</option>
+			      				</select>
+			    			</div>
+			    			<label class="col-sm-2 control-label" ng-if="adminEditProd.product.category">Подкатегория</label>
+			    			<div class="col-sm-4" ng-if="adminEditProd.product.category">
+			      				<select class="form-control" ng-model="adminEditProd.product.subcategory">
+			      					<option ng-repeat="sub in adminEditProd.subcategories track by $index">{{sub}}</option>
+			      				</select>
+			    			</div>
+		  				</div>
+		  				<div class="form-group">
+			    			<label class="col-sm-2 control-label">Цена</label>
+			    			<div class="col-sm-3">
+			      				<input type="number" class="form-control" ng-model="adminEditProd.product.price" required>
+			    			</div>
+			    			<div class="col-sm-1 product-price-uah">
+			      				<span><strong>грн</strong></span>
+			    			</div>
+			    			<label class="col-sm-2 control-label">Наличие</label>
+			    			<div class="col-sm-4 availability-checkbox">
+			      				<input type="checkbox" ng-model="adminEditProd.product.availability">
+			    			</div>
+		  				</div>
+		  				<div class="form-group">
+		  					<div class=" col-md-12 error-message">
+								<div class="alert alert-danger toggle" ng-if="adminEditProd.alert">
+				                  	<span> <strong>Ошибка!</strong> {{adminEditProd.alert}}</span>
+				                </div>
+							</div>
+		  				</div>
+		  				<div class="form-group">
+		    				<div class="col-md-6">
+		      					<button type="submit" class="btn btn-lg btn-success pull-right" ng-disabled="productEditing.$invalid || !adminEditProd.product.name || !adminEditProd.product.short_description">Сохранить изменения</button>
+		    				</div>
+		    				<div class="col-md-6">
+		      					<button type="submit" class="btn btn-lg btn-danger pull-left" ui-sref="admin.products">Отмена</button>
+		    				</div>
+		  				</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="processing smooth-change" ng-if="adminEditProd.processing">
+			<div class="processing-icon text-center">
+				<i class="fa fa-refresh fa-3x" aria-hidden="true"></i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 smooth-change" ng-if="adminEditProd.addProductSuccess">
+				<div class="alert alert-success extend-property text-center">
+			      	<span><strong>Данные товара успешно обновлены!</strong></span>
+			    </div>
+			    <button type="button" class="btn btn-primary center-block" ui-sref="admin.products">Вернуться к списку товаров</button>
+			</div>
+		</div>
+    </div>
+</div>

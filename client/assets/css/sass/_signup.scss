@@ -1,0 +1,76 @@
+
+.card-container {
+	border-radius: 4px;
+	border: 1px solid lightgray;
+	background-color: #fff;
+	padding: 20px; 
+	margin-top:20px;
+	position: relative;
+	box-shadow: 5px 5px 10px -2px rgba(0,0,0,0.3);
+
+	.required-field {
+		color: #d9534f;
+		margin-left: 5px;
+	}
+}
+
+
+.form-control {
+	&:focus {
+		border-color: #ccc;
+		box-shadow: 0 0 0 transparent !important;
+	}
+
+	&.incorrect-input {
+		border-color: #d9534f;
+
+		&:focus {
+			border-color: #d9534f;
+			box-shadow: 0 0 0 transparent !important;
+		}
+	}
+
+	&.correct-input {
+		border-color: #5cb85c;
+
+		&:focus {
+			border-color: #5cb85c;
+			box-shadow: 0 0 0 transparent !important;
+		}
+	}
+}
+
+.error-message {
+	height: 65px;
+}
+
+.extend-prop {
+	background-color: transparent;
+	margin-top: 50px;
+	font-size: 18px;
+}
+
+.toggle {
+
+	&.ng-enter {
+		@extend .transition;
+	  	opacity: 0;
+	}
+
+	&.ng-enter-active {
+	  	opacity: 1;
+	}
+
+	&.ng-leave {
+		@extend .transition;
+	  	opacity: 1;
+	}
+
+	&.ng-leave-active {
+  		opacity: 0;
+	}
+}
+
+.verify-msg {
+	font-size: 16px;
+}

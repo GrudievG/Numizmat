@@ -1,0 +1,144 @@
+<div class="container-fluid" ng-controller="AdminAuctionController as adminAuction">
+
+	<div class="row">
+		<div class="col-md-1">
+			<h2>Аукцион:</h2>
+		</div>
+		<div class="col-md-1">
+			<button style="margin-left: 15px;" class="addUser" type="button" title="Создать аукцион" ui-sref="admin.createAuction" ng-if="adminAuction.showAddBtn"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+		</div>
+	</div>
+	<div class="row" ng-if="adminAuction.currentAuction">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="card-container auction-caption">
+				<h3 class="text-center">{{adminAuction.currentAuction.name}}</h3>
+				<h5 class="text-center">{{adminAuction.currentAuction.date}}</h5>
+				<div class="crud-controls">
+					<div class="inline-btns">
+	    				<button type="button" class="no-border">
+	    					<i class="fa fa-pencil fa-lg" aria-hidden="true" ng-click="adminAuction.edit()"></i>
+	    				</button>
+	    				<button type="button" class="no-border" ng-click="adminAuction.remove()">
+	    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+	    				</button>
+	    			</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="adminAuction.currentAuction">
+		<div class="col-md-12 text-center">
+			<button type="button" class="btn btn-success publish-btn btn-lg" ng-if="!adminAuction.publish" ng-click="adminAuction.changeStatus(true)">Опубликовать</button>
+			<button type="button" class="btn btn-danger publish-btn btn-lg" ng-if="adminAuction.publish" ng-click="adminAuction.changeStatus(false)">Скрыть публикацию</button>
+		</div>
+	</div>
+	<div class="row" ng-if="adminAuction.currentAuction">
+		<div class="col-md-1">
+			<h2>Лоты:</h2>
+		</div>
+		<div class="col-md-1">
+			<button class="addUser" type="button" title="Добавить лот" ui-sref="admin.createLot"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+		</div>
+	</div>
+	<div class="row" ng-if="adminAuction.currentAuction" style="margin-top: 20px; margin-bottom: -20px;">
+		<div class="col-md-2">
+			<input type="search" class="form-control" placeholder="Поиск по названию" ng-model="adminAuction.query" ng-change="adminAuction.searchLots()">
+		</div>
+		<div class="col-md-4 col-md-offset-6">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="adminAuction.pagination.pageSize" total-items="adminAuction.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminAuction.pagination.currentPage" ng-change="adminAuction.changePage()"></ul>
+		</div>
+	</div>
+	<div class="card-container" ng-if="adminAuction.currentAuction">
+    	<table class="table table-hover prodList">
+    		<thead>
+	    		<tr class="row">
+	    			<td class="col-xs-5 text-center"><strong>Товар</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Категория</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Подкатегория</strong></td>
+	    			<td class="col-xs-1 text-center"><strong>Топ</strong></td>
+	    			<td class="col-xs-1 text-center"><strong>Текущая цена</strong></td>
+	    			<td class="col-xs-1 text-center"></td>
+	    		</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="lot in adminAuction.pagination.filtered" ng-mouseover="lot.hovered = true" ng-mouseleave="lot.hovered = false" class="row">
+	    			<td class="col-xs-5 prod-preview">
+	    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70,w_140/{{lot.imgIds[0]}}.png">
+	    				<div class="prodName">
+	    					<span><strong>"{{lot.name}}"</strong></span>
+	    				</div>
+	    			</td>
+	    			<td class="col-xs-2 text-center">
+	    				<span>{{lot.category}}</span>
+	    			</td>
+	    			<td class="col-xs-2 text-center">
+	    				<span>{{lot.subcategory}}</span>
+	    			</td>
+	    			<td class="col-xs-1 text-center">
+		    			<span ng-if="lot.top" class="text-success"><strong>Да</strong></span>
+		    			<span ng-if="!lot.top" class="text-danger"><strong>Нет</strong></span>
+	    			</td>
+	    			<td class="col-xs-1 text-center">
+		    			<span>{{lot.price}} грн</span>
+	    			</td>
+	    			<td class="col-xs-1 text-center">
+	    				<div class="inline-btns" ng-show="lot.hovered">
+		    				<button type="button" class="no-border" title="Редактировать лот" ui-sref="admin.editLot({ lot_id: lot._id })">
+		    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+		    				</button>
+		    				<button type="button" class="no-border" title="Удалить лот" ng-click="adminAuction.removeLot(lot)">
+		    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+		    				</button>
+		    			</div>
+	    			</td>
+	    		</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <div class="row" ng-if="adminAuction.currentAuction" style="margin-top: 20px; margin-bottom: -20px;">
+		<div class="col-md-4 col-md-offset-8">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="adminAuction.pagination.pageSize" total-items="adminAuction.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminAuction.pagination.currentPage" ng-change="adminAuction.changePage()"></ul>
+		</div>
+	</div>
+
+
+
+	<script type="text/ng-template" id="editAuction.html">
+        <div class="modal-body" id="modal-body">
+        	<div class="row">
+        		<div class="col-xs-10 col-xs-offset-1">
+        			<input type="text" class="form-control input-lg" ng-model="modal.auction.name">
+        		</div>
+        	</div>
+        	<div class="row" style="margin-top: 30px;">
+        		<div class="col-xs-6 text-center">
+        			<h4>Время начала торгов:</h4>
+        		</div>
+        		<div class="col-xs-6">
+        			<h4>{{modal.timeToStart}}</h4>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="col-xs-4 col-xs-offset-5">
+        			 <div style="margin-top: 30px; margin-left: -20px;" uib-timepicker ng-model="modal.dt" ng-change="modal.changeValue()" hour-step="1" minute-step="5" show-meridian="false"></div>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="col-xs-6">
+        			<div style="margin-top: 30px; margin-left: 157px;" uib-datepicker ng-model="modal.dt" datepicker-options="modal.datePickerOptions" ng-change="modal.changeValue()"></div>
+        		</div>
+        	</div>
+        	<div class="row" style="margin-top: 30px; margin-bottom: 20px;">
+        		<div class="col-xs-7">
+        			<button type="button" class="btn btn-success btn-lg pull-right" ng-click="modal.save()">Сохранить изменения</button>
+        		</div>
+        		<div class="col-xs-5">
+        			<button type="button" class="btn btn-danger btn-lg pull-left" ng-click="modal.cancel()">Отмена</button>
+        		</div>
+        	</div>
+        </div>
+    </script>
+
+</div>

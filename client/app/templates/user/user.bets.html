@@ -1,0 +1,51 @@
+<div class="container" ng-controller="BetsController as bets">
+
+	<div class="row" ng-if="bets.activeAuc && bets.exist">
+		<div class="col-md-12 prods">
+			<div class="card-container" style="margin-bottom: 30px;">
+				<table class="table table-hover product-list">
+					<thead>
+						<tr class="row">
+							<td class="col-md-2 text-center"><b>Товар</b></td>
+							<td class="col-md-4 text-center"><b>Описание</b></td>
+							<td class="col-md-2 text-center"><b>Статус торгов</b></td>
+							<td class="col-md-2 text-center"><b>Лидерство в торгах</b></td>
+							<td class="col-md-2 text-center"><b>Ваша ставка</b></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="row" ng-repeat="bet in bets.bets track by $index" ui-sref="lot({ lot_id: bet.lot._id })" title="Перейти к лоту">
+							<td class="col-md-2 text-center">
+								<h4 class="text-center">{{bet.lot.name}}</h4>
+								<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_90,w_180/{{bet.lot.imgIds[0]}}.png">
+							</td>
+							<td class="col-md-4 text-center">
+								<p>{{bet.lot.short_description}}</p>
+							</td>
+							<td class="col-md-2 text-center">
+								<span><b>{{bet.status}}</b></span>
+							</td>
+							<td class="col-md-2 text-center">
+								<span ng-if="bet.leader"><strong>Да</strong></span>
+								<span ng-if="!bet.leader"><strong>Нет</strong></span>
+							</td>
+							<td class="col-md-2 text-center">
+								<span class="price">{{bet.price}} грн</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="bets.activeAuc && !bets.exist">
+		<div class="col-xs-12 text-center">
+			<h2 style="margin-top: 50px;">Вы не делали ставок в текущем аукционе</h2>
+		</div>
+	</div>
+	<div class="row" ng-if="!bets.activeAuc">
+		<div class="col-xs-12 text-center">
+			<h2 style="margin-top: 50px;">В данный момент нет активных ставок</h2>
+		</div>
+	</div>
+</div>

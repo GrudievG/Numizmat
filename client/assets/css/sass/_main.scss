@@ -1,0 +1,75 @@
+
+$font_color: #3b5343;
+$reserve_background_color: #e9e1d4;
+$content_font_family: 'Roboto', sans-serif;
+$header_font_family: 'Cormorant Garamond', serif;
+
+body {
+    background-color: #eee;
+    font-family: $content_font_family;
+    color: $font_color;
+}
+
+button:focus{
+    outline: none !important;
+}
+
+.btn:active, .dropdown-toggle {
+    box-shadow: none !important;
+}
+
+.transition {
+    -webkit-transition: all 0.25s ease-in-out 0s;
+    -moz-transition: all 0.25s ease-in-out 0s;
+    -o-transition: all 0.25s ease-in-out 0s;
+    -ms-transition: all 0.25s ease-in-out 0s;
+    transition: all 0.25s ease-in-out 0s;
+}
+
+.header-li {
+    font-family: $header_font_family;
+    padding: 5px 5px;
+    list-style: none;
+    cursor: pointer;
+    @extend .transition;
+
+    &:hover {
+        background-color: rgba(175, 182, 149, 0.3);
+    }
+}
+
+[ui-view] {
+
+    
+
+    &.ng-enter {
+        @extend .transition;
+        opacity: 0;
+    }
+ 
+    &.ng-enter-active {
+        opacity: 1;
+    }
+ 
+    &.ng-leave {
+        opacity: 1;
+    }
+ 
+    &.ng-leave-active {
+        opacity: 0;
+    }
+}
+
+.head {
+    box-shadow: 0 4px 14px 0 rgba(0,0,0,0.3);
+    background-color: #e9e1d4;
+    width: 100%;
+    z-index: 11;
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+
+.head + [ui-view] {
+    margin-top: 210px;
+}

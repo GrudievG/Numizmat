@@ -1,0 +1,22 @@
+<div class="container" ng-controller="ResetController as reset">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="card-container" ng-if="!reset.dropped">
+  			<form class="form-horizontal" role="form" name="resetForm" novalidate>
+    			<div class="form-group">
+      			<label for="inputEmail" class="col-sm-3 control-label">Email<span class="required-field">*</span></label>
+      			<div class="col-sm-9">
+    				  <input type="email" pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$" class="form-control" id="inputEmail" placeholder="Email" name="inputEmail" ng-model="reset.email" required ng-class="{'incorrect-input': resetForm.inputEmail.$invalid && !resetForm.inputEmail.$pristine, 'correct-input': resetForm.inputEmail.$valid && !resetForm.inputEmail.$pristine}">
+     				</div>
+    			</div>
+    			<div class="form-group">
+    				<div class="col-sm-9 col-sm-offset-3">
+    					<button type="button" class="btn btn-primary" ng-disabled="resetForm.$invalid" ng-click="reset.dropPass()">Восстановить доступ</button>
+    				</div>
+    			</div>
+    		</form>
+    	</div>
+    	<h4 ng-if="reset.dropped" class="text-center">На Ваш email отправлено письмо с ссылкой для восстановления доступа.</h4>
+		</div>	
+	</div>
+</div>

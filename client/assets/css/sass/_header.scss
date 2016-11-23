@@ -1,0 +1,84 @@
+.header {
+	// border-bottom: 1px solid gray;
+	padding-bottom: 15px; 
+
+	.img-logo {
+		cursor: pointer;
+	}
+}
+
+.popover-content {
+	padding: 0 !important;
+}
+
+.goToAdmin {
+	margin-right: 100px;
+}
+
+
+.authentication {
+	font-family: $header_font_family;
+	color: $font_color;
+	font-size: 18px;
+	margin-top:65px;
+
+	i {
+		cursor: pointer;
+	}
+
+	.fa-user, .fa-user-plus, .fa-sign-in, .fa-sign-out {
+		margin-right: 5px;
+	}
+
+	span {
+		cursor: pointer;
+	}
+
+	.margins {
+		margin-left: 10px;
+		margin-right: 10px;
+		cursor: default;
+	}
+}
+
+.login-form {
+	padding: 15px;
+}
+
+
+.navigation {
+	font-size: 22px;
+	margin-top: 120px;
+
+	li {
+		@extend .header-li;
+		float: left;
+		margin-right: 40px;
+	}
+
+	.submenu {
+
+		margin-top: 5px;
+		padding-top: 0;
+		padding-bottom: 0; 
+
+		li {
+			width: 100%;
+			font-size: 19px;
+			clear: both;
+		}
+	}
+}
+
+.profile-menu {
+	padding: 0;
+	margin-bottom: 0;
+
+	li {
+		@extend .header-li;
+		width: 100%;
+		font-size: 19px;
+		margin-left: 0;
+		padding: 5px 20px 5px 20px;
+	}
+}

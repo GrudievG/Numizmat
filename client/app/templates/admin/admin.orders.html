@@ -1,0 +1,149 @@
+<div class="container-fluid" ng-controller="OrdersController as orders">
+	<div class="row">
+		<div class="col-md-2">
+			<h2>Заказы:</h2>
+		</div>
+	</div>
+	<div class="row users_controls">
+		<div class="col-md-2">
+			<input type="search" class="form-control" placeholder="Поиск по номеру заказа" ng-model="orders.query" ng-change="orders.searchOrders()">
+		</div>
+		<div class="col-md-4 col-md-offset-6">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="orders.pagination.pageSize" total-items="orders.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="orders.pagination.currentPage" ng-change="orders.changePage()"></ul>
+		</div>
+	</div>
+    <div class="card-container">
+    	<table class="table table-hover userList">
+    		<thead>
+	    		<tr class="row">
+	    			<td class="col-xs-2 text-center"><strong>№ Заказа</strong></td>
+	    			<td class="col-xs-3 text-center"><strong>Пользователь</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Комментарий</strong></td>
+	    			<td class="col-xs-2 text-center"><strong>Действия</strong></td>
+	    		</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="order in orders.pagination.filtered" class="row">
+	    			<td class="col-xs-2 text-center">
+	    				<span><strong>{{order.orderNumber}}</strong></span>
+	    			</td>
+	    			<td class="col-xs-3 text-center">
+		    			<span class="text-primary">
+		    				<strong style="cursor: pointer" ng-click="orders.viewCustomer(order.customer)">{{order.customer}}</strong>
+		    			</span>
+	    			</td>
+	    			<td class="col-xs-5 text-center">
+		    			<span>{{order.comment}}</span>
+	    			</td>
+	    			<td class="col-xs-2 text-center">
+	    				<div class="inline-btns">
+		    				<button type="button" class="no-border" title="Просмотреть заказ" ng-click="orders.viewOrder(order)">
+		    					<i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+		    				</button>
+		    				<button type="button" class="no-border" title="Отметить, как выполненный" ng-click="orders.doneOrder(order)" ng-class="{'order-done': order.status == 'done'}">
+		    					<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+		    				</button>
+		    			</div>
+	    			</td>
+	    		</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+    	<div class="col-md-4 col-md-offset-8">
+			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+			items-per-page="orders.pagination.pageSize" total-items="orders.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="orders.pagination.currentPage" ng-change="orders.changePage()"></ul>
+		</div>
+    </div>
+    <script type="text/ng-template" id="userProfile.html">
+    	<div class="row">
+    		<div class="col-xs-12 close-icon">
+    			<span class="pull-right" ng-click="modal.close()">
+    				<i class="fa fa-times fa-lg" aria-hidden="true"></i>
+    			</span>
+    		</div>
+    	</div>
+    	<div class="modal-profile">
+	    	<form class="form-horizontal" role="form">
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Имя:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.name}}</p>
+			    	</div>
+			    	<label class="col-sm-2 control-label">Email:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.email}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Фамилия:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.surname}}</p>
+			    	</div>
+			    	<label class="col-sm-2 control-label">Телефон:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.tel}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Страна:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.country}}</p>
+			    	</div>
+			    	<label class="col-sm-2 control-label">Почт. индекс:</label>
+			    	<div class="col-sm-4">
+			    		<p class="form-control-static">{{modal.user.postIndex}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Область:</label>
+			    	<div class="col-sm-10">
+			    		<p class="form-control-static">{{modal.user.region}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Город:</label>
+			    	<div class="col-sm-10">
+			    		<p class="form-control-static">{{modal.user.locality}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Адрес:</label>
+			    	<div class="col-sm-10">
+			      		<p class="form-control-static">{{modal.user.address}}</p>
+			    	</div>
+			  	</div>
+			</form>
+		</div>
+    </script>
+    <script type="text/ng-template" id="order.html">
+    	<div class="row">
+    		<div class="col-xs-12 close-icon">
+    			<span class="pull-right" ng-click="modal.close()">
+    				<i class="fa fa-times fa-lg" aria-hidden="true"></i>
+    			</span>
+    		</div>
+    	</div>
+    	<div class="modal-profile">
+	    	<div class="table-responsive">
+				<table class="table items-table">
+					<tr ng-repeat="product in modal.order.items" class="row">
+						<td class="item-avatar col-xs-9">
+							<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_80,w_160/{{product.imgIds[0]}}.png">
+							<div class="item-prop">
+								<h4 class="text-center">"{{product.name}}"</h4>
+								<p>{{product.short_description}}</p>
+							</div>
+						</td>
+						<td class="text-center col-xs-3"><strong>{{product.price}} грн</strong></td>
+					</tr>	
+					<tr class="row">
+						<td class="col-xs-9"><h3>Итого:</h3></td>
+						<td class="text-center col-xs-3"><h3>{{modal.order.price}} грн</h3></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+    </script>
+</div>

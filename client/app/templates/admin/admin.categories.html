@@ -1,0 +1,129 @@
+
+<div class="container-fluid" ng-controller="AdminCategoriesController as adminCats">
+
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Категории:</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="card-container">
+				<h3 class="text-center">Добавить новую категорию:</h3>
+				<p>
+					<i>Категории служат для удобной навигации по товарам и лотам.</i>
+				</p>
+				<form>
+					<div class="form-group">
+						<label for="catName"> Название</label>
+						<input type="text" class="form-control" id="catName" placeholder="Название категории" ng-model="adminCats.category.name">
+					</div>
+				</form>
+				<div class="row">
+					<div class="col-md-4">
+						<h4 style="padding-top: 15px;">Подкатегории:</h4>
+					</div>
+					<div class="col-md-8">
+						<button uib-popover-template="'addSubCat.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'" class="addUser" type="button" title="Добавить подкатегорию"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+					</div>
+					<div class="col-md-12">
+						<ul class="valueList">
+							<li ng-repeat="value in adminCats.category.subcats track by $index">{{value}}<i title="Удалить" class="fa fa-times pull-right" aria-hidden="true" ng-click="adminCats.removeValue(value)"></i></li>
+						</ul>
+					</div>
+					<div class=" col-md-12 error-message">
+						<div class="alert alert-danger toggle" ng-if="adminCats.alert">
+		                  	<span> <strong>Ошибка!</strong> {{adminCats.alert}}</span>
+		                </div>
+					</div>
+					<div class="col-md-12">
+						<button type="button" class="btn btn-success btn-lg center-block propPlus" ng-click="adminCats.saveCat()" ng-disabled="!adminCats.category.name">Сохранить</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="card-container">
+				<table class="table table-hover">
+					<thead>
+						<tr class="row">
+							<td class="col-xs-4 text-center">
+								<strong>Категория</strong>
+							</td>
+							<td class="col-xs-7 text-center">
+								<strong>Подкатегории</strong>
+							</td>
+							<td class="col-xs-1"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="row" ng-repeat="cat in adminCats.categories" ng-mouseover="cat.hovered = true" ng-mouseleave="cat.hovered = false">
+							<td class="col-xs-4 text-center">{{cat.name}}</td>
+							<td class="col-xs-7 text-center"><span ng-repeat="sub in cat.subcats track by $index">{{sub}}; </span></td>
+							<td class="col-xs-1">
+								<div class="inline-btns center-block" ng-if="cat.hovered">
+		    						<button type="button" class="no-border" ng-click="adminCats.editCat(cat)">
+				    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+				    				</button>
+				    				<button type="button" class="no-border" ng-click="adminCats.removeCat(cat)">
+				    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+				    				</button>
+				    			</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/ng-template" id="addSubCat.html">
+    	<div class="rolePopover">
+    		<input type="text" class="form-control" placeholder="Название подкатегории" ng-model="adminCats.inputValue">
+    		<button type="button" class="btn btn-primary propPlus center-block" ng-click="adminCats.appendValue()">Добавить</button>
+    	</div>
+    </script>
+
+    <script type="text/ng-template" id="modalSubCat.html">
+    	<div class="rolePopover">
+    		<input type="text" class="form-control" placeholder="Название подкатегории" ng-model="modal.inputValue">
+    		<button type="button" class="btn btn-primary propPlus center-block" ng-click="modal.appendValue()">Добавить</button>
+    	</div>
+    </script>
+
+    <script type="text/ng-template" id="modalAddCat.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Редактирование категории</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <form>
+				<div class="form-group">
+					<label for="modalCatName"> Название</label>
+					<input type="text" class="form-control" id="modalCatName" placeholder="Название категории" ng-model="modal.category.name">
+				</div>
+			</form>
+			<div class="row">
+				<div class="col-md-3">
+					<h4 style="padding-top: 15px;">Подкатегории:</h4>
+				</div>
+				<div class="col-md-9">
+					<button uib-popover-template="'modalSubCat.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'" class="addUser" type="button" title="Добавить подкатегорию"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+				</div>
+				<div class="col-md-12">
+					<ul class="valueList">
+						<li ng-repeat="value in modal.category.subcats track by $index">{{value}}<i title="Удалить" class="fa fa-times pull-right" aria-hidden="true" ng-click="modal.removeValue(value)"></i></li>
+					</ul>
+				</div>
+				<div class=" col-md-12 error-message">
+					<div class="alert alert-danger toggle" ng-if="modal.alert">
+	                  	<span> <strong>Ошибка!</strong> {{modal.alert}}</span>
+	                </div>
+				</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" type="button" ng-click="modal.save()" ng-disabled="!modal.category.name">Сохранить</button>
+            <button class="btn btn-danger" type="button" ng-click="modal.cancel()">Отмена</button>
+        </div>
+    </script>
+</div>

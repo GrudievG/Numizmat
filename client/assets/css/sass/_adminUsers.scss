@@ -1,0 +1,56 @@
+.test {
+	background-color: gray; 
+}
+
+.addUser {
+	width: 40px;
+	height: 40px;
+	background-color:#5cb85c;
+	color: #eee;
+	border-radius: 20px;
+	border: none;
+	margin-top: 17px;
+	box-shadow: 3px 3px 12px -1px rgba(0,0,0,0.4); 
+}
+
+.no-border {
+	border: none;
+	background-color: transparent;
+	padding-top: 0;
+	padding-bottom: 0; 
+}
+
+.users_controls {
+	margin-top: 20px;
+	margin-bottom: -20px;
+
+	span:nth-child(odd) {
+		cursor: pointer;
+	}
+}
+
+.inline-btns {
+	display: inline-block;
+}
+
+.list-switch {
+	color: #428bca;
+	font-weight: bold;
+}
+
+.rolePopover {
+	margin: 15px;
+}
+
+input[type = "checkbox"], input[type = "radio"] {
+	cursor: pointer;
+}
+
+.pagination {
+	margin-top: 0;
+}
+
+.order-done {
+	color: #03b303;
+}
+

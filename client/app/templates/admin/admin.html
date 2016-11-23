@@ -1,0 +1,61 @@
+<div class="container-fluid" ng-controller="AdminController as admin">
+
+	<div class="sidebar">
+		<div class="row">
+			<div class="logout-btn">
+				<span class="pull-left come-back">
+					<strong ui-sref="home" ng-click="admin.comeBack()">Вернуться на сайт</strong>
+				</span>
+				<span class="pull-right" ng-click="admin.logout()">
+					<strong>Выйти</strong>
+					<i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+				</span>
+			</div>
+		</div>
+		<h4 class="text-center user_email">{{admin.admin_email}}</h4>
+		<h5 class="text-center edit_profile" ui-sref="admin.profile">Редактировать профиль</h5>
+		<div class="col-xs-12 underline"></div>
+
+		<div class="row">
+			<div class="col-xs-12 menu_item">
+				<h4>Пользователи</h4>
+				<ul>
+					<li ui-sref="admin.users">Все пользователи</li>
+				</ul>
+			</div>
+			<div class="col-xs-12 menu_item">
+				<h4>Магазин</h4>
+				<ul>
+					<li ui-sref="admin.products">Все товары</li>
+					<li ui-sref="admin.orders">Заказы</li>
+				</ul>
+			</div>
+			<div class="col-xs-12 menu_item">
+				<h4>Аукцион</h4>
+				<ul>
+					<li ui-sref="admin.auction">Аукцион</li>
+					<li ui-sref="admin.auctionSettings">Настройки</li>
+					<li ui-sref="admin.statistic">Статистика</li>
+				</ul>
+			</div>
+			<div class="col-xs-12 menu_item">
+				<h4>Настройки</h4>
+				<ul>
+					<li ui-sref="admin.attributes">Атрибуты</li>
+					<li ui-sref="admin.categories">Категории</li>
+				</ul>
+			</div>
+		</div>
+	</div>		
+
+
+
+	<div class="row">
+		<div class="col-md-10 col-md-offset-2">
+			<div ui-view></div>
+		</div>
+	</div>
+
+
+
+</div>

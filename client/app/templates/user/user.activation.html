@@ -1,0 +1,24 @@
+<div class="container" ng-controller="ActivationController as activation">
+  	<div class="row">
+	    <div class="col-md-8 col-md-offset-2 text-center" ng-if="activation.verify">
+	     	<span class="verify-msg text-success">
+	        	<strong>Учётная запись активирована.</strong>
+	        	<br>Авторизуйтесь, чтобы получить доступ ко всем функциям.
+	        </span>
+	    </div>
+    	<div class="col-md-8 col-md-offset-2 text-center" ng-if="activation.expires">
+	      	<span class="verify-msg text-success">
+	        	<strong>Срок действия ссылки для активации истек.</strong>
+	        	<br>Отправьте запрос на активацию повторно.
+	        </span>
+      	</div>
+      	<div class="col-md-12" ng-if="activation.expires">
+      		<button type="button" class="btn btn-primary center-block" ng-click="activation.reactivate()">Отправить запрос</button>
+      	</div>
+      	<div class="col-md-8 col-md-offset-2 text-center" ng-if="activation.allready">
+	      	<span class="verify-msg text-success">
+	        	<strong>Ваш аккаунт уже активирован</strong>
+	        </span>
+      	</div>
+  	</div>
+</div>

@@ -1,0 +1,43 @@
+<div class="container" ng-controller="ProductController as product">
+	<div class="card-container">
+		<h1 class="text-center profile-caption">{{product.product.name}}</h1>
+		<div class="row">
+			<div class="col-md-5">
+				<div class="avatar" ng-click="product.openLightboxModal(0)">
+					<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,h_250,w_500/{{product.product.imgIds[0]}}.png">
+				</div>
+				<div class="img-list">
+					<div class="img-item" ng-click="product.openLightboxModal(1)">
+						<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_lfill,g_center,h_150,w_150/{{product.product.imgIds[1]}}.png">
+					</div>
+					<div class="img-item" ng-click="product.openLightboxModal(2)">
+						<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_lfill,g_center,h_150,w_150/{{product.product.imgIds[2]}}.png">
+					</div>
+					<div class="img-item" ng-click="product.openLightboxModal(3)">
+						<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_lfill,g_center,h_150,w_150/{{product.product.imgIds[3]}}.png">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<p class="main-description">{{product.product.main_description}}</p>
+				<ul class="product-properties">
+					<li ng-repeat="prop in product.product.props"><strong>{{prop.name}}:</strong> {{prop.value}}</li>
+				</ul>	
+				<div class="product_price">
+					<h2>{{product.product.price}} грн</h2>
+				</div>
+				<div class="basketMsg" data-toggle="tooltip" data-placement="bottom" title="Перейти в корзину" ng-if="product.isInBasket && !product.errorMessage">
+					<h4 ui-sref="basket">Этот товар находится в корзине</h4>
+				</div>
+				<button type="button && !product.errorMessage" class="btn btn-success btn-lg" ng-click="product.addToBasket()" ng-if="!product.isInBasket && !product.errorMessage"><i class="fa fa-cart-plus fa-lg" aria-hidden="true" style="margin-right: 10px;"></i>Добавить в корзину</button>
+				<div class="row">
+					<div class="col-xs-12 error-message">
+                		<div class="alert alert-warning toggle" ng-if="product.errorMessage">
+                  			<span>{{product.errorMessage}}</span>
+                		</div>
+              		</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

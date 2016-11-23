@@ -1,0 +1,163 @@
+<div class="container-fluid" ng-controller="AdminAttributesController as adminAttrs">
+
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Атрибуты:</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="card-container">
+				<h3 class="text-center">Добавить новый атрибут:</h3>
+				<p>
+					<i>Атрибуты помогают вам определить дополнительные параметры товара, такие как материал или состояние.</i>
+				</p>
+				<form>
+					<div class="form-group">
+						<label for="attrName"> Название</label>
+						<input type="text" class="form-control" id="attrName" placeholder="Имя атрибута" ng-model="adminAttrs.attribute.name">
+						<p><i>(показывается на сайте)</i></p>
+					</div>
+					<div class="form-group">
+						<label for="attrObjField"> Мета-имя</label>
+						<input type="text" class="form-control" id="attrObjField" placeholder="Служебное имя" maxlength="28" pattern="^[a-zA-Z]+$" ng-model="adminAttrs.attribute.meta">
+						<p><i>(Слово латинскими буквами без пробелов, не больше 28 символов. Будет служить для построения модели товара)</i></p>
+					</div>
+					<div class="form-group">
+						<label for="attrType"> Тип</label>
+						<select class="form-control" id="attrType" ng-model="adminAttrs.attribute.type">
+							<option value="Текст">Текст</option>
+							<option value="Выбор">Выбор</option>
+						</select>
+					</div>
+				</form>
+				<div class="row">
+					<div class="col-md-3" ng-if="adminAttrs.attribute.type == 'Выбор'">
+						<h4 style="padding-top: 15px;">Значения:</h4>
+					</div>
+					<div class="col-md-9" ng-if="adminAttrs.attribute.type == 'Выбор'">
+						<button uib-popover-template="'addProp.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'" class="addUser" type="button" title="Добавить пользователя"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+					</div>
+					<div class="col-md-12" ng-if="adminAttrs.attribute.type == 'Выбор'">
+						<ul class="valueList">
+							<li ng-repeat="value in adminAttrs.attribute.values track by $index">{{value}}<i title="Удалить" class="fa fa-times pull-right" aria-hidden="true" ng-click="adminAttrs.removeValue(value)"></i></li>
+						</ul>
+					</div>
+					<div class=" col-md-12 error-message">
+						<div class="alert alert-danger toggle" ng-if="adminAttrs.alert">
+		                  	<span> <strong>Ошибка!</strong> {{adminAttrs.alert}}</span>
+		                </div>
+					</div>
+					<div class="col-md-12">
+						<button type="button" class="btn btn-success btn-lg center-block propPlus" ng-click="adminAttrs.saveAttr()" ng-disabled="!adminAttrs.attribute.name || !adminAttrs.attribute.meta || !adminAttrs.attribute.type">Сохранить</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="card-container">
+				<table class="table table-hover">
+					<thead>
+						<tr class="row">
+							<td class="col-xs-2 text-center">
+								<strong>Название</strong>
+							</td>
+							<td class="col-xs-2 text-center">
+								<strong>Мета-имя</strong>
+							</td>
+							<td class="col-xs-2 text-center">
+								<strong>Тип</strong>
+							</td>
+							<td class="col-xs-5 text-center">
+								<strong>Значения</strong>
+							</td>
+							<td class="col-xs-1"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="row" ng-repeat="attr in adminAttrs.attributes" ng-mouseover="attr.hovered = true" ng-mouseleave="attr.hovered = false">
+							<td class="col-xs-2 text-center">{{attr.name}}</td>
+							<td class="col-xs-2 text-center">{{attr.meta}}</td>
+							<td class="col-xs-2 text-center">{{attr.type}}</td>
+							<td class="col-xs-5 text-center"><span ng-if="attr.type == 'Выбор'" ng-repeat="value in attr.values track by $index">{{value}}; </span></td>
+							<td class="col-xs-1">
+								<div class="inline-btns center-block" ng-if="attr.hovered">
+		    						<button type="button" class="no-border" ng-click="adminAttrs.editAttr(attr)">
+				    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+				    				</button>
+				    				<button type="button" class="no-border" ng-click="adminAttrs.removeAttr(attr)">
+				    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+				    				</button>
+				    			</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/ng-template" id="addProp.html">
+    	<div class="rolePopover">
+    		<input type="text" class="form-control" placeholder="Название" ng-model="adminAttrs.inputValue">
+    		<button type="button" class="btn btn-primary propPlus center-block" ng-click="adminAttrs.appendValue()">Добавить</button>
+    	</div>
+    </script>
+
+    <script type="text/ng-template" id="modalAddProp.html">
+    	<div class="rolePopover">
+    		<input type="text" class="form-control" placeholder="Название" ng-model="modal.inputValue">
+    		<button type="button" class="btn btn-primary propPlus center-block" ng-click="modal.appendValue()">Добавить</button>
+    	</div>
+    </script>
+
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Редактирование атрибута</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+
+            <form>
+				<div class="form-group">
+					<label for="modalAttrName"> Название</label>
+					<input type="text" class="form-control" id="modalAttrName" placeholder="Имя атрибута" ng-model="modal.attribute.name">
+					<p><i>(показывается на сайте)</i></p>
+				</div>
+				<div class="form-group">
+					<label for="modalAttrObjField"> Мета-имя</label>
+					<input type="text" class="form-control" id="modalAttrObjField" placeholder="Служебное имя" maxlength="28" pattern="^[a-zA-Z]+$" ng-model="modal.attribute.meta">
+					<p><i>(Слово латинскими буквами без пробелов, не больше 28 символов. Будет служить для построения модели товара)</i></p>
+				</div>
+				<div class="form-group">
+					<label for="modalAttrType"> Тип</label>
+					<select class="form-control" id="modalAttrType" ng-model="modal.attribute.type">
+						<option value="text">Текст</option>
+						<option value="Выбор">Выбор</option>
+					</select>
+				</div>
+			</form>
+			<div class="row">
+				<div class="col-md-3" ng-if="modal.attribute.type == 'Выбор'">
+					<h4 style="padding-top: 15px;">Значения:</h4>
+				</div>
+				<div class="col-md-9" ng-if="modal.attribute.type == 'Выбор'">
+					<button uib-popover-template="'modalAddProp.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'" class="addUser" type="button" title="Добавить пользователя"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+				</div>
+				<div class="col-md-12" ng-if="modal.attribute.type == 'Выбор'">
+					<ul class="valueList">
+						<li ng-repeat="value in modal.attribute.values track by $index">{{value}}<i title="Удалить" class="fa fa-times pull-right" aria-hidden="true" ng-click="modal.removeValue(value)"></i></li>
+					</ul>
+				</div>
+				<div class=" col-md-12 error-message">
+					<div class="alert alert-danger toggle" ng-if="modal.alert">
+	                  	<span> <strong>Ошибка!</strong> {{modal.alert}}</span>
+	                </div>
+				</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" type="button" ng-click="modal.save()" ng-disabled="!modal.attribute.name || !modal.attribute.meta || !modal.attribute.type">Сохранить</button>
+            <button class="btn btn-danger" type="button" ng-click="modal.cancel()">Отмена</button>
+        </div>
+    </script>
+</div>

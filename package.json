@@ -1,0 +1,26 @@
+{
+  "name": "numizmat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GG",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "cloudinary": "^1.4.2",
+    "connect-multiparty": "^2.0.0",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.5.10",
+    "morgan": "^1.7.0",
+    "nodemailer": "^2.6.4",
+    "socket.io": "^1.5.1",
+    "uuid": "^3.0.0"
+  }
+}

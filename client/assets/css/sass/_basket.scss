@@ -1,0 +1,140 @@
+.items-table {
+
+	td {
+		vertical-align: middle !important;
+
+		input {
+			cursor: pointer;
+		}
+	}
+
+	.remove-item {
+		cursor: pointer;
+	}
+
+	.item-avatar {
+		img {
+			cursor: default;
+      width: 180px;
+      height: 90px;
+		}
+
+	}
+
+	img {
+		cursor: pointer;
+		width: 180px;
+		height: 90px;
+		float: left;
+	}
+
+	.item-prop {
+
+    h4 {
+      margin-top: 30px;
+    }
+
+    p {
+      margin-left: 200px;
+    }
+	}
+}
+
+.sum-price {
+	margin-top: 30px;
+	margin-bottom: -20px;
+}
+
+.confirm-order {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+
+
+$yellow: rgb(59, 83, 67);
+
+$num-of-tabs: 2;
+
+@mixin tabs {
+
+  	@for $i from 1 through $num-of-tabs {
+
+    	&:nth-of-type(#{$i}) {
+
+      		&:checked {
+
+        		~ .slide {
+          			left: calc((100% / #{$num-of-tabs}) * #{$i - 1});
+        		}
+      		}
+    	}
+  	}
+}
+
+.tab-wrap {
+	width: 100%;
+	position: relative;
+	display: flex;
+	top: 0;
+
+  input[type="radio"][name="tabs"] {
+    position: absolute;
+    display: none;
+
+    &:checked {
+      + .tab-label-content {
+      
+        .tab-content {
+          display: block;
+        }
+      }
+    }
+
+    @include tabs;
+
+    &:first-of-type {
+
+      &:checked {
+
+        ~ .slide {
+          left: 0;
+        }
+      }
+    }
+  }
+
+  label {
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 56px;
+    transition: color 0.2s ease;
+    width: 100%;
+  }
+
+  .slide {
+    background: $yellow;
+    width: calc(100% / #{$num-of-tabs});
+    height: 3px;
+    position: absolute;
+    left: 0;
+    top: calc(100% - 4px);
+    transition: left 0.3s ease-out;
+  }
+
+  .tab-label-content {
+    width: 100%;
+
+    .tab-content {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 100px;
+      display: none;
+    }
+  }
+}
