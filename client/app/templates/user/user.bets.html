@@ -2,12 +2,12 @@
 
 	<div class="row" ng-if="bets.activeAuc && bets.exist">
 		<div class="col-md-12 prods">
-			<div class="card-container" style="margin-bottom: 30px;">
+			<div class="card-container table-responsive" style="margin-bottom: 30px;">
 				<table class="table table-hover product-list">
 					<thead>
 						<tr class="row">
-							<td class="col-md-2 text-center"><b>Товар</b></td>
-							<td class="col-md-4 text-center"><b>Описание</b></td>
+							<td class="col-md-2 text-center"><b>Фото</b></td>
+							<td class="col-md-4 text-center"><b>Название</b></td>
 							<td class="col-md-2 text-center"><b>Статус торгов</b></td>
 							<td class="col-md-2 text-center"><b>Лидерство в торгах</b></td>
 							<td class="col-md-2 text-center"><b>Ваша ставка</b></td>
@@ -16,11 +16,10 @@
 					<tbody>
 						<tr class="row" ng-repeat="bet in bets.bets track by $index" ui-sref="lot({ lot_id: bet.lot._id })" title="Перейти к лоту">
 							<td class="col-md-2 text-center">
-								<h4 class="text-center">{{bet.lot.name}}</h4>
-								<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_90,w_180/{{bet.lot.imgIds[0]}}.png">
+								<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_80/{{bet.lot.imgIds[0]}}.png">
 							</td>
 							<td class="col-md-4 text-center">
-								<p>{{bet.lot.short_description}}</p>
+								<h4>{{bet.lot.name}}</h4>
 							</td>
 							<td class="col-md-2 text-center">
 								<span><b>{{bet.status}}</b></span>

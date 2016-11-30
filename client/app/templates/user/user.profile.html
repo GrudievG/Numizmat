@@ -1,6 +1,6 @@
 <div class="container" ng-controller="ProfileController as profile">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 			<div class="card-container">
 				<h1 class="text-center profile-caption">Учётные данные</h1>
 
@@ -57,11 +57,17 @@
 				  		<div class="col-xs-12 error-message"></div>
 				  	</div>
 				  	<div class="form-group">
-				    	<div class="col-sm-6">
+				    	<div class="col-sm-6 hidden-xs">
 				      		<button type="button" class="btn btn-primary pull-right" ng-click="profile.changePass()">Сменить пароль</button>
 				    	</div>
-				    	<div class="col-sm-6">
+				    	<div class="col-sm-6 hidden-xs">
 				      		<button type="button" class="btn btn-primary pull-left" ng-click="profile.editForm()">Редактировать учётную запись</button>
+				    	</div>
+				    	<div class="col-xs-12 visible-xs">
+				      		<button type="button" class="btn btn-primary" ng-click="profile.editForm()" style="margin-bottom: 15px; width: 100%;">Редактировать учётную запись</button>
+				    	</div>
+				    	<div class="col-xs-12 visible-xs">
+				      		<button type="button" class="btn btn-primary" ng-click="profile.changePass()" style="margin-bottom: 15px; width: 100%;">Сменить пароль</button>
 				    	</div>
 				  	</div>
 				</form>
@@ -125,13 +131,18 @@
 				        </div>
 			        </div>
 				  	<div class="form-group">
-				    	<div class="col-sm-5 col-sm-offset-4">
+				    	<div class="col-sm-6 col-sm-offset-3 col-md-5 col-md-offset-4 hidden-xs">
 				      		<button type="button" class="btn btn-success pull-left" ng-click="profile.editForm()" ng-disabled="profileForm.$invalid">Сохранить изменения</button>
 				      		<button type="button" class="btn btn-danger pull-right" ng-click="profile.cancelChanges('profile')">Отмена</button>
 				    	</div>
+				    	<div class="col-xs-12 visible-xs">
+				    		<button type="button" class="btn btn-success" ng-click="profile.editForm()" ng-disabled="profileForm.$invalid" style="width: 100%; margin-bottom: 15px;">Сохранить изменения</button>
+				    	</div>
+				    	<div class="col-xs-12 visible-xs">
+				    		<button type="button" class="btn btn-danger" ng-click="profile.cancelChanges('profile')" style="width: 100%; margin-bottom: 15px;">Отмена</button>
+				    	</div>
 				  	</div>
 				</form>
-
 				<form class="form-horizontal smooth-change" role="form" name="passwordForm" ng-if="profile.changePassword">
 				  	<div class="form-group">
 				    	<label class="col-sm-4 control-label">Текущий пароль:</label>
@@ -159,9 +170,15 @@
 				        </div>
 			        </div>
 				  	<div class="form-group">
-				    	<div class="col-sm-5 col-sm-offset-4">
+				    	<div class="col-sm-6 col-sm-offset-3 col-md-5 col-md-offset-4 hidden-xs">
 				      		<button type="button" class="btn btn-success pull-left" ng-click="profile.changePass()" ng-disabled="passwordForm.$invalid">Сохранить изменения</button>
 				      		<button type="button" class="btn btn-danger pull-right" ng-click="profile.cancelChanges('password')">Отмена</button>
+				    	</div>
+				    	<div class="col-xs-12 visible-xs">
+				    		<button type="button" class="btn btn-success" ng-click="profile.changePass()" ng-disabled="passwordForm.$invalid" style="width: 100%; margin-bottom: 15px;">Сохранить изменения</button>
+				    	</div>
+				    	<div class="col-xs-12 visible-xs">
+				    		<button type="button" class="btn btn-danger" ng-click="profile.cancelChanges('password')" style="width: 100%; margin-bottom: 15px;">Отмена</button>
 				    	</div>
 				  	</div>
 				</form>

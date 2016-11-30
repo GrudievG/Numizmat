@@ -1,13 +1,18 @@
-.product {
+.lot {
 	border: 1px solid lightgray;
 	background-color: #fff;
 	border-radius: 4px;
 	width: 100%;
-	height: 450px;
+	height: 330px;
 	margin-bottom: 30px;
 	cursor: pointer;
 	box-shadow: 5px 5px 10px -2px rgba(0,0,0,0.3);
 	@extend .transition;
+
+	@media (max-width : 1199px) {
+		height: 320px;
+	}
+
 
 	&:hover {
 		-webkit-box-shadow: 8px 8px 15px -2px rgba(0,0,0,0.3);
@@ -24,7 +29,21 @@
 	
 
 	img {
-		width: 100%;
+		margin-top: 25px;
+		margin-bottom: 25px;
+		height: 150px;
+
+		@media (min-width : 992px) and (max-width : 1199px) {
+			height: 120px;
+		}
+
+		@media (min-width : 768px) and (max-width : 991px) {
+			height: 140px;
+		}
+
+		@media (max-width : 767px) {
+			height: 120px;
+		}
 	}
 
 	.product_caption {
@@ -34,6 +53,10 @@
 	.product_description {
 		padding: 5px 25px 5px 25px;
 		height: 90px;
+
+		@media (max-width : 767px) {
+			font-size: 13px !important;
+		}
 	}
 
 	.price {
@@ -49,8 +72,23 @@
 	}
 }
 
+.product {
+	@extend .lot;
+	height: 270px;
+
+	@media (max-width : 1199px) {
+		height: 260px;
+	}
+}
+
 .filters {
 	margin-top: -20px;
+}
+
+.category-filter {
+	@media (max-width : 767px) {
+		font-size: 12px;
+	}
 }
 
 $active_color: #211818;
@@ -71,10 +109,6 @@ $active_color: #211818;
 
 	td {
 		vertical-align: middle !important;
-	}
-
-	img {
-		width: 100%;
 	}
 
 	.price {
@@ -155,9 +189,3 @@ $active_color: #211818;
   border-radius: 6px 0 6px 6px;
 }
 
-input[type="search"] {
-	background-image: url('../img/lupa.png');  
-	background-size: 20px;
-	background-repeat: no-repeat;
-	background-position: 98% 50%;
-}

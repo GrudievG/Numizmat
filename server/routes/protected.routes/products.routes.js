@@ -1,4 +1,6 @@
 var User       = require('../../models/user');
+var Order      = require('../../models/order');
+var Product    = require('../../models/product')
 var async      = require('async');
 
 
@@ -54,10 +56,10 @@ module.exports = function(express) {
     });
 
     apiRouter.post('/createOrder', function(req, res) {
-        Order.find({}, function(err, orders) {
+        var query = new RegExp(req.body.date, 'i')
+        Order.find({orderNumber: query}, function(err, orders) {
             var prodsToRemove = [];
-            var date = new Date();
-            var orderNumber = String(date.getDate()) + String(date.getMonth()+1) + String(date.getFullYear()) + String(orders.length + 1);
+            var orderNumber = req.body.date + String(orders.length + 1);
             var order = new Order({
                 comment: req.body.comment,
                 items: req.body.items,

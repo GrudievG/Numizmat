@@ -15,29 +15,14 @@
 	.item-avatar {
 		img {
 			cursor: default;
-      width: 180px;
-      height: 90px;
 		}
 
 	}
 
 	img {
 		cursor: pointer;
-		width: 180px;
-		height: 90px;
-		float: left;
 	}
 
-	.item-prop {
-
-    h4 {
-      margin-top: 30px;
-    }
-
-    p {
-      margin-left: 200px;
-    }
-	}
 }
 
 .sum-price {
@@ -48,6 +33,12 @@
 .confirm-order {
 	margin-top: 40px;
 	margin-bottom: 40px;
+
+  @media (max-width : 767px) {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
 }
 
 

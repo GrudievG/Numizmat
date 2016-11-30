@@ -18,18 +18,22 @@
 		<div class="col-md-1" ng-if="settings.edit">
 			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.timeToTradeLot" ng-change="settings.check('tradingLot')">
 		</div>
-		<div class="col-md-4" ng-if="settings.edit">
+		<div class="col-md-6" ng-if="settings.edit">
 			<label class="radio-inline">
 		        <input type="radio" name="time-options" value="hour" ng-model="settings.timeCount"  ng-change="settings.check('tradingLot')"> часов
 		    </label>
 			<label class="radio-inline">
 		        <input type="radio" name="time-options" value="minute" ng-model="settings.timeCount" ng-change="settings.check('tradingLot')"> минут
 		    </label>
+		    <label class="radio-inline">
+		        <input type="radio" name="time-options" value="second" ng-model="settings.timeCount" ng-change="settings.check('tradingLot')"> секунд
+		    </label>
 		</div>
 		<div class="col-md-2" ng-if="!settings.edit">
 			<span>{{settings.timeToTradeLot}}</span>
 			<span ng-if="settings.timeCount == 'hour'">часов</span>
 			<span ng-if="settings.timeCount == 'minute'">минут</span>
+			<span ng-if="settings.timeCount == 'second'">секунд</span>
 		</div>
 	</div>
 	<div class="row">
@@ -46,11 +50,15 @@
 			<label class="radio-inline">
 		        <input type="radio" name="time-options2" value="minute" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> минут
 		    </label>
+		    <label class="radio-inline">
+		        <input type="radio" name="time-options2" value="second" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> секунд
+		    </label>
 		</div>
 		<div class="col-md-2" ng-if="!settings.edit">
 			<span>{{settings.timeToProlong}}</span>
 			<span ng-if="settings.prolongCount == 'hour'">часов</span>
 			<span ng-if="settings.prolongCount == 'minute'">минут</span>
+			<span ng-if="settings.prolongCount == 'second'">секунд</span>
 		</div>
 	</div>
 	<div class="row">

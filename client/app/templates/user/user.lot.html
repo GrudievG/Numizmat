@@ -2,7 +2,7 @@
 	<div class="card-container">
 		<h1 class="text-center profile-caption">{{lot.lot.name}}</h1>
 		<div class="row">
-			<div class="col-md-5">
+			<div class="col-xs-12 col-md-5">
 				<div class="avatar" ng-click="lot.openLightboxModal(0)">
 					<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,h_250,w_500/{{lot.lot.imgIds[0]}}.png">
 				</div>
@@ -18,7 +18,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-7">
+			<div class="col-xs-12 col-md-7">
 				<p class="main-description">{{lot.lot.main_description}}</p>
 				<ul class="product-properties">
 					<li ng-repeat="prop in lot.lot.props"><strong>{{prop.name}}:</strong> {{prop.value}}</li>
@@ -35,36 +35,45 @@
 				</div>
 
 				<div class="row" ng-if="!lot.available">
-					<div class="col-xs-4">
+					<div class="col-xs-12" ng-if="lot.ownBet">
+						<h4 class="text-success text-center">Ваша ставка победила!</h4>
+					</div>
+					<div class="col-xs-6 col-sm-4 col-md-5 col-lg-4">
 						<h4 style="margin-left: 25px; margin-top: 27px;">Продано по цене:</h4>
 					</div>
-					<div class="col-xs-4">
-						<h2>{{lot.lot.price}} грн</h2>
-					</div>
-					<div class="col-xs-4" ng-if="lot.ownBet">
-						<h4 class="text-success">Ваша ставка победила!</h4>
+					<div class="col-xs-6 col-sm-8 col-md-7 col-lg-8">
+						<h2 class="lot-price">{{lot.lot.price}} грн</h2>
 					</div>
 				</div>
 				<div class="row" ng-if="lot.available">
-					<div class="col-xs-4">
+					<div class="col-xs-12" ng-if="lot.ownBet">
+						<h4 class="text-success text-center">Ваша ставка лидирует</h4>
+					</div>
+					<div class="col-xs-6 col-sm-4 col-md-5 col-lg-4">
 						<h4 style="margin-left: 25px; margin-top: 27px;">Актуальная цена:</h4>
 					</div>
-					<div class="col-xs-4">
-						<h2>{{lot.lot.price}} грн</h2>
+					<div class="col-xs-6 col-sm-8 col-md-7 col-lg-8">
+						<h2 class="lot-price">{{lot.lot.price}} грн</h2>
 					</div>
-					<div class="col-xs-4" ng-if="lot.ownBet">
-						<h4 class="text-success">Ваша ставка лидирует</h4>
-					</div>
+					
 				</div>
 				<div class="row" ng-if="lot.available && !lot.errorMessage">
-					<div class="col-xs-4">
+					<div class="col-sm-4 col-md-5 col-lg-4 hidden-xs">
 						<button type="button" class="btn btn-success btn-lg" style="margin-left: 25px;" ng-disabled="betForm.Bet.$invalid" ng-click="lot.makeBet()">Сделать ставку</button>
 					</div>
-					<div class="col-xs-3">
+					<div class="col-sm-3 col-md-3 col-lg-3 hidden-xs">
 						<form name="betForm">
-							<input type="number" name="Bet" class="form-control input-lg" ng-min="lot.minBet" ng-model="lot.bet">
+							<input type="number" name="Bet" class="form-control input-lg" ng-min="lot.minBet" ng-model="lot.bet" required>
 						</form>
 					</div>	
+					<div class="col-xs-12 visible-xs">
+						<form name="betForm2">
+							<input type="number" name="Bet" class="form-control input-lg" ng-min="lot.minBet" ng-model="lot.bet" required>
+						</form>
+					</div>	
+					<div class="col-xs-12 visible-xs">
+						<button type="button" class="btn btn-success btn-lg" style="margin-top: 15px; width: 100%;" ng-disabled="betForm2.Bet.$invalid" ng-click="lot.makeBet()">Сделать ставку</button>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-12 error-message">

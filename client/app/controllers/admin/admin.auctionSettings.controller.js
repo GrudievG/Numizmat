@@ -15,16 +15,22 @@
 				if(resolve.data.tradingLot >= 3600000 && resolve.data.tradingLot % 3600000 == 0) {
 					vm.timeCount = "hour";
 					vm.timeToTradeLot = resolve.data.tradingLot / 3600000;
-				} else {
+				} else if(resolve.data.tradingLot >= 60000 && resolve.data.tradingLot % 60000 == 0) {
 					vm.timeCount = "minute";
 					vm.timeToTradeLot = resolve.data.tradingLot / 60000;
+				} else {
+					vm.timeCount = "second";
+					vm.timeToTradeLot = resolve.data.tradingLot / 1000;
 				}
 				if(resolve.data.prolongTime >= 3600000 && resolve.data.prolongTime % 3600000 == 0) {
 					vm.prolongCount = "hour";
 					vm.timeToProlong = resolve.data.prolongTime / 3600000;
-				} else {
+				} else if(resolve.data.prolongTime >= 60000 && resolve.data.prolongTime % 60000 == 0) {
 					vm.prolongCount = "minute";
 					vm.timeToProlong = resolve.data.prolongTime / 60000;
+				} else {
+					vm.prolongCount = "second";
+					vm.timeToProlong = resolve.data.prolongTime / 1000;
 				}
 
 				vm.fromNull = resolve.data.betSteps.fromNull;
@@ -63,10 +69,14 @@
 					settings.tradingLot = vm.timeToTradeLot * 3600000;
 				else if(vm.timeCount == "minute")
 					settings.tradingLot = vm.timeToTradeLot * 60000;
+				else if(vm.timeCount == "second")
+					settings.tradingLot = vm.timeToTradeLot * 1000;
 				if (vm.prolongCount == "hour")
 					settings.prolongTime = vm.timeToProlong * 3600000;
 				else if(vm.prolongCount == "minute")
 					settings.prolongTime = vm.timeToProlong * 60000;
+				else if(vm.prolongCount == "second")
+					settings.prolongTime = vm.timeToProlong * 1000;
 
 				settings.betSteps = {
 					fromNull: vm.fromNull,

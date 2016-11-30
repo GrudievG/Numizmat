@@ -42,7 +42,6 @@ module.exports = function(express) {
             });
 
             product.name = req.body.name;
-            product.short_description = req.body.short_description;
             product.main_description = req.body.main_description;
             product.imgIds = results;
             product.availability = req.body.availability;
@@ -96,7 +95,6 @@ module.exports = function(express) {
                 })
                 var props = [];
                 product.name = req.body.name;
-                product.short_description = req.body.short_description;
                 product.main_description = req.body.main_description;
                 product.availability = req.body.availability;
                 product.price = req.body.price;
@@ -163,7 +161,6 @@ module.exports = function(express) {
                         }
                     })
                     product.name = req.body.name;
-                    product.short_description = req.body.short_description;
                     product.main_description = req.body.main_description;
                     product.availability = req.body.availability;
                     product.price = req.body.price;

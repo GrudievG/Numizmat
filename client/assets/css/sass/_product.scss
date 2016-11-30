@@ -70,3 +70,9 @@
 	color: #275bec;
 	cursor: pointer;
 }
+
+.lot-price {
+	@media (max-width : 767px) {
+		font-size: 18px;
+	}
+}

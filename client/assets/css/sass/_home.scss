@@ -1,3 +1,31 @@
 .auction-timer {
-	font-size: 60px;
+	width: 380px;
+
+	@media (max-width : 767px) {
+		width: 290px;
+	}
+
+	.timer-item {
+		display: table-cell;
+	}
+
+	.time-count {
+		font-size: 60px;
+
+		@media (max-width : 767px) {
+			font-size: 40px;
+		}
+	}
+
+	.double-dot {
+		padding-left: 10px;
+		padding-right: 10px;
+		vertical-align: top;
+	}
+
+	.timer-signature {
+		font-size: 12px;
+		color: gray;
+	}
 }
+

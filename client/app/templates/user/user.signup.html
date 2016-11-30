@@ -1,6 +1,6 @@
 <div class="container" ng-controller="SignUpController as signUp">
   <div class="row">
-    <div ng-if="!signUp.signUpSuccess" class="col-md-6 col-md-offset-3">
+    <div ng-if="!signUp.signUpSuccess" class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
       <div class="card-container">
         <form class="form-horizontal" role="form" name="signUpForm" ng-submit="signUp.submitForm(signUpForm.$valid)" novalidate>
           	<div class="form-group">
@@ -83,14 +83,17 @@
               </div>
             </div>
           	<div class="form-group">
-            	<div class="col-sm-offset-2 col-sm-10">
+            	<div class="col-sm-offset-2 col-sm-10 hidden-xs">
               		<button type="submit" class="btn btn-success signup-btn" ng-disabled="signUpForm.$invalid">Зарегистрироваться</button>
             	</div>
+              <div class="col-xs-12 visible-xs">
+                <button type="submit" class="btn btn-success signup-btn" ng-disabled="signUpForm.$invalid" style="width: 100%;">Зарегистрироваться</button>
+              </div>
           	</div>
         </form>
       </div>
     </div>
-    <div ng-if="signUp.signUpSuccess" class="col-md-8 col-md-offset-2">
+    <div ng-if="signUp.signUpSuccess" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
       <div class="alert alert-success extend-prop toggle">
         <span> <strong>Регистрация прошла успешно.</strong> На Ваш email отправлено письмо для активации аккаунта. После активации Вам будут доступны все функции.</span>
       </div>

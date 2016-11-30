@@ -67,7 +67,6 @@
 						availability: true,
 						price: undefined,
 						photos: vm.files,
-						short_description: "",
 						main_description: ""
 					}
 					vm.product.props = resolve.data;

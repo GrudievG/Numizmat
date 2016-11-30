@@ -14,10 +14,11 @@
 			vm.categories = [];
 			vm.filters = [];
 			vm.mode = 'pagination';
+			vm.pageSizeVars = [10, 20, 40, 80, 100];
 
 			vm.pagination = {
 				currentPage: 1,
-				pageSize: 4,
+				pageSize: vm.pageSizeVars[0],
 				filtered: [],
 				totalItems: 0
 			}

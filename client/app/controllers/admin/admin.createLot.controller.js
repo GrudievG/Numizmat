@@ -85,7 +85,6 @@
 						top: false,
 						price: undefined,
 						photos: vm.files,
-						short_description: "",
 						main_description: ""
 					}
 					vm.lot.props = resolve.data;

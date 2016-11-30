@@ -81,13 +81,16 @@
 			}
 
 			vm.createOrder = function () {
+				var date = new Date();
+				var orderDate = String(date.getDate()) + String(date.getMonth()+1) + String(date.getFullYear());
 				var order = {
 					user_id: $window.localStorage.getItem('id'),
 					items: vm.productsSelected,
 					comment: vm.orderComment,
-					price: vm.summary
+					price: vm.summary,
+					date: orderDate
 				}
-
+				
 				$http.post("api/createOrder", order).then(function(resolve) {
 					vm.confirmMsg = true;
 					vm.orderComment = "";

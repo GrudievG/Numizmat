@@ -29,9 +29,6 @@
 							<img class="no-picture" ng-if="!adminCreateProd.files[3]" src="assets/img/icon-photo.png">
 						</div>
 					</div>
-					<div class="short-description">
-						<textarea maxlength="120" rows="4" class="form-control" placeholder="Короткое описание товара (до 120 символов). Будет отображаться в магазине в списке товаров." ng-model="adminCreateProd.product.short_description"></textarea>
-					</div>
 				</div>
 				<div class="col-md-7">
 					<form class="form-horizontal" role="form" name="productCreating" novalidate ng-submit="adminCreateProd.addProduct()">
@@ -47,7 +44,7 @@
 					    			<div class="col-xs-8">
 					    				<input type="text" class="form-control" ng-if="prop.type == 'Текст'" ng-model="prop.currentValue">
 					      				<select class="form-control" ng-if="prop.type == 'Выбор'" ng-model="prop.currentValue">
-					      					<option ng-repeat="type in prop.values">{{type}}</option>
+					      					<option ng-repeat="type in prop.values | orderBy">{{type}}</option>
 					      				</select>
 					    			</div>
 					    		</div>
@@ -82,7 +79,7 @@
 		  				</div>
 		  				<div class="form-group">
 		    				<div class="col-xs-12">
-		      					<button type="submit" class="btn btn-lg btn-success center-block" style="margin-top: 50px;" ng-disabled="productCreating.$invalid || !adminCreateProd.files[0] || !adminCreateProd.product.name || !adminCreateProd.product.short_description">Добавить товар</button>
+		      					<button type="submit" class="btn btn-lg btn-success center-block" style="margin-top: 50px;" ng-disabled="productCreating.$invalid || !adminCreateProd.files[0] || !adminCreateProd.product.name">Добавить товар</button>
 		    				</div>
 		  				</div>
 					</form>

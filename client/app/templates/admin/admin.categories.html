@@ -102,12 +102,15 @@
 					<input type="text" class="form-control" id="modalCatName" placeholder="Название категории" ng-model="modal.category.name">
 				</div>
 			</form>
-			<div class="row">
+			<div class="row" ng-if="!modal.edit">
 				<div class="col-md-3">
 					<h4 style="padding-top: 15px;">Подкатегории:</h4>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-3">
 					<button uib-popover-template="'modalSubCat.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'" class="addUser" type="button" title="Добавить подкатегорию"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+				</div>
+				<div class="col-md-6">
+					<h5 style="padding-top: 20px; cursor: pointer;" class="pull-right text-primary" ng-click="modal.edit = true">Редактировать</h5>
 				</div>
 				<div class="col-md-12">
 					<ul class="valueList">
@@ -120,9 +123,21 @@
 	                </div>
 				</div>
 			</div>
+			<div class="row" ng-if="modal.edit" style="margin-top: 40px;">
+				<div class="col-xs-8 col-xs-offset-2">
+					<form>
+						<div class="form-group" ng-repeat="value in modal.category.subcats track by $index">
+							<input type="text" class="form-control" ng-model="value" ng-change="modal.checkValid(value, $index)">
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary center-block" type="button" ng-click="modal.editSubcats()" ng-disabled="!modal.validForm">OK!</button>
+						</div>
+					</form>
+				</div>
+			</div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-success" type="button" ng-click="modal.save()" ng-disabled="!modal.category.name">Сохранить</button>
+            <button class="btn btn-success" type="button" ng-click="modal.save()" ng-disabled="!modal.category.name || modal.edit">Сохранить</button>
             <button class="btn btn-danger" type="button" ng-click="modal.cancel()">Отмена</button>
         </div>
     </script>

@@ -85,6 +85,8 @@
 		angular.module('numizmat').controller('CategoryModalCtrl', ['$http', '$timeout', '$uibModalInstance', 'item',  function ($http, $timeout, $uibModalInstance, item) {
 			var modal = this;
 			modal.category = item;
+			modal.edit = false;
+			modal.validForm = true;
 
 			modal.appendValue = function () {
 				if(!modal.inputValue) return;
@@ -94,6 +96,19 @@
 
 			modal.removeValue = function (value) {
 				modal.category.subcats.splice(modal.category.subcats.indexOf(value), 1)
+			}
+
+			modal.checkValid = function(value, index) {
+				if(value.length < 1)
+					modal.validForm = false;
+				else {
+					modal.category.subcats[index] = value;
+					modal.validForm = true;
+				}
+			}
+
+			modal.editSubcats = function() {
+				modal.edit = false;
 			}
 
 			modal.save = function() {

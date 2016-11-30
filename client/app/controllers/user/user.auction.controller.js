@@ -15,10 +15,11 @@
 			vm.filters = [];
 			vm.categories = [];
 			vm.mode = 'pagination';
+			vm.pageSizeVars = [10, 20, 40, 80, 100];
 
 			vm.pagination = {
 				currentPage: 1,
-				pageSize: 4,
+				pageSize: vm.pageSizeVars[0],
 				filtered: [],
 				totalItems: 0
 			}
@@ -106,7 +107,6 @@
 			vm.changePage = function() {
 				var begin = ((vm.pagination.currentPage - 1) * vm.pagination.pageSize);
             	var end = begin + vm.pagination.pageSize;
-
                 vm.pagination.totalItems = vm.lots.length;
                 if(vm.mode == 'pagination')
                 	vm.pagination.filtered = vm.lots.slice(begin, end);

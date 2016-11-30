@@ -5,7 +5,7 @@ $content_font_family: 'Roboto', sans-serif;
 $header_font_family: 'Cormorant Garamond', serif;
 
 body {
-    background-color: #eee;
+    background-color: #efeff7;
     font-family: $content_font_family;
     color: $font_color;
 }
@@ -18,12 +18,19 @@ button:focus{
     box-shadow: none !important;
 }
 
+.panel-heading {
+    background-color: white !important;
+}
 .transition {
     -webkit-transition: all 0.25s ease-in-out 0s;
     -moz-transition: all 0.25s ease-in-out 0s;
     -o-transition: all 0.25s ease-in-out 0s;
     -ms-transition: all 0.25s ease-in-out 0s;
     transition: all 0.25s ease-in-out 0s;
+}
+
+.popover-content {
+    padding: 0 !important;
 }
 
 .header-li {
@@ -39,8 +46,6 @@ button:focus{
 }
 
 [ui-view] {
-
-    
 
     &.ng-enter {
         @extend .transition;
@@ -64,12 +69,26 @@ button:focus{
     box-shadow: 0 4px 14px 0 rgba(0,0,0,0.3);
     background-color: #e9e1d4;
     width: 100%;
-    z-index: 11;
-    top: 0;
-    left: 0;
-    position: fixed;
 }
 
-.head + [ui-view] {
-    margin-top: 210px;
+input[type="search"] {
+    background-image: url('../img/lupa.png');  
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 98% 50%;
+}
+
+.card-container {
+    border-radius: 4px;
+    border: 1px solid lightgray;
+    background-color: #fff;
+    padding: 20px; 
+    margin-top:20px;
+    position: relative;
+    box-shadow: 5px 5px 10px -2px rgba(0,0,0,0.3);
+
+    .required-field {
+        color: #d9534f;
+        margin-left: 5px;
+    }
 }
