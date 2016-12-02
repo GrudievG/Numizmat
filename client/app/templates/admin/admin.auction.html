@@ -50,51 +50,53 @@
 		</div>
 	</div>
 	<div class="card-container" ng-if="adminAuction.currentAuction">
-    	<table class="table table-hover prodList">
-    		<thead>
-	    		<tr class="row">
-	    			<td class="col-xs-5 text-center"><strong>Товар</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Категория</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Подкатегория</strong></td>
-	    			<td class="col-xs-1 text-center"><strong>Топ</strong></td>
-	    			<td class="col-xs-1 text-center"><strong>Текущая цена</strong></td>
-	    			<td class="col-xs-1 text-center"></td>
-	    		</tr>
-    		</thead>
-    		<tbody>
-    			<tr ng-repeat="lot in adminAuction.pagination.filtered" ng-mouseover="lot.hovered = true" ng-mouseleave="lot.hovered = false" class="row">
-	    			<td class="col-xs-5 prod-preview">
-	    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70,w_140/{{lot.imgIds[0]}}.png">
-	    				<div class="prodName">
-	    					<span><strong>"{{lot.name}}"</strong></span>
-	    				</div>
-	    			</td>
-	    			<td class="col-xs-2 text-center">
-	    				<span>{{lot.category}}</span>
-	    			</td>
-	    			<td class="col-xs-2 text-center">
-	    				<span>{{lot.subcategory}}</span>
-	    			</td>
-	    			<td class="col-xs-1 text-center">
-		    			<span ng-if="lot.top" class="text-success"><strong>Да</strong></span>
-		    			<span ng-if="!lot.top" class="text-danger"><strong>Нет</strong></span>
-	    			</td>
-	    			<td class="col-xs-1 text-center">
-		    			<span>{{lot.price}} грн</span>
-	    			</td>
-	    			<td class="col-xs-1 text-center">
-	    				<div class="inline-btns" ng-show="lot.hovered">
-		    				<button type="button" class="no-border" title="Редактировать лот" ui-sref="admin.editLot({ lot_id: lot._id })">
-		    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-		    				</button>
-		    				<button type="button" class="no-border" title="Удалить лот" ng-click="adminAuction.removeLot(lot)">
-		    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
-		    				</button>
-		    			</div>
-	    			</td>
-	    		</tr>
-    		</tbody>
-    	</table>
+		<div class="table-responsive">
+			<table class="table table-hover prodList">
+	    		<thead>
+		    		<tr>
+		    			<td class="text-center"><strong>Товар</strong></td>
+		    			<td class="text-center"><strong>Категория</strong></td>
+		    			<td class="text-center"><strong>Подкатегория</strong></td>
+		    			<td class="text-center"><strong>Топ</strong></td>
+		    			<td class="text-center"><strong>Текущая цена</strong></td>
+		    			<td class="text-center"></td>
+		    		</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr ng-repeat="lot in adminAuction.pagination.filtered">
+		    			<td class="prod-preview">
+		    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
+		    				<div class="prodName">
+		    					<span><strong>"{{lot.name}}"</strong></span>
+		    				</div>
+		    			</td>
+		    			<td class="text-center">
+		    				<span>{{lot.category}}</span>
+		    			</td>
+		    			<td class="text-center">
+		    				<span>{{lot.subcategory}}</span>
+		    			</td>
+		    			<td class="text-center">
+			    			<span ng-if="lot.top" class="text-success"><strong>Да</strong></span>
+			    			<span ng-if="!lot.top" class="text-danger"><strong>Нет</strong></span>
+		    			</td>
+		    			<td class="text-center">
+			    			<span>{{lot.price}} грн</span>
+		    			</td>
+		    			<td class="text-center">
+		    				<div class="inline-btns">
+			    				<button type="button" class="no-border" title="Редактировать лот" ui-sref="admin.editLot({ lot_id: lot._id })">
+			    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+			    				</button>
+			    				<button type="button" class="no-border" title="Удалить лот" ng-click="adminAuction.removeLot(lot)">
+			    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+			    				</button>
+			    			</div>
+		    			</td>
+		    		</tr>
+	    		</tbody>
+	    	</table>
+		</div> 	
     </div>
     <div class="row" ng-if="adminAuction.currentAuction" style="margin-top: 20px; margin-bottom: -20px;">
 		<div class="col-md-4 col-md-offset-8">

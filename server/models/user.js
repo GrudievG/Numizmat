@@ -24,7 +24,7 @@ var UserSchema = new Schema({
 	name: String,
     surname: String,
     active: Boolean,
-    tel: Number,
+    tel: String,
     country: String,
     region: String,
     locality: String,

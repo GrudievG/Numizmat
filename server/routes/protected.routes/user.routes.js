@@ -21,10 +21,7 @@ module.exports = function(express) {
         .put(function(req, res) {
             if (req.body.currentEmail == req.body.email) {
                 User.findById(req.params.user_id, function(err, user) {
-                    if (err)
-                        res.send(err);
 
-                    user.email = req.body.email;
                     user.name = req.body.name;
                     user.surname = req.body.surname;
                     user.tel = req.body.tel;

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var SettingsSchema = new Schema({
+	noveltyCount: Number,
 	tradingLot: Number,
 	prolongTime: Number,
 	betSteps: {

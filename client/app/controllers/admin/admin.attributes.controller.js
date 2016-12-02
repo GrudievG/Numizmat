@@ -60,6 +60,7 @@
 						vm.attribute = {
 							name: "",
 							meta: "",
+							type: "",
 							values: []
 						};
 					}
@@ -100,6 +101,8 @@
 		angular.module('numizmat').controller('AttributeModalCtrl', ['$http', '$timeout', '$uibModalInstance', 'item',  function ($http, $timeout, $uibModalInstance, item) {
 			var modal = this;
 			modal.attribute = item;
+			modal.edit = false;
+			modal.validForm = true;
 
 			modal.appendValue = function () {
 				if(!modal.inputValue) return;
@@ -109,6 +112,19 @@
 
 			modal.removeValue = function (value) {
 				modal.attribute.values.splice(modal.attribute.values.indexOf(value), 1)
+			}
+
+			modal.checkValid = function(value, index) {
+				if(value.length < 1)
+					modal.validForm = false;
+				else {
+					modal.attribute.values[index] = value;
+					modal.validForm = true;
+				}
+			}
+
+			modal.editSubcats = function() {
+				modal.edit = false;
 			}
 
 			modal.save = function() {

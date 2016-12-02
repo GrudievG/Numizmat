@@ -21,39 +21,41 @@
 		</div>
 	</div>
 	<div class="card-container" ng-if="statistic.activeAuc">
-    	<table class="table table-hover prodList">
-    		<thead>
-	    		<tr class="row">
-	    			<td class="col-xs-5 text-center"><strong>Товар</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Кол-во ставок</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Email лидера</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Статус</strong></td>
-	    			<td class="col-xs-1 text-center"><strong>Текущая цена</strong></td>
-	    		</tr>
-    		</thead>
-    		<tbody>
-    			<tr ng-repeat="lot in statistic.pagination.filtered" class="row">
-	    			<td class="col-xs-5 prod-preview">
-	    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70,w_140/{{lot.imgIds[0]}}.png">
-	    				<div class="prodName">
-	    					<span><strong>"{{lot.name}}"</strong></span>
-	    				</div>
-	    			</td>
-	    			<td class="col-xs-2 text-center">
-	    				<span>{{lot.bets}}</span>
-	    			</td>
-	    			<td class="col-xs-2 text-center">
-	    				<span>{{lot.customer}}</span>
-	    			</td>
-	    			<td class="col-xs-2 text-center">
-		    			<span>{{lot.status}}</span>
-	    			</td>
-	    			<td class="col-xs-1 text-center">
-		    			<span>{{lot.price}} грн</span>
-	    			</td>
-	    		</tr>
-    		</tbody>
-    	</table>
+		<div class="table-responsive">
+			<table class="table table-hover prodList">
+	    		<thead>
+		    		<tr>
+		    			<td class="text-center"><strong>Товар</strong></td>
+		    			<td class="text-center"><strong>Кол-во ставок</strong></td>
+		    			<td class="text-center"><strong>Лидер</strong></td>
+		    			<td class="text-center"><strong>Статус</strong></td>
+		    			<td class="text-center"><strong>Текущая цена</strong></td>
+		    		</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr ng-repeat="lot in statistic.pagination.filtered" style="cursor: pointer;" title="Посмотреть историю ставок" ng-click="statistic.viewHistory(lot)">
+		    			<td class="prod-preview">
+		    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
+		    				<div class="prodName">
+		    					<span><strong>"{{lot.name}}"</strong></span>
+		    				</div>
+		    			</td>
+		    			<td class="text-center">
+		    				<span>{{lot.bets}}</span>
+		    			</td>
+		    			<td class="text-center">
+		    				<span>{{lot.customer}}</span>
+		    			</td>
+		    			<td class="text-center">
+			    			<span>{{lot.status}}</span>
+		    			</td>
+		    			<td class="text-center">
+			    			<span>{{lot.price}} грн</span>
+		    			</td>
+		    		</tr>
+	    		</tbody>
+	    	</table>
+		</div>
     </div>
     <div class="row" ng-if="statistic.activeAuc" style="margin-top: 20px; margin-bottom: -20px;">
 		<div class="col-md-4 col-md-offset-8">
@@ -61,4 +63,41 @@
 			items-per-page="statistic.pagination.pageSize" total-items="statistic.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="statistic.pagination.currentPage" ng-change="statistic.changePage()"></ul>
 		</div>
 	</div>
+
+	<script type="text/ng-template" id="lotHistory.html">
+        <div class="modal-header">
+            <div class="row">
+            	<div class="col-xs-10">
+            		<h3 class="modal-title" id="modal-title">{{modal.lot.name}}</h3>
+            	</div>
+	    		<div class="col-xs-2 close-icon">
+	    			<span class="pull-right" ng-click="modal.close()">
+	    				<i class="fa fa-times fa-lg" aria-hidden="true"></i>
+	    			</span>
+	    		</div>
+	    	</div>
+        </div>
+        <div class="modal-body" id="modal-body">
+	        <div class="table-responsive">
+	        	<table class="table">
+	        		<thead>
+			    		<tr>
+			    			<td><strong>Пользователь</strong></td>
+			    			<td class="text-center"><strong>Ставка</strong></td>
+			    		</tr>
+		    		</thead>
+		    		<tbody>
+		    			<tr ng-repeat="bet in modal.lot.history">
+			    			<td>
+			    				<span>{{bet.customer}}</span>
+			    			</td>
+			    			<td class="text-center">
+				    			<span>{{bet.price}} грн</span>
+			    			</td>
+			    		</tr>
+		    		</tbody>
+	        	</table>
+	        </div>
+        </div>
+    </script>
 </div>

@@ -86,14 +86,6 @@
 		      		url: "/users",
 		      		templateUrl: "/app/templates/admin/admin.users.html"
 		    	})
-		    	.state('admin.editUser', {
-		      		url: "/edit-user-profile/:user_id",
-		      		templateUrl: "/app/templates/admin/admin.editProfile.html"
-		    	})
-		    	.state('admin.createUser', {
-		      		url: "/create-new-user",
-		      		templateUrl: "/app/templates/admin/admin.createUser.html"
-		    	})
 		    	.state('admin.products', {
 		      		url: "/products",
 		      		templateUrl: "/app/templates/admin/admin.products.html"
@@ -110,6 +102,10 @@
 		      		url: "/orders",
 		      		templateUrl: "/app/templates/admin/admin.orders.html"
 		    	})
+		    	.state('admin.archiveOrders', {
+		      		url: "/archive-orders",
+		      		templateUrl: "/app/templates/admin/admin.archiveOrders.html"
+		    	})
 		    	.state('admin.attributes', {
 		      		url: "/attributes",
 		      		templateUrl: "/app/templates/admin/admin.attributes.html"
@@ -121,6 +117,10 @@
 		    	.state('admin.auction', {
 		      		url: "/auction",
 		      		templateUrl: "/app/templates/admin/admin.auction.html"
+		    	})
+		    	.state('admin.archiveAuction', {
+		      		url: "/archive-auction",
+		      		templateUrl: "/app/templates/admin/admin.archiveAuctions.html"
 		    	})
 		    	.state('admin.createAuction', {
 		      		url: "/create-auction",

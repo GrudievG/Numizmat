@@ -1,6 +1,19 @@
 <div class="container" ng-controller="LotController as lot">
 	<div class="card-container">
-		<h1 class="text-center profile-caption">{{lot.lot.name}}</h1>
+		<div class="row">
+			<div class="col-xs-6 col-sm-3">
+				<span class="pull-left prev-next" ui-sref="lot({ lot_id: lot.prevId })"><i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i><strong>Пред. лот</strong></span>
+			</div>
+			<div class="col-sm-6 hidden-xs">
+				<h1 class="text-center profile-caption">{{lot.lot.name}}</h1>
+			</div>
+			<div class="col-xs-6 col-sm-3">
+				<span class="pull-right prev-next" ui-sref="lot({ lot_id: lot.nextId })"><strong>След. лот</strong><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span>
+			</div>
+			<div class="col-xs-12 visible-xs">
+				<h1 class="text-center profile-caption">{{lot.lot.name}}</h1>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-xs-12 col-md-5">
 				<div class="avatar" ng-click="lot.openLightboxModal(0)">
@@ -82,6 +95,14 @@
                 		</div>
               		</div>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<span class="pull-left prev-next" ui-sref="lot({ lot_id: lot.prevId })"><i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i><strong>Пред. лот</strong></span>
+			</div>
+			<div class="col-xs-6">
+				<span class="pull-right prev-next" ui-sref="lot({ lot_id: lot.nextId })"><strong>След. лот</strong><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></span>
 			</div>
 		</div>
 	</div>

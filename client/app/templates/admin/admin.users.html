@@ -3,9 +3,6 @@
 		<div class="col-md-2">
 			<h2>Пользователи:</h2>
 		</div>
-		<div class="col-md-1">
-			<button class="addUser" type="button" title="Добавить пользователя" ui-sref="admin.createUser"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
-		</div>
 	</div>
 	<div class="row users_controls">
 		<div class="col-md-2">
@@ -15,7 +12,7 @@
 			<button class="btn btn-default" ng-if="adminUsers.selectedUsers.length > 0" uib-popover-template="'changeRole.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'focus'">Изменить роль</button>
 			<button class="btn btn-default" ng-if="adminUsers.selectedUsers.length > 0" ng-click="adminUsers.deleteSelectedUser()">Удалить выбранные</button>
 		</div>
-		<div class="col-md-3" style="margin-top: 7px;">
+		<div class="col-md-4" style="margin-top: 7px;">
 			<span ng-class="{'list-switch': adminUsers.switcherAll == true}" ng-click="adminUsers.switchArray('all')" ng-init="adminUsers.switcherAll = true">Все ( {{adminUsers.allUsers.length}} )</span>
 			<span class="margins">|</span>
 			<span ng-class="{'list-switch': adminUsers.switcherAdmins == true}" ng-click="adminUsers.switchArray('admins')">Администраторы ( {{adminUsers.admins.length}} )</span>
@@ -23,7 +20,7 @@
 			<span ng-class="{'list-switch': adminUsers.switcherUsers == true}" ng-click="adminUsers.switchArray('users')">Пользователи ( {{adminUsers.users.length}} )</span>
 		</div>
 		
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			items-per-page="adminUsers.pagination.pageSize" total-items="adminUsers.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminUsers.pagination.currentPage" ng-change="adminUsers.changePage()"></ul>
 		</div>
@@ -31,36 +28,33 @@
     <div class="card-container">
     	<table class="table table-hover userList">
     		<thead>
-	    		<tr class="row">
-	    			<td class="col-xs-1">
+	    		<tr>
+	    			<td class="text-center">
 	    				<input type="checkbox" ng-model="adminUsers.selectAll" ng-change="adminUsers.changeVar()">
 	    			</td>
-	    			<td class="col-xs-6"><strong>Пользователь</strong></td>
-	    			<td class="col-xs-4"><strong>Роль</strong></td>
-	    			<td class="col-xs-1"></td>
+	    			<td class="text-center"><strong>Пользователь</strong></td>
+	    			<td class="text-center"><strong>Роль</strong></td>
+	    			<td class="text-center"></td>
 	    		</tr>
     		</thead>
     		<tbody>
-    			<tr ng-repeat="user in adminUsers.pagination.filtered" ng-mouseover="user.hovered = true" ng-mouseleave="user.hovered = false" class="row">
-	    			<td class="col-xs-1">
+    			<tr ng-repeat="user in adminUsers.pagination.filtered">
+	    			<td class="text-center">
 	    				<input type="checkbox" ng-model="user.selected" ng-click="adminUsers.checkSelect(user)">
 	    			</td>
-	    			<td class="col-xs-6">
-	    				<span>{{user.email}}</span>
+	    			<td class="text-center text-primary">
+	    				<span>
+	    					<strong style="cursor: pointer;" ng-click="adminUsers.viewProfile(user)">{{user.email}}</strong>
+	    				</span>
 	    			</td>
-	    			<td class="col-xs-4">
+	    			<td class="text-center">
 		    			<span ng-if="user.admin">Администратор</span>
 		    			<span ng-if="!user.admin">Пользователь</span>
 	    			</td>
-	    			<td class="col-xs-1">
-	    				<div class="inline-btns" ng-show="user.hovered">
-		    				<button type="button" class="no-border" title="Редактировать профиль" ui-sref="admin.editUser({ user_id: user._id })">
-		    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-		    				</button>
-		    				<button type="button" class="no-border" title="Удалить пользователя" ng-click="adminUsers.removeUser(user)">
-		    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
-		    				</button>
-		    			</div>
+	    			<td class="text-center">
+	    				<button type="button" class="no-border center-block" title="Удалить пользователя" ng-click="adminUsers.removeUser(user)">
+	    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+	    				</button>
 	    			</td>
 	    		</tr>
     		</tbody>
@@ -72,6 +66,7 @@
 			items-per-page="adminUsers.pagination.pageSize" total-items="adminUsers.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminUsers.pagination.currentPage" ng-change="adminUsers.changePage()"></ul>
 		</div>
     </div>
+
     <script type="text/ng-template" id="changeRole.html">
 	    <div class="rolePopover">
 	    	<div class="radio">
@@ -86,6 +81,68 @@
 	          		Администратор
 	    		</label>
 			</div>
+		</div>
+    </script>
+
+    <script type="text/ng-template" id="userProfile.html">
+    	<div class="row">
+    		<div class="col-xs-12 close-icon">
+    			<span class="pull-right" ng-click="modal.close()">
+    				<i class="fa fa-times fa-lg" aria-hidden="true"></i>
+    			</span>
+    		</div>
+    	</div>
+    	<div class="modal-profile">
+	    	<form class="form-horizontal smooth-change" role="form">
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Имя:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.name}}</p>
+			    	</div>
+			    	<label class="col-sm-2 control-label">Email:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.email}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Фамилия:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.surname}}</p>
+			    	</div>
+			    	<label class="col-sm-2 control-label">Телефон:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.tel}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Страна:</label>
+			    	<div class="col-sm-4">
+			      		<p class="form-control-static">{{modal.user.country}}</p>
+			    	</div>
+			    	<label class="col-sm-2 control-label">Почт. индекс:</label>
+			    	<div class="col-sm-4">
+			    		<p class="form-control-static">{{modal.user.postIndex}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Область:</label>
+			    	<div class="col-sm-10">
+			    		<p class="form-control-static">{{modal.user.region}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Город:</label>
+			    	<div class="col-sm-10">
+			    		<p class="form-control-static">{{modal.user.locality}}</p>
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label class="col-sm-2 control-label">Адрес:</label>
+			    	<div class="col-sm-10">
+			      		<p class="form-control-static">{{modal.user.address}}</p>
+			    	</div>
+			  	</div>
+			</form>
 		</div>
     </script>
 </div>

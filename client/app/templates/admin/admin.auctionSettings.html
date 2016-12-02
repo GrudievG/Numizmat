@@ -5,175 +5,182 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-5">
+		<div class="col-md-8 col-md-offset-2">
 			<div class="alert alert-warning" ng-if="!settings.edit">
-				<p>Онлайн-торги уже начались. Изменение настроек невозможно.</p>
+				<p class="text-center">Онлайн-торги уже начались. Изменение настроек невозможно.</p>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">
-			<h4>Время торгов по каждому лоту:</h4>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.timeToTradeLot" ng-change="settings.check('tradingLot')">
-		</div>
-		<div class="col-md-6" ng-if="settings.edit">
-			<label class="radio-inline">
-		        <input type="radio" name="time-options" value="hour" ng-model="settings.timeCount"  ng-change="settings.check('tradingLot')"> часов
-		    </label>
-			<label class="radio-inline">
-		        <input type="radio" name="time-options" value="minute" ng-model="settings.timeCount" ng-change="settings.check('tradingLot')"> минут
-		    </label>
-		    <label class="radio-inline">
-		        <input type="radio" name="time-options" value="second" ng-model="settings.timeCount" ng-change="settings.check('tradingLot')"> секунд
-		    </label>
-		</div>
-		<div class="col-md-2" ng-if="!settings.edit">
-			<span>{{settings.timeToTradeLot}}</span>
-			<span ng-if="settings.timeCount == 'hour'">часов</span>
-			<span ng-if="settings.timeCount == 'minute'">минут</span>
-			<span ng-if="settings.timeCount == 'second'">секунд</span>
+		<div class="col-md-8 col-md-offset-2">
+			<div class="card-container">
+				<div class="row" style="padding-top: 5px; padding-bottom: 5px;">		
+					<div class="col-md-6">
+						<h4 class="pull-right" style="margin-top: 5px;">Время торгов по каждому лоту:</h4>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.timeToTradeLot" ng-change="settings.check('tradingLot')">
+					</div>
+					<div class="col-md-4" ng-if="settings.edit" style="padding-top: 5px;">
+						<label class="radio-inline">
+					        <input type="radio" name="time-options" value="hour" ng-model="settings.timeCount"  ng-change="settings.check('tradingLot')"> часов
+					    </label>
+						<label class="radio-inline">
+					        <input type="radio" name="time-options" value="minute" ng-model="settings.timeCount" ng-change="settings.check('tradingLot')"> минут
+					    </label>
+					    <label class="radio-inline">
+					        <input type="radio" name="time-options" value="second" ng-model="settings.timeCount" ng-change="settings.check('tradingLot')"> секунд
+					    </label>
+					</div>
+					<div class="col-md-4" ng-if="!settings.edit" style="padding-top: 6px; font-weight: bold; font-size: 16px;">
+						<span>{{settings.timeToTradeLot}}</span>
+						<span ng-if="settings.timeCount == 'hour'">часов</span>
+						<span ng-if="settings.timeCount == 'minute'">минут</span>
+						<span ng-if="settings.timeCount == 'second'">секунд</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6">
+						<h4 class="pull-right" style="margin-top: 5px;">Время продления торгов после последней ставки:</h4>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.timeToProlong" ng-change="settings.check('prolongTime')">
+					</div>
+					<div class="col-md-4" ng-if="settings.edit" style="padding-top: 5px;">
+						<label class="radio-inline">
+					        <input type="radio" name="time-options2" value="hour" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> часов
+					    </label>
+						<label class="radio-inline">
+					        <input type="radio" name="time-options2" value="minute" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> минут
+					    </label>
+					    <label class="radio-inline">
+					        <input type="radio" name="time-options2" value="second" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> секунд
+					    </label>
+					</div>
+					<div class="col-md-4" ng-if="!settings.edit" style="padding-top: 6px; font-weight: bold; font-size: 16px;">
+						<span>{{settings.timeToProlong}}</span>
+						<span ng-if="settings.prolongCount == 'hour'">часов</span>
+						<span ng-if="settings.prolongCount == 'minute'">минут</span>
+						<span ng-if="settings.prolongCount == 'second'">секунд</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6">
+						<h4 class="pull-right">Шаг ставки, грн:</h4>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 0 до 1000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromNull" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromNull}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 1000 до 2000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromOneMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromOneMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 2000 до 5000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTwoMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromTwoMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 5000 до 10000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromFiveMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromFiveMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 10000 до 20000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTenMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromTenMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 20000 до 50000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTwentyMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromTwentyMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 50000 до 100000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromFiftyMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromFiftyMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 100000 до 200000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromOneHundredMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromOneHundredMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 200000 до 500000</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTwoHundredMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromTwoHundredMile}}</span>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+					<div class="col-md-6" style="padding-top: 7px;">
+						<span class="pull-right">от 500000 и выше</span>
+					</div>
+					<div class="col-md-2" ng-if="settings.edit">
+						<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromFiveHundredMile" ng-change="settings.check('betSteps')">
+					</div>
+					<div class="col-md-1" ng-if="!settings.edit" style="padding-top: 7px;">
+						<span>{{settings.fromFiveHundredMile}}</span>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-3">
-			<h4>Время продления торгов после последней ставки:</h4>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.timeToProlong" ng-change="settings.check('prolongTime')">
-		</div>
-		<div class="col-md-4" ng-if="settings.edit">
-			<label class="radio-inline">
-		        <input type="radio" name="time-options2" value="hour" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> часов
-		    </label>
-			<label class="radio-inline">
-		        <input type="radio" name="time-options2" value="minute" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> минут
-		    </label>
-		    <label class="radio-inline">
-		        <input type="radio" name="time-options2" value="second" ng-model="settings.prolongCount" ng-change="settings.check('prolongTime')"> секунд
-		    </label>
-		</div>
-		<div class="col-md-2" ng-if="!settings.edit">
-			<span>{{settings.timeToProlong}}</span>
-			<span ng-if="settings.prolongCount == 'hour'">часов</span>
-			<span ng-if="settings.prolongCount == 'minute'">минут</span>
-			<span ng-if="settings.prolongCount == 'second'">секунд</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2">
-			<h4>Шаг ставки, грн:</h4>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 0 до 1000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromNull" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromNull}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 1000 до 2000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromOneMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromOneMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 2000 до 5000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTwoMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromTwoMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 5000 до 10000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromFiveMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromFiveMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 10000 до 20000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTenMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromTenMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 20000 до 50000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTwentyMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromTwentyMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 50000 до 100000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromFiftyMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromFiftyMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 100000 до 200000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromOneHundredMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromOneHundredMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 200000 до 500000</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromTwoHundredMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromTwoHundredMile}}</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-2 col-md-offset-1">
-			<span>от 500000 и выше</span>
-		</div>
-		<div class="col-md-1" ng-if="settings.edit">
-			<input type="number" pattern="^[ 0-9]+$" class="form-control" ng-model="settings.fromFiveHundredMile" ng-change="settings.check('betSteps')">
-		</div>
-		<div class="col-md-1" ng-if="!settings.edit">
-			<span>{{settings.fromFiveHundredMile}}</span>
-		</div>
-	</div>
+				
 </div>

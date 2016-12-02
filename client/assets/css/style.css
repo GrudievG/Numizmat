@@ -269,9 +269,6 @@ input[type="search"] {
   padding: 5px 20px 5px 20px;
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-  width: 100%;
-}
 /* line 3, sass/_signup.scss */
 .form-control:focus {
   border-color: #ccc;
@@ -826,6 +823,20 @@ input[type="search"] {
   }
 }
 
+/* line 80, sass/_product.scss */
+.prev-next {
+  cursor: pointer;
+  color: #065ca7;
+}
+/* line 84, sass/_product.scss */
+.prev-next .fa-chevron-left {
+  margin-right: 10px;
+}
+/* line 88, sass/_product.scss */
+.prev-next .fa-chevron-right {
+  margin-left: 10px;
+}
+
 /* line 3, sass/_basket.scss */
 .items-table td {
   vertical-align: middle !important;
@@ -1045,11 +1056,6 @@ input[type="checkbox"], input[type="radio"] {
   margin-top: 0;
 }
 
-/* line 53, sass/_adminUsers.scss */
-.order-done {
-  color: #03b303;
-}
-
 /* line 1, sass/_adminAttrs.scss */
 .valueList {
   margin-top: 20px;
@@ -1072,16 +1078,14 @@ input[type="checkbox"], input[type="radio"] {
 
 /* line 2, sass/_adminProducts.scss */
 .prod-preview img, .prod-preview .drag-area .picture-preview, .drag-area .prod-preview .picture-preview, .prod-preview .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .prod-preview .picture-preview, .prod-preview .drag-area .no-picture, .drag-area .prod-preview .no-picture, .prod-preview .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .prod-preview .no-picture {
-  float: left;
-  width: 140px;
   height: 70px;
 }
 
-/* line 11, sass/_adminProducts.scss */
+/* line 9, sass/_adminProducts.scss */
 .prodList td {
   vertical-align: middle !important;
 }
-/* line 15, sass/_adminProducts.scss */
+/* line 13, sass/_adminProducts.scss */
 .prodList .prodName {
   display: inline-block;
   margin-left: 50px;

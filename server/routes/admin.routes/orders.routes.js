@@ -12,14 +12,26 @@ module.exports = function(express) {
         })
     })
 
+    apiRouter.get('/getArchiveOrders', function(req, res) {
+        Order.find({status: 'done'}, function(err, orders) {
+            res.json(orders)
+        })
+    })
+
     apiRouter.post('/getCustomers', function(req, res) {
         var users = []
         req.body.forEach(function(item) {
-            users.push(function(callback) {
-                User.findById(item, function(err, user) {
-                    callback(null, user.email)
+            if(item == 0) {
+                users.push(function(callback) {
+                    callback(null, 0)
                 })
-            })
+            } else {
+                users.push(function(callback) {
+                    User.findById(item, function(err, user) {
+                        callback(null, user.email)
+                    })
+                })
+            }  
         })
         async.parallel(users, function(err, results) {
             res.json(results)
@@ -41,9 +53,22 @@ module.exports = function(express) {
         })
     })
 
-    apiRouter.get('/searchOrders/:query', function(req, res) {
+    apiRouter.get('/searchNewOrders/:query', function(req, res) {
         var query = new RegExp(req.params.query, 'i')
-        Order.find({orderNumber: query}, function(err, orders) {
+        Order.find({
+            orderNumber: query,
+            status: 'new'
+        }, function(err, orders) {
+            res.json(orders)
+        })
+    })
+
+     apiRouter.get('/searchArchiveOrders/:query', function(req, res) {
+        var query = new RegExp(req.params.query, 'i')
+        Order.find({
+            orderNumber: query,
+            status: 'done'
+        }, function(err, orders) {
             res.json(orders)
         })
     })

@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('OrdersController', ['$uibModal', '$http', function ($uibModal, $http) {
+		.controller('ArchiveOrdersController', ['$uibModal', '$http', function ($uibModal, $http) {
 			moment.locale('ru')
 			var vm = this;
 			var ordersWithId = [];
@@ -18,7 +18,7 @@
 				totalItems: 0
 			}
 
-			$http.get('/api/admin/getOrders').then(function(resolve) {
+			$http.get('/api/admin/getArchiveOrders').then(function(resolve) {
 				ordersWithId = resolve.data;
 				ordersWithEmail = angular.copy(ordersWithId);
 				reserveOrders = angular.copy(ordersWithId);
@@ -49,7 +49,7 @@
 				if(vm.query.length == 0)
 					showAll();
 				else {
-					$http.get('api/admin/searchNewOrders/'+ vm.query).then(function(resolve) {
+					$http.get('api/admin/searchArchiveOrders/'+ vm.query).then(function(resolve) {
 						ordersWithId = resolve.data;
 						ordersWithEmail = angular.copy(ordersWithId);
 						getUsers();
@@ -72,7 +72,7 @@
 				      	ariaLabelledBy: 'modal-title',
 				      	ariaDescribedBy: 'modal-body',
 				      	templateUrl: 'userProfile.html',
-				      	controller: 'OrderModalCtrl',
+				      	controller: 'ArchiveOrderModalCtrl',
 				      	controllerAs: 'modal',
 				      	resolve: {
 				        	user: function () {
@@ -88,7 +88,7 @@
 			      	ariaLabelledBy: 'modal-title',
 			      	ariaDescribedBy: 'modal-body',
 			      	templateUrl: 'order.html',
-			      	controller: 'ViewOrderModalCtrl',
+			      	controller: 'ArchiveViewOrderModalCtrl',
 			      	size: 'lg',
 			      	controllerAs: 'modal',
 			      	resolve: {
@@ -99,16 +99,9 @@
 			    });
 			}
 
-			vm.doneOrder = function(order) {
-				$http.get('/api/admin/changeOrderStatus/' + order._id).then(function(resolve) {
-					vm.orders.splice(vm.orders.indexOf(order), 1);
-					vm.changePage();
-				})
-			}
-
 		}]);
 
-		angular.module('numizmat').controller('OrderModalCtrl', ['$uibModalInstance', 'user',  function ($uibModalInstance, user) {
+		angular.module('numizmat').controller('ArchiveOrderModalCtrl', ['$uibModalInstance', 'user',  function ($uibModalInstance, user) {
 			var modal = this;
 
 			modal.user = user;
@@ -118,7 +111,7 @@
 			};		
 		}]);
 
-		angular.module('numizmat').controller('ViewOrderModalCtrl', ['$uibModalInstance', 'order',  function ($uibModalInstance, order) {
+		angular.module('numizmat').controller('ArchiveViewOrderModalCtrl', ['$uibModalInstance', 'order',  function ($uibModalInstance, order) {
 			var modal = this;
 
 			modal.order = order;

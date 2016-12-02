@@ -18,6 +18,10 @@ var LotSchema = new Schema({
     	name: {type:String},
     	meta: {type:String},
     	value: {type:String}
+    }],
+    history: [{
+    	customer: String,
+    	price: Number
     }]
 });
 

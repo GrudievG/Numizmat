@@ -21,6 +21,7 @@
 				currentPage:1,
 				filtered: []
 			}
+			vm.noveltyCount = undefined;
 
 			function rebuildProdlist () {
 				vm.availables = vm.allProducts.filter(function(el) {
@@ -56,6 +57,23 @@
 				rebuildProdlist();
 				vm.changePage();
 			})
+
+			$http.get('/api/getSettings').then(function(resolve) {
+				if(resolve.data.noveltyCount) 
+					vm.noveltyCount = resolve.data.noveltyCount
+				else
+					vm.noveltyCount = 1;
+			})
+
+			vm.changeNoveltyCount = function() {
+				if(vm.noveltyCount) {
+					vm.alert = false
+					$http.post('/api/admin/changeNoveltyCount', {
+						noveltyCount: vm.noveltyCount
+					}).then(function(resolve) {})
+				} else
+					vm.alert = true
+			}
 
 			vm.searchProds = function() {
 				if(vm.query.length == 0)

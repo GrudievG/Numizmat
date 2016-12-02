@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('ProfileController', ['$window', '$state', '$rootScope', '$timeout', '$http', function ($window, $state, $rootScope, $timeout, $http) {
+		.controller('ProfileController', ['$window', '$state', '$rootScope', '$timeout', '$http', 'Auth', function ($window, $state, $rootScope, $timeout, $http, Auth) {
 
 			var vm = this;
 
@@ -14,6 +14,15 @@
 			vm.changePassword = false;
 
 			vm.errorMessage = "";
+
+			vm.countries = [
+				"Украина",
+				"Финлянлия",
+				"Россия",
+				"Польша",
+				"Чехия",
+				"Австрия"
+			];
 
 			vm.user = {
 				email: "",
@@ -76,7 +85,22 @@
 					      	}, 2500);
 						} else {
 							$window.localStorage.setItem('user', vm.user.email);
-							$rootScope.$broadcast('changeEmail', {email: vm.user.email})
+							$rootScope.$broadcast('changeEmail', {email: vm.user.email});
+
+							var dataToRereshToken = {
+								accessToken: $window.localStorage.getItem('accessToken'),
+								user: vm.user.email
+							}
+							Auth.refreshToken(dataToRereshToken).then(function(resolve) {
+								if(resolve.data.success) {
+									$window.localStorage.setItem('accessToken', resolve.data.accessToken);
+									$rootScope.loggedIn = Auth.isLoggedIn();
+									
+								} else {
+									$rootScope.loggedIn = Auth.isLoggedIn();
+								}
+									
+							});
 							vm.formEdit = false;
 						}
 					});

@@ -49,6 +49,9 @@
 					    			</div>
 					    		</div>
 			    			</div>
+			    			<div class="col-sm-4 col-sm-offset-2">
+			    				<button class="addUser center-block" type="button" title="Добавить атрибут" style="margin-top: 0;" ng-click="adminCreateProd.addAttr()"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+			    			</div>
 		  				</div>
 		  				<div class="form-group">
 			    			<label class="col-sm-2 control-label">Категория</label>
@@ -109,4 +112,61 @@
 			</div>
 		</div>
     </div>
+
+    <script type="text/ng-template" id="attrModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Добавить атрибут</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <form>
+				<div class="form-group">
+					<label for="modalAttrName"> Название</label>
+					<input type="text" class="form-control" id="modalAttrName" placeholder="Имя атрибута" ng-model="modal.attribute.name">
+					<p><i>(показывается на сайте)</i></p>
+				</div>
+				<div class="form-group">
+					<label for="modalAttrObjField"> Мета-имя</label>
+					<input type="text" class="form-control" id="modalAttrObjField" placeholder="Служебное имя" maxlength="28" pattern="^[a-zA-Z]+$" ng-model="modal.attribute.meta">
+					<p><i>(Слово латинскими буквами без пробелов, не больше 28 символов. Будет служить для построения модели товара)</i></p>
+				</div>
+				<div class="form-group">
+					<label for="modalAttrType"> Тип</label>
+					<select class="form-control" id="modalAttrType" ng-model="modal.attribute.type">
+						<option value="Текст">Текст</option>
+						<option value="Выбор">Выбор</option>
+					</select>
+				</div>
+			</form>
+			<div class="row">
+				<div class="col-md-3" ng-if="modal.attribute.type == 'Выбор'">
+					<h4 style="padding-top: 15px;">Значения:</h4>
+				</div>
+				<div class="col-md-9" ng-if="modal.attribute.type == 'Выбор'">
+					<button uib-popover-template="'modalAddProp.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'" class="addUser" type="button" title="Добавить значение"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+				</div>
+				<div class="col-md-12" ng-if="modal.attribute.type == 'Выбор'">
+					<ul class="valueList">
+						<li ng-repeat="value in modal.attribute.values track by $index">{{value}}<i title="Удалить" class="fa fa-times pull-right" aria-hidden="true" ng-click="modal.removeValue(value)"></i></li>
+					</ul>
+				</div>
+				<div class=" col-md-12 error-message">
+					<div class="alert alert-danger toggle" ng-if="modal.alert">
+	                  	<span> <strong>Ошибка!</strong> {{modal.alert}}</span>
+	                </div>
+				</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" type="button" ng-click="modal.save()" ng-disabled="!modal.attribute.name || !modal.attribute.meta || !modal.attribute.type">Сохранить</button>
+            <button class="btn btn-danger" type="button" ng-click="modal.cancel()">Отмена</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="modalAddProp.html">
+    	<div class="rolePopover">
+    		<input type="text" class="form-control" placeholder="Название" ng-model="modal.inputValue">
+    		<button type="button" class="btn btn-primary propPlus center-block" ng-click="modal.appendValue()">Добавить</button>
+    	</div>
+    </script>
+
 </div>

@@ -13,9 +13,12 @@ module.exports = function(express) {
 
 	apiRouter.get('/getNewProds', function(req, res) {
         Product.find(function(err, products) {
-            products = products.slice(-3)
+            Settings.findOne({}, function(err, settings) {
+                var count = -(settings.noveltyCount)
+                products = products.slice(count)
 
-            res.json(products);
+                res.json(products);
+            })
         });
     })
 
@@ -32,7 +35,19 @@ module.exports = function(express) {
         Product.findById(req.params.product_id, function(err, product) {
             if (err)
                 res.send(err);
-            res.json(product);
+            Product.find({}, function(err, prods) {
+                var index = prods.findIndex(function(l) {
+                    return l._id == req.params.product_id;
+                });
+                var prev = (prods[index - 1])? prods[index - 1]._id : prods.pop()._id;
+                var next = (prods[index + 1])? prods[index + 1]._id : prods.shift()._id;
+
+                res.json({
+                    prev_id: prev,
+                    next_id: next,
+                    current: product
+                });
+            })
         });
     })
 
@@ -117,8 +132,21 @@ module.exports = function(express) {
         Lot.findById(req.params.lot_id, function(err, lot) {
             if (err)
                 res.send(err);
-            res.json(lot);
-        });
+
+            Lot.find({}, function(err, lots) {
+                var index = lots.findIndex(function(l) {
+                    return l._id == req.params.lot_id;
+                });
+                var prev = (lots[index - 1])? lots[index - 1]._id : lots.pop()._id;
+                var next = (lots[index + 1])? lots[index + 1]._id : lots.shift()._id;
+
+                res.json({
+                    prev_id: prev,
+                    next_id: next,
+                    current: lot
+                });
+            })
+        });     
     })
 
     apiRouter.post('/getFilteredLotsByCategory', function(req, res) {

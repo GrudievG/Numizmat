@@ -157,5 +157,11 @@ module.exports = function(express) {
         })
     })
 
+    apiRouter.get('/archiveAuctions', function(req, res) {
+        Auction.find({status: 'archived'}).populate('lots').exec(function( err, auctions) {
+            res.json(auctions)
+        })
+    })
+
     return apiRouter
 }

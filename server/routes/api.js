@@ -64,6 +64,10 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                 lot.bets++
                                 lot.customer = data.user_id;
                                 lot.price = data.price;
+                                lot.history.push({
+                                    customer: data.user_email,
+                                    price: data.price
+                                });
                                 lot.save(function(err) {
                                     callback(null, lot)
                                 })

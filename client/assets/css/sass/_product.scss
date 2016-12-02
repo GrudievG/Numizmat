@@ -76,3 +76,16 @@
 		font-size: 18px;
 	}
 }
+
+.prev-next {
+	cursor: pointer;
+	color: #065ca7;
+
+	.fa-chevron-left {
+		margin-right: 10px;
+	}
+
+	.fa-chevron-right {
+		margin-left: 10px;
+	}
+}

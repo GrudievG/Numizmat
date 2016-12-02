@@ -1,5 +1,6 @@
 
 var Product    = require('../../models/product');
+var Settings   = require('../../models/settings');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var config     = require('../../../config');
@@ -227,6 +228,17 @@ module.exports = function(express) {
             res.json({ message: 'Successfully deleted' });
         });
     });
+
+    apiRouter.post('/changeNoveltyCount', function(req, res) {
+        Settings.findOne({}, function(err, settings) {
+            settings.noveltyCount = req.body.noveltyCount;
+            settings.save(function(err) {
+                res.json({
+                    message: "Settings saved!"
+                })
+            })
+        })
+    })
 
     return apiRouter
 }

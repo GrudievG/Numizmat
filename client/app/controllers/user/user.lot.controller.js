@@ -17,6 +17,8 @@
 			vm.imgUrls = [];
 			vm.endToTrade = undefined;
 			vm.available = true;
+			vm.prevId = undefined;
+			vm.nextId = undefined;
 
 			if(!$rootScope.loggedIn) {
 				vm.errorMessage = "Только авторизованные пользователи могут делать ставки. Пожалуйста, авторизуйтесь."
@@ -33,11 +35,13 @@
 				deltaTime = settings.prolongTime;
 				return $http.get('api/lot/' + $stateParams.lot_id)
 			}).then(function(resolve) {
-				vm.lot = resolve.data;
+				vm.lot = resolve.data.current;
+				vm.prevId = resolve.data.prev_id;
+				vm.nextId = resolve.data.next_id;
 				if(vm.lot.customer == $window.localStorage.getItem('id')) {
 					vm.ownBet = true;
 				}
-				resolve.data.imgIds.forEach(function(el) {
+				resolve.data.current.imgIds.forEach(function(el) {
 					var url = "http://res.cloudinary.com/dsimmrwjb/image/upload/" + el + ".png"
 					vm.imgUrls.push(url)
 				});

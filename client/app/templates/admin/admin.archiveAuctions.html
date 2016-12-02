@@ -1,0 +1,53 @@
+
+<div class="container-fluid" ng-controller="ArchiveAuctionController as archive">
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Архив аукционов:</h2>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-md-12">
+			<uib-accordion close-others="archive.oneAtATime">
+				<div uib-accordion-group class="panel-default" ng-repeat="auction in archive.auctions">
+					<uib-accordion-heading>
+						<h3>{{auction.name}}</h3>
+						<h5><i>{{auction.date}}</i></h5>
+					</uib-accordion-heading>
+					<div class="table-responsive">
+						<table class="table table-hover prodList">
+				    		<thead>
+					    		<tr>
+					    			<td class="text-center"><strong>Товар</strong></td>
+					    			<td class="text-center"><strong>Кол-во ставок</strong></td>
+					    			<td class="text-center"><strong>Победитель</strong></td>
+					    			<td class="text-center"><strong>Итоговая цена</strong></td>
+					    		</tr>
+				    		</thead>
+				    		<tbody>
+				    			<tr ng-repeat="lot in auction.lots">
+					    			<td class="prod-preview">
+					    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
+					    				<div class="prodName">
+					    					<span><strong>"{{lot.name}}"</strong></span>
+					    				</div>
+					    			</td>
+					    			<td class="text-center">
+					    				<span>{{lot.bets}}</span>
+					    			</td>
+					    			<td class="text-center">
+					    				<span>{{lot.customer}}</span>
+					    			</td>
+					    			<td class="text-center">
+						    			<span>{{lot.price}} грн</span>
+					    			</td>
+					    		</tr>
+				    		</tbody>
+				    	</table>
+					</div>
+				</div>
+			</uib-accordion>
+		</div>
+	</div>
+</div>
+
+

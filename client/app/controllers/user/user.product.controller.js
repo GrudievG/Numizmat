@@ -12,14 +12,18 @@
 			vm.product = {};
 			vm.imgUrls = [];
 			vm.isInBasket = false;
+			vm.prevId = undefined;
+			vm.nextId = undefined;
 
 			if(!$rootScope.loggedIn) {
 				vm.errorMessage = "Только авторизованные пользователи могут добавлять товары в корзину. Пожалуйста, авторизуйтесь."
 			}
 
 			$http.get('api/product/' + $stateParams.product_id).then(function(resolve) {
-				vm.product = resolve.data;
-				resolve.data.imgIds.forEach(function(el) {
+				vm.product = resolve.data.current;
+				vm.prevId = resolve.data.prev_id;
+				vm.nextId = resolve.data.next_id;
+				resolve.data.current.imgIds.forEach(function(el) {
 					var url = "http://res.cloudinary.com/dsimmrwjb/image/upload/" + el + ".png"
 					vm.imgUrls.push(url)
 				});
