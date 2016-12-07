@@ -88,6 +88,7 @@
 			<div class="row" ng-show="$root.showAsBlocks">
 				<div class="col-xs-12 col-sm-6" ng-repeat="product in store.pagination.filtered">
 					<div class="product" ui-sref="product({ product_id: product._id })">
+						<img class="badge-sold" src="assets/img/sold.svg"" ng-if="!product.availability">
 						<h4 class="text-center">{{product.name}}</h4>
 						<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{product.imgIds[0]}}.png">
 						<div class="row">

@@ -1,18 +1,18 @@
 <div class="container-fluid" ng-controller="AdminProductsController as adminProds">
 
 	<div class="row">
-		<div class="col-md-1">
+		<div class="col-sm-4 col-md-2">
 			<h2>Товары:</h2>
 		</div>
-		<div class="col-md-1">
+		<div class="col-sm-2 col-md-1">
 			<button class="addUser" type="button" title="Добавить товар" ui-sref="admin.createProduct"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-sm-9 col-md-6 col-lg-4">
 			<h4>Количество отображаемых новинок:</h4>
 		</div>
-		<div class="col-md-1">
+		<div class="col-sm-3 col-md-2 col-lg-1">
 			<input type="number" min="1" class="form-control" ng-model="adminProds.noveltyCount" ng-change="adminProds.changeNoveltyCount()">
 		</div>
 		<div class="col-md-6" ng-if="adminProds.alert">
@@ -20,26 +20,28 @@
 		</div>
 	</div>
 	<div class="row users_controls">
-		<div class="col-md-2">
+		<div class="col-md-4 col-lg-3">
 			<input type="search" class="form-control" placeholder="Поиск по названию" ng-model="adminProds.query" ng-change="adminProds.searchProds()">
 		</div>
-		<div class="col-md-3">
-			<button class="btn btn-default pull-right" ng-if="adminProds.selectedProds.length > 0" uib-popover-template="'changeRole.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'focus'">Наличие</button>
-			<button class="btn btn-default pull-right" ng-if="adminProds.selectedProds.length > 0" ng-click="adminProds.deleteSelectedProds()">Удалить выбранные</button>
-		</div>
-		<div class="col-md-4" style="margin-top: 7px;">
+		<div class="col-md-8 col-lg-8 col-lg-offset-1" style="margin-top: 7px;">
 			<span ng-class="{'list-switch': adminProds.switcherAll == true}" ng-click="adminProds.switchArray('all')" ng-init="adminProds.switcherAll = true">Все ( {{adminProds.allProducts.length}} )</span>
 			<span class="margins">|</span>
 			<span ng-class="{'list-switch': adminProds.switcherAvailables == true}" ng-click="adminProds.switchArray('availables')">В наличии ( {{adminProds.availables.length}} )</span>
 			<span class="margins">|</span>
 			<span ng-class="{'list-switch': adminProds.switcherReserved == true}" ng-click="adminProds.switchArray('reserved')">Забронированные ( {{adminProds.reserved.length}} )</span>
 		</div>
-		<div class="col-md-3">
+	</div>
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-sm-6">
+			<button class="btn btn-default" ng-if="adminProds.selectedProds.length > 0" uib-popover-template="'changeRole.html'" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'focus'">Наличие</button>
+			<button class="btn btn-default" ng-if="adminProds.selectedProds.length > 0" ng-click="adminProds.deleteSelectedProds()">Удалить выбранные</button>
+		</div>
+		<div class="col-sm-6">
 			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			items-per-page="adminProds.pagination.pageSize" total-items="adminProds.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminProds.pagination.currentPage" ng-change="adminProds.changePage()"></ul>
 		</div>
 	</div>
-    <div class="card-container">
+    <div class="card-container" style="margin-top: 0px;">
     	<div class="table-responsive">
     		<table class="table table-hover prodList">
 	    		<thead>
@@ -47,7 +49,8 @@
 		    			<td>
 		    				<input type="checkbox" ng-model="adminProds.selectAll" ng-change="adminProds.changeVar()">
 		    			</td>
-		    			<td class="text-center"><strong>Товар</strong></td>
+		    			<td class="text-center"><strong>Фото</strong></td>
+		    			<td class="text-center"><strong>Название</strong></td>
 		    			<td class="text-center"><strong>Категория</strong></td>
 		    			<td class="text-center"><strong>Подкатегория</strong></td>
 		    			<td class="text-center"><strong>В наличии</strong></td>
@@ -61,10 +64,10 @@
 		    				<input type="checkbox" ng-model="product.selected" ng-click="adminProds.checkSelect(product)">
 		    			</td>
 		    			<td class="prod-preview">
-		    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{product.imgIds[0]}}.png">
-		    				<div class="prodName">
-		    					<span><strong>"{{product.name}}"</strong></span>
-		    				</div>
+		    				<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{product.imgIds[0]}}.png">
+		    			</td>
+		    			<td class="text-center">
+			    			<span><strong>{{product.name}}</strong></span>
 		    			</td>
 		    			<td class="text-center">
 			    			<span>{{product.category}}</span>
@@ -95,7 +98,7 @@
     	</div>	
     </div>
     <div class="row" style="margin-top: 20px;">
-    	<div class="col-md-4 col-md-offset-8">
+    	<div class="col-xs-12">
 			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			items-per-page="adminProds.pagination.pageSize" total-items="adminProds.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="adminProds.pagination.currentPage" ng-change="adminProds.changePage()"></ul>
 		</div>

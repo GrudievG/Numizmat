@@ -17,7 +17,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-md-5">
 				<div class="avatar" ng-click="product.openLightboxModal(0)">
-					<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,h_250,w_500/{{product.product.imgIds[0]}}.png">
+					<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,h_250/{{product.product.imgIds[0]}}.png">
 				</div>
 				<div class="img-list">
 					<div class="img-item" ng-click="product.openLightboxModal(1)">
@@ -42,7 +42,14 @@
 				<div class="basketMsg" data-toggle="tooltip" data-placement="bottom" title="Перейти в корзину" ng-if="product.isInBasket && !product.errorMessage">
 					<h4 ui-sref="basket">Этот товар находится в корзине</h4>
 				</div>
-				<button type="button && !product.errorMessage" class="btn btn-success btn-lg" ng-click="product.addToBasket()" ng-if="!product.isInBasket && !product.errorMessage"><i class="fa fa-cart-plus fa-lg" aria-hidden="true" style="margin-right: 10px;"></i>Добавить в корзину</button>
+				<button type="button" class="btn btn-success btn-lg" ng-click="product.addToBasket()" ng-if="!product.isInBasket && !product.errorMessage && product.product.availability"><i class="fa fa-cart-plus fa-lg" aria-hidden="true" style="margin-right: 10px;"></i>Добавить в корзину</button>
+				<div class="row" ng-if="!product.product.availability">
+					<div class="col-xs-12">
+						<div class="alert alert-danger text-center">
+                  			<span>Товар продан</span>
+                		</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-xs-12 error-message">
                 		<div class="alert alert-warning toggle" ng-if="product.errorMessage">

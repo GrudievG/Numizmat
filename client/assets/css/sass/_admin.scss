@@ -4,13 +4,18 @@
 	top: 0;
 	left: 0;
 	height: 100%;
-	width: 300px;
+	width: 250px;
+	font-size: 14px;
 	background-color: #1b273e;
 	color: #dacece;
 	box-shadow: 4px 0 14px 0 rgba(0,0,0,0.5); 
 
+	@media (min-width : 991px) and (max-width : 1199px) {
+		width: 250px;
+	}
+
 	.underline {
-		margin-top: 40px;
+		margin-top: 20px;
 		border-bottom: 1px solid lightgray;
 	}
 
@@ -28,19 +33,26 @@
 	}
 
 	.user_email {
-		margin-top: 30px;
+		margin-top: 20px;
+		font-size: 16px;
 	}
 
 	.edit_profile {
 		cursor: pointer;
 		color: #99d883;
+		font-size: 14px;
 	}
 
 	.menu_item {
-		margin-left: 40px;
+		margin-left: 30px;
 
 		h4 {
 			padding: 5px;
+			font-size: 16px;
+		}
+
+		ul {
+			margin-left: -20px;
 		}
 
 		li {
@@ -49,6 +61,10 @@
 			cursor: pointer;
 		}
 	}
+}
+
+.admin-content {
+	margin-left: 250px;
 }
 
 

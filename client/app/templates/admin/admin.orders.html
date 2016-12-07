@@ -1,57 +1,59 @@
 <div class="container-fluid" ng-controller="OrdersController as orders">
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-xs-12 col-sm-6">
 			<h2>Заказы:</h2>
 		</div>
 	</div>
 	<div class="row users_controls">
-		<div class="col-md-2">
-			<input type="search" class="form-control" placeholder="Поиск по номеру заказа" ng-model="orders.query" ng-change="orders.searchOrders()">
+		<div class="col-xs-12 col-md-4 col-lg-3">
+			<input type="search" class="form-control" placeholder="Поиск по номеру заказа" ng-model="orders.query" ng-change="orders.searchOrders()" style="margin-bottom: 20px;">
 		</div>
-		<div class="col-md-4 col-md-offset-6">
+		<div class="col-xs-12 col-md-8 col-lg-9">
 			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			items-per-page="orders.pagination.pageSize" total-items="orders.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="orders.pagination.currentPage" ng-change="orders.changePage()"></ul>
 		</div>
 	</div>
-    <div class="card-container">
-    	<table class="table table-hover userList">
-    		<thead>
-	    		<tr class="row">
-	    			<td class="col-xs-2 text-center"><strong>№ Заказа</strong></td>
-	    			<td class="col-xs-3 text-center"><strong>Пользователь</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Комментарий</strong></td>
-	    			<td class="col-xs-2 text-center"><strong>Действия</strong></td>
-	    		</tr>
-    		</thead>
-    		<tbody>
-    			<tr ng-repeat="order in orders.pagination.filtered" class="row">
-	    			<td class="col-xs-2 text-center">
-	    				<span><strong>{{order.orderNumber}}</strong></span>
-	    			</td>
-	    			<td class="col-xs-3 text-center">
-		    			<span class="text-primary">
-		    				<strong style="cursor: pointer" ng-click="orders.viewCustomer(order.customer)">{{order.customer}}</strong>
-		    			</span>
-	    			</td>
-	    			<td class="col-xs-5 text-center">
-		    			<span>{{order.comment}}</span>
-	    			</td>
-	    			<td class="col-xs-2 text-center">
-	    				<div class="inline-btns">
-		    				<button type="button" class="no-border" title="Просмотреть заказ" ng-click="orders.viewOrder(order)">
-		    					<i class="fa fa-eye fa-lg" aria-hidden="true"></i>
-		    				</button>
-		    				<button type="button" class="no-border" title="Отметить, как выполненный" ng-click="orders.doneOrder(order)" ng-class="{'order-done': order.status == 'done'}">
-		    					<i class="fa fa-check fa-lg" aria-hidden="true"></i>
-		    				</button>
-		    			</div>
-	    			</td>
-	    		</tr>
-    		</tbody>
-    	</table>
+    <div class="card-container" style="margin-top: 0">
+    	<div class="table-responsive">
+    		<table class="table table-hover userList">
+	    		<thead>
+		    		<tr class="row">
+		    			<td class="col-xs-2 text-center"><strong>№ Заказа</strong></td>
+		    			<td class="col-xs-3 text-center"><strong>Пользователь</strong></td>
+		    			<td class="col-xs-2 text-center"><strong>Комментарий</strong></td>
+		    			<td class="col-xs-2 text-center"><strong>Действия</strong></td>
+		    		</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr ng-repeat="order in orders.pagination.filtered" class="row">
+		    			<td class="col-xs-2 text-center">
+		    				<span><strong>{{order.orderNumber}}</strong></span>
+		    			</td>
+		    			<td class="col-xs-3 text-center">
+			    			<span class="text-primary">
+			    				<strong style="cursor: pointer" ng-click="orders.viewCustomer(order.customer)">{{order.customer}}</strong>
+			    			</span>
+		    			</td>
+		    			<td class="col-xs-5 text-center">
+			    			<span>{{order.comment}}</span>
+		    			</td>
+		    			<td class="col-xs-2 text-center">
+		    				<div class="inline-btns">
+			    				<button type="button" class="no-border" title="Просмотреть заказ" ng-click="orders.viewOrder(order)">
+			    					<i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+			    				</button>
+			    				<button type="button" class="no-border" title="Отметить, как выполненный" ng-click="orders.doneOrder(order)" ng-class="{'order-done': order.status == 'done'}">
+			    					<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+			    				</button>
+			    			</div>
+		    			</td>
+		    		</tr>
+	    		</tbody>
+	    	</table>
+    	</div>
     </div>
     <div class="row" style="margin-top: 20px;">
-    	<div class="col-md-4 col-md-offset-8">
+    	<div class="col-xs-12">
 			<ul uib-pagination previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			items-per-page="orders.pagination.pageSize" total-items="orders.pagination.totalItems" boundary-links="true" boundary-link-numbers="true" max-size="4" class="pagination pull-right" ng-model="orders.pagination.currentPage" ng-change="orders.changePage()"></ul>
 		</div>
@@ -67,50 +69,50 @@
     	<div class="modal-profile">
 	    	<form class="form-horizontal" role="form">
 			  	<div class="form-group">
-			    	<label class="col-sm-2 control-label">Имя:</label>
-			    	<div class="col-sm-4">
+			    	<label class="col-md-2 control-label">Имя:</label>
+			    	<div class="col-md-4">
 			      		<p class="form-control-static">{{modal.user.name}}</p>
 			    	</div>
-			    	<label class="col-sm-2 control-label">Email:</label>
-			    	<div class="col-sm-4">
+			    	<label class="col-md-2 control-label">Email:</label>
+			    	<div class="col-md-4">
 			      		<p class="form-control-static">{{modal.user.email}}</p>
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
-			    	<label class="col-sm-2 control-label">Фамилия:</label>
-			    	<div class="col-sm-4">
+			    	<label class="col-md-2 control-label">Фамилия:</label>
+			    	<div class="col-md-4">
 			      		<p class="form-control-static">{{modal.user.surname}}</p>
 			    	</div>
-			    	<label class="col-sm-2 control-label">Телефон:</label>
-			    	<div class="col-sm-4">
+			    	<label class="col-md-2 control-label">Телефон:</label>
+			    	<div class="col-md-4">
 			      		<p class="form-control-static">{{modal.user.tel}}</p>
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
-			    	<label class="col-sm-2 control-label">Страна:</label>
-			    	<div class="col-sm-4">
+			    	<label class="col-md-2 control-label">Страна:</label>
+			    	<div class="col-md-4">
 			      		<p class="form-control-static">{{modal.user.country}}</p>
 			    	</div>
-			    	<label class="col-sm-2 control-label">Почт. индекс:</label>
-			    	<div class="col-sm-4">
+			    	<label class="col-md-2 control-label">Почт. индекс:</label>
+			    	<div class="col-md-4">
 			    		<p class="form-control-static">{{modal.user.postIndex}}</p>
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
-			    	<label class="col-sm-2 control-label">Область:</label>
-			    	<div class="col-sm-10">
+			    	<label class="col-md-2 control-label">Область:</label>
+			    	<div class="col-md-10">
 			    		<p class="form-control-static">{{modal.user.region}}</p>
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
-			    	<label class="col-sm-2 control-label">Город:</label>
-			    	<div class="col-sm-10">
+			    	<label class="col-md-2 control-label">Город:</label>
+			    	<div class="col-md-10">
 			    		<p class="form-control-static">{{modal.user.locality}}</p>
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
-			    	<label class="col-sm-2 control-label">Адрес:</label>
-			    	<div class="col-sm-10">
+			    	<label class="col-md-2 control-label">Адрес:</label>
+			    	<div class="col-md-10">
 			      		<p class="form-control-static">{{modal.user.address}}</p>
 			    	</div>
 			  	</div>

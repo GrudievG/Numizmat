@@ -87,6 +87,16 @@
 						<div class="card-container">
 							<textarea class="form-control" rows="8" placeholder="Дополнительные пожелания" maxlength="720" ng-model="basket.orderComment"></textarea>
 						</div>
+						<div class="col-xs-12 toggle" ng-if="basket.soldItems" style="margin-top: 30px; margin-bottom: -30px;">
+							<div class="alert alert-danger text-center">
+								<span>
+									<strong>Невозможно оформить заказ!</strong>
+								</span>
+								<span>Товары: </span>
+								<span ng-repeat="prod in basket.soldItems track by $index">"{{prod}}" <span ng-if="basket.soldItems[$index+1]">, </span></span>
+								<span>уже проданы. Пожалуйста, удалите эти товары из корзины или дождитесь, пока они снова станут доступны.</span>
+							</div>
+						</div>
 						<div class="col-sm-6 hidden-xs">
 							<button class="btn btn-success btn-lg center-block confirm-order pull-right" ng-click="basket.createOrder()">Подтвердить заказ</button>
 						</div>

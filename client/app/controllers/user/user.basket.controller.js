@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('BasketController', ['$http', '$state', '$rootScope', '$timeout', '$window', 'Auth', function ($http, $state, $rootScope, $timeout, $window, Auth) {
+		.controller('BasketController', ['$http', '$state', '$rootScope', '$scope', '$timeout', '$window', 'socket', function ($http, $state, $rootScope, $scope, $timeout, $window, socket) {
 
 			var vm = this;
 				
@@ -25,6 +25,7 @@
 			vm.summary = 0;
 			vm.orderComment = "";
 			vm.confirmMsg = false;
+			vm.soldItems = undefined;
 
 			$http.get('api/basketProducts/' + $window.localStorage.getItem('id')).then(function(resolve) {
 				vm.products = resolve.data.basket;
@@ -81,6 +82,7 @@
 			}
 
 			vm.createOrder = function () {
+				var soldItems = angular.copy(vm.productsSelected)
 				var date = new Date();
 				var orderDate = String(date.getDate()) + String(date.getMonth()+1) + String(date.getFullYear());
 				var order = {
@@ -92,14 +94,42 @@
 				}
 				
 				$http.post("api/createOrder", order).then(function(resolve) {
-					vm.confirmMsg = true;
-					vm.orderComment = "";
-					vm.products = resolve.data.basket;
-					vm.orders = resolve.data.orders;
-					vm.selectAll = false;
-					vm.changeVar();
+					if (resolve.data.success) {
+						vm.confirmMsg = true;
+						vm.orderComment = "";
+						vm.products = resolve.data.basket;
+						vm.orders = resolve.data.orders;
+						vm.selectAll = false;
+						vm.changeVar();
+						socket.emit('buy monets', soldItems)
+					} else if(!resolve.data.success) {
+						$timeout(function() {
+							vm.soldItems = resolve.data.soldItems
+						}, 200)
+						$timeout(function() {
+							vm.soldItems = undefined;
+						}, 2500)
+					}
 				})
 			}
+
+			function changeAvailability (monets) {
+				monets.forEach(function(monet) {
+					vm.products = vm.products.map(function(item) {
+						if(item._id == monet._id) {
+							item.availability = false;
+							return item
+						} else 
+							return item
+					})
+				})
+			}
+
+			socket.on('change availability', changeAvailability)
+
+			$scope.$on('$destroy', function() {
+				socket.off('change availability', changeAvailability)
+			})
 
 		}]);
 

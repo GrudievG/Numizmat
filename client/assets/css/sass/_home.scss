@@ -29,3 +29,16 @@
 	}
 }
 
+.badge-new {
+	position: absolute;
+	top: -45px;
+	left: -20px;
+	width: 60px;
+	height: 60px;
+}
+
+.badge-sold {
+	@extend .badge-new;
+	left: -15px;
+}
+

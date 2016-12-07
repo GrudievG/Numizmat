@@ -382,6 +382,7 @@ input[type="search"] {
 
 /* line 1, sass/_store.scss */
 .lot, .product {
+  position: relative;
   border: 1px solid lightgray;
   background-color: #fff;
   border-radius: 4px;
@@ -397,7 +398,7 @@ input[type="search"] {
     height: 320px;
   }
 }
-/* line 17, sass/_store.scss */
+/* line 18, sass/_store.scss */
 .lot:hover, .product:hover {
   -webkit-box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 8px 8px 15px -2px rgba(0, 0, 0, 0.3);
@@ -410,137 +411,138 @@ input[type="search"] {
   -ms-transform: translateX(-1px) translateY(-1px);
   transform: translateX(-1px) translateY(-1px);
 }
-/* line 31, sass/_store.scss */
+/* line 32, sass/_store.scss */
 .lot img, .product img, .lot .drag-area .picture-preview, .drag-area .lot .picture-preview, .product .drag-area .picture-preview, .drag-area .product .picture-preview, .lot .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .lot .picture-preview, .product .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .product .picture-preview, .lot .drag-area .no-picture, .drag-area .lot .no-picture, .product .drag-area .no-picture, .drag-area .product .no-picture, .lot .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .lot .no-picture, .product .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .product .no-picture {
   margin-top: 25px;
   margin-bottom: 25px;
-  height: 150px;
+  max-height: 150px;
+  max-width: 100%;
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-  /* line 31, sass/_store.scss */
+  /* line 32, sass/_store.scss */
   .lot img, .product img, .lot .drag-area .picture-preview, .drag-area .lot .picture-preview, .product .drag-area .picture-preview, .drag-area .product .picture-preview, .lot .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .lot .picture-preview, .product .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .product .picture-preview, .lot .drag-area .no-picture, .drag-area .lot .no-picture, .product .drag-area .no-picture, .drag-area .product .no-picture, .lot .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .lot .no-picture, .product .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .product .no-picture {
-    height: 120px;
+    max-height: 120px;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  /* line 31, sass/_store.scss */
+  /* line 32, sass/_store.scss */
   .lot img, .product img, .lot .drag-area .picture-preview, .drag-area .lot .picture-preview, .product .drag-area .picture-preview, .drag-area .product .picture-preview, .lot .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .lot .picture-preview, .product .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .product .picture-preview, .lot .drag-area .no-picture, .drag-area .lot .no-picture, .product .drag-area .no-picture, .drag-area .product .no-picture, .lot .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .lot .no-picture, .product .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .product .no-picture {
-    height: 140px;
+    max-height: 140px;
   }
 }
 @media (max-width: 767px) {
-  /* line 31, sass/_store.scss */
+  /* line 32, sass/_store.scss */
   .lot img, .product img, .lot .drag-area .picture-preview, .drag-area .lot .picture-preview, .product .drag-area .picture-preview, .drag-area .product .picture-preview, .lot .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .lot .picture-preview, .product .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .product .picture-preview, .lot .drag-area .no-picture, .drag-area .lot .no-picture, .product .drag-area .no-picture, .drag-area .product .no-picture, .lot .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .lot .no-picture, .product .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .product .no-picture {
-    height: 120px;
+    max-height: 120px;
   }
 }
-/* line 49, sass/_store.scss */
+/* line 51, sass/_store.scss */
 .lot .product_caption, .product .product_caption {
   height: 45px;
 }
-/* line 53, sass/_store.scss */
+/* line 55, sass/_store.scss */
 .lot .product_description, .product .product_description {
   padding: 5px 25px 5px 25px;
   height: 90px;
 }
 @media (max-width: 767px) {
-  /* line 53, sass/_store.scss */
+  /* line 55, sass/_store.scss */
   .lot .product_description, .product .product_description {
     font-size: 13px !important;
   }
 }
-/* line 62, sass/_store.scss */
+/* line 64, sass/_store.scss */
 .lot .price, .product .price {
   color: green;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 68, sass/_store.scss */
+/* line 70, sass/_store.scss */
 .lot .detail-info, .product .detail-info {
   color: #275bec;
   font-size: 1.2em;
   margin-right: 20px;
 }
 
-/* line 75, sass/_store.scss */
+/* line 77, sass/_store.scss */
 .product {
   height: 270px;
 }
 @media (max-width: 1199px) {
-  /* line 75, sass/_store.scss */
+  /* line 77, sass/_store.scss */
   .product {
     height: 260px;
   }
 }
 
-/* line 84, sass/_store.scss */
+/* line 86, sass/_store.scss */
 .filters {
   margin-top: -20px;
 }
 
 @media (max-width: 767px) {
-  /* line 88, sass/_store.scss */
+  /* line 90, sass/_store.scss */
   .category-filter {
     font-size: 12px;
   }
 }
 
-/* line 96, sass/_store.scss */
+/* line 98, sass/_store.scss */
 .toggle-view {
   margin: 0 5px 0 5px;
   color: #76808e;
 }
 
-/* line 101, sass/_store.scss */
+/* line 103, sass/_store.scss */
 .active-tab {
   color: #211818;
 }
 
-/* line 106, sass/_store.scss */
+/* line 108, sass/_store.scss */
 .product-list tr {
   cursor: pointer;
 }
-/* line 110, sass/_store.scss */
+/* line 112, sass/_store.scss */
 .product-list td {
   vertical-align: middle !important;
 }
-/* line 114, sass/_store.scss */
+/* line 116, sass/_store.scss */
 .product-list .price {
   color: green;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 120, sass/_store.scss */
+/* line 122, sass/_store.scss */
 .product-list .detail-info {
   color: #275bec;
   font-size: 1.2em;
   margin-right: 20px;
 }
 
-/* line 127, sass/_store.scss */
+/* line 129, sass/_store.scss */
 .bets {
   padding: 0 0 10px 40px !important;
 }
-/* line 130, sass/_store.scss */
+/* line 132, sass/_store.scss */
 .bets span {
   font-size: 15px;
 }
-/* line 134, sass/_store.scss */
+/* line 136, sass/_store.scss */
 .bets .font-icon {
   margin-right: 10px;
 }
 
-/* line 139, sass/_store.scss */
+/* line 141, sass/_store.scss */
 .bets-as-list {
   padding-left: 15px !important;
 }
 
-/* line 144, sass/_store.scss */
+/* line 146, sass/_store.scss */
 .dropdown-submenu {
   position: relative;
 }
 
-/* line 148, sass/_store.scss */
+/* line 150, sass/_store.scss */
 .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
@@ -551,12 +553,12 @@ input[type="search"] {
   border-radius: 0 6px 6px 6px;
 }
 
-/* line 158, sass/_store.scss */
+/* line 160, sass/_store.scss */
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-/* line 162, sass/_store.scss */
+/* line 164, sass/_store.scss */
 .dropdown-submenu > a:after {
   display: block;
   content: " ";
@@ -571,17 +573,17 @@ input[type="search"] {
   margin-right: -10px;
 }
 
-/* line 176, sass/_store.scss */
+/* line 178, sass/_store.scss */
 .dropdown-submenu:hover > a:after {
   border-left-color: #fff;
 }
 
-/* line 180, sass/_store.scss */
+/* line 182, sass/_store.scss */
 .dropdown-submenu.pull-left {
   float: none;
 }
 
-/* line 184, sass/_store.scss */
+/* line 186, sass/_store.scss */
 .dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
@@ -666,8 +668,8 @@ input[type="search"] {
 }
 /* line 63, sass/_adminAddProduct.scss */
 .drag-area .picture-preview, .drag-area-gallery .drag-area-item .picture-preview {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   top: 0;
   left: 0;
 }
@@ -744,20 +746,20 @@ input[type="search"] {
   position: relative;
   border: 1px solid lightgray;
   width: 100%;
-  background-color: rgba(50, 50, 50, 0.15);
   margin-bottom: 30px;
   cursor: pointer;
 }
-/* line 9, sass/_product.scss */
+/* line 8, sass/_product.scss */
 .avatar:before, .img-list .img-item:before {
   content: "";
   display: block;
   padding-top: 50%;
 }
-/* line 15, sass/_product.scss */
+/* line 14, sass/_product.scss */
 .avatar img, .img-list .img-item img, .avatar .drag-area .picture-preview, .drag-area .avatar .picture-preview, .img-list .img-item .drag-area .picture-preview, .drag-area .img-list .img-item .picture-preview, .avatar .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .avatar .picture-preview, .img-list .img-item .drag-area-gallery .drag-area-item .picture-preview, .drag-area-gallery .drag-area-item .img-list .img-item .picture-preview, .avatar .drag-area .no-picture, .drag-area .avatar .no-picture, .img-list .img-item .drag-area .no-picture, .drag-area .img-list .img-item .no-picture, .avatar .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .avatar .no-picture, .img-list .img-item .drag-area-gallery .drag-area-item .no-picture, .drag-area-gallery .drag-area-item .img-list .img-item .no-picture {
   position: absolute;
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
   top: 0;
   left: 0;
 }
@@ -948,51 +950,70 @@ input[type="search"] {
   top: 0;
   left: 0;
   height: 100%;
-  width: 300px;
+  width: 250px;
+  font-size: 14px;
   background-color: #1b273e;
   color: #dacece;
   box-shadow: 4px 0 14px 0 rgba(0, 0, 0, 0.5);
 }
-/* line 12, sass/_admin.scss */
-.sidebar .underline {
-  margin-top: 40px;
-  border-bottom: 1px solid lightgray;
+@media (min-width: 991px) and (max-width: 1199px) {
+  /* line 1, sass/_admin.scss */
+  .sidebar {
+    width: 250px;
+  }
 }
 /* line 17, sass/_admin.scss */
+.sidebar .underline {
+  margin-top: 20px;
+  border-bottom: 1px solid lightgray;
+}
+/* line 22, sass/_admin.scss */
 .sidebar .logout-btn {
   margin: 20px 30px 0 30px;
   cursor: pointer;
 }
-/* line 21, sass/_admin.scss */
+/* line 26, sass/_admin.scss */
 .sidebar .logout-btn .come-back {
   color: #99d883;
 }
-/* line 25, sass/_admin.scss */
+/* line 30, sass/_admin.scss */
 .sidebar .logout-btn .fa-sign-out {
   margin-left: 5px;
 }
-/* line 30, sass/_admin.scss */
+/* line 35, sass/_admin.scss */
 .sidebar .user_email {
-  margin-top: 30px;
+  margin-top: 20px;
+  font-size: 16px;
 }
-/* line 34, sass/_admin.scss */
+/* line 40, sass/_admin.scss */
 .sidebar .edit_profile {
   cursor: pointer;
   color: #99d883;
-}
-/* line 39, sass/_admin.scss */
-.sidebar .menu_item {
-  margin-left: 40px;
-}
-/* line 42, sass/_admin.scss */
-.sidebar .menu_item h4 {
-  padding: 5px;
+  font-size: 14px;
 }
 /* line 46, sass/_admin.scss */
+.sidebar .menu_item {
+  margin-left: 30px;
+}
+/* line 49, sass/_admin.scss */
+.sidebar .menu_item h4 {
+  padding: 5px;
+  font-size: 16px;
+}
+/* line 54, sass/_admin.scss */
+.sidebar .menu_item ul {
+  margin-left: -20px;
+}
+/* line 58, sass/_admin.scss */
 .sidebar .menu_item li {
   list-style: none;
   padding: 5px;
   cursor: pointer;
+}
+
+/* line 66, sass/_admin.scss */
+.admin-content {
+  margin-left: 250px;
 }
 
 /* line 1, sass/_adminUsers.scss */
@@ -1023,35 +1044,34 @@ input[type="search"] {
 /* line 23, sass/_adminUsers.scss */
 .users_controls {
   margin-top: 20px;
-  margin-bottom: -20px;
 }
-/* line 27, sass/_adminUsers.scss */
+/* line 26, sass/_adminUsers.scss */
 .users_controls span:nth-child(odd) {
   cursor: pointer;
 }
 
-/* line 32, sass/_adminUsers.scss */
+/* line 31, sass/_adminUsers.scss */
 .inline-btns {
   display: inline-block;
 }
 
-/* line 36, sass/_adminUsers.scss */
+/* line 35, sass/_adminUsers.scss */
 .list-switch {
   color: #428bca;
   font-weight: bold;
 }
 
-/* line 41, sass/_adminUsers.scss */
+/* line 40, sass/_adminUsers.scss */
 .rolePopover {
   margin: 15px;
 }
 
-/* line 45, sass/_adminUsers.scss */
+/* line 44, sass/_adminUsers.scss */
 input[type="checkbox"], input[type="radio"] {
   cursor: pointer;
 }
 
-/* line 49, sass/_adminUsers.scss */
+/* line 48, sass/_adminUsers.scss */
 .pagination {
   margin-top: 0;
 }
@@ -1063,7 +1083,7 @@ input[type="checkbox"], input[type="radio"] {
 /* line 4, sass/_adminAttrs.scss */
 .valueList li {
   font-size: 16px;
-  padding: 5px 100px 5px 10px;
+  padding: 5px 10px 5px 10px;
 }
 /* line 8, sass/_adminAttrs.scss */
 .valueList li i {
@@ -1149,4 +1169,18 @@ input[type="checkbox"], input[type="radio"] {
 .auction-timer .timer-signature {
   font-size: 12px;
   color: gray;
+}
+
+/* line 32, sass/_home.scss */
+.badge-new, .badge-sold {
+  position: absolute;
+  top: -45px;
+  left: -20px;
+  width: 60px;
+  height: 60px;
+}
+
+/* line 40, sass/_home.scss */
+.badge-sold {
+  left: -15px;
 }

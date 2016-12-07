@@ -74,6 +74,7 @@
 				      	templateUrl: 'userProfile.html',
 				      	controller: 'OrderModalCtrl',
 				      	controllerAs: 'modal',
+				      	size: 'lg',
 				      	resolve: {
 				        	user: function () {
 				          		return user;

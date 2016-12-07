@@ -76,6 +76,29 @@
 			})
 		}
 
+		vm.editAttr = function (prop) {
+
+			var propCopy = angular.copy(prop);
+			var modalInstance = $uibModal.open({
+		      	ariaLabelledBy: 'modal-title',
+		      	ariaDescribedBy: 'modal-body',
+		      	templateUrl: 'editPropModal.html',
+		      	controller: 'EditPropModalCtrl',
+		      	controllerAs: 'modal',
+		      	resolve: {
+		        	prop: function () {
+		          		return prop;
+		        	}
+		      	}
+		    });
+
+		    modalInstance.result.then(function (selectedItem) {
+		    	vm.lot.props[vm.lot.props.indexOf(prop)] = selectedItem;
+		    }, function () {
+		    	vm.lot.props[vm.lot.props.indexOf(prop)] = propCopy;
+		    });
+		}
+
 		vm.addAttr = function () {
 
 			var modalInstance = $uibModal.open({

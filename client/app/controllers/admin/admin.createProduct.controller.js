@@ -58,6 +58,29 @@
 			})
 		}
 
+		vm.editAttr = function (prop) {
+
+			var propCopy = angular.copy(prop);
+			var modalInstance = $uibModal.open({
+		      	ariaLabelledBy: 'modal-title',
+		      	ariaDescribedBy: 'modal-body',
+		      	templateUrl: 'editPropModal.html',
+		      	controller: 'EditPropModalCtrl',
+		      	controllerAs: 'modal',
+		      	resolve: {
+		        	prop: function () {
+		          		return prop;
+		        	}
+		      	}
+		    });
+
+		    modalInstance.result.then(function (selectedItem) {
+		    	vm.product.props[vm.product.props.indexOf(prop)] = selectedItem;
+		    }, function () {
+		    	vm.product.props[vm.product.props.indexOf(prop)] = propCopy;
+		    });
+		}
+
 		vm.addAttr = function () {
 
 			var modalInstance = $uibModal.open({
@@ -147,6 +170,72 @@
 		modal.cancel = function () {
 		    $uibModalInstance.dismiss('cancel');
 		};		
+	}]);
+
+	angular.module('numizmat').controller('EditPropModalCtrl', ['$http', '$timeout', '$uibModalInstance', 'prop', function ($http, $timeout, $uibModalInstance, prop) {
+		var modal = this;
+		modal.attribute = prop;
+		modal.edit = false;
+		modal.validForm = true;
+
+		modal.appendValue = function () {
+			if(!modal.inputValue) return;
+			modal.attribute.values.push(modal.inputValue);
+			modal.inputValue = "";
+		}
+
+		modal.removeValue = function (value) {
+			modal.attribute.values.splice(modal.attribute.values.indexOf(value), 1)
+		}
+
+		modal.checkValid = function(value, index) {
+			if(value.length < 1)
+				modal.validForm = false;
+			else {
+				modal.attribute.values[index] = value;
+				modal.validForm = true;
+			}
+		}
+
+		modal.editSubcats = function() {
+			modal.edit = false;
+		}
+
+		modal.save = function() {
+
+				modal.attribute.meta = modal.attribute.meta.toLowerCase()
+				
+				if(modal.attribute.type == "Выбор" && modal.attribute.values.length < 1) {
+					$timeout(function() {
+				        modal.alert = "Добавьте хотя бы одно значение атрибута";
+				    }, 100);
+			      	$timeout(function() {
+			        	modal.alert = "";
+			      	}, 2500);
+			      	return
+				}
+
+				$http.put('/api/admin/updateAttr/', modal.attribute).then(function(resolve) {
+
+					if(!resolve.data.success) {
+						$timeout(function() {
+				        	modal.alert = resolve.data.message;
+					    }, 100);
+				      	$timeout(function() {
+				        	modal.alert = "";
+				      	}, 2500);
+				      	return
+					} else if (resolve.data.success) {
+						$uibModalInstance.close(modal.attribute);
+					}
+				})
+			}
+
+		modal.cancel = function () {
+		    $uibModalInstance.dismiss('cancel');
+		};
+
+
 	}]);
 
 })();

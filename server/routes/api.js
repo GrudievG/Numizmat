@@ -164,6 +164,11 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                 io.emit('settings changed', sets)
             })
         })
+
+        socket.on('buy monets', function(monets) {
+            console.log(monets)
+            io.emit('change availability', monets)
+        })
     })
 
     return apiRouter;

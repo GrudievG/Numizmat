@@ -122,6 +122,7 @@
 		      	templateUrl: 'userProfile.html',
 		      	controller: 'ProfileModalCtrl',
 		      	controllerAs: 'modal',
+		      	size: 'lg',
 		      	resolve: {
 		        	user: function () {
 		          		return user;
