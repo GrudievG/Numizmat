@@ -45,6 +45,7 @@ var io             = require('socket.io')(http);
 	var apiRoutes = require('./server/routes/api')(app, express, io);
 
 	app.use('/api', apiRoutes);
+	app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:1337/').set('prerenderToken', '4STbks8F2IoVuiCtR8bd'));
 
 	// route to handle all angular requests
 	app.get('*', function(req, res) {
