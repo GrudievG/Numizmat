@@ -1,4 +1,5 @@
 
+var User       = require('../../models/user');
 var Auction    = require('../../models/auction');
 var Lot        = require('../../models/lot');
 var Settings   = require('../../models/settings');
@@ -21,6 +22,20 @@ module.exports = function(express) {
             } else if (current.length == 0) {
                 res.json({
                     success: true
+                })
+            }
+        })
+    })
+
+    apiRouter.get('/isSuperAdmin/:id', function(req, res) {
+        User.findById(req.params.id, function(err, user) {
+            if(user.super) {
+                res.json({
+                    success: true
+                })
+            } else {
+                res.json({
+                    success: false
                 })
             }
         })

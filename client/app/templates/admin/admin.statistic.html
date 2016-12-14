@@ -9,7 +9,7 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
-			<button type="button" class="btn btn-danger btn-lg center-block" style="margin-top: -5px;" ng-click="statistic.changeStatus()">Отправить в архив</button>
+			<button type="button" class="btn btn-danger btn-lg center-block" ng-click="statistic.changeStatus()" ng-if="statistic.activeAuc && statistic.superAdmin">Отправить в архив</button>
 		</div>
 	</div>
 
@@ -85,6 +85,7 @@
 	        		<thead>
 			    		<tr>
 			    			<td><strong>Пользователь</strong></td>
+			    			<td><strong>Время ставки</strong></td>
 			    			<td class="text-center"><strong>Ставка</strong></td>
 			    		</tr>
 		    		</thead>
@@ -92,6 +93,9 @@
 		    			<tr ng-repeat="bet in modal.lot.history">
 			    			<td>
 			    				<span>{{bet.customer}}</span>
+			    			</td>
+			    			<td>
+			    				<span>{{bet.time}}</span>
 			    			</td>
 			    			<td class="text-center">
 				    			<span>{{bet.price}} грн</span>

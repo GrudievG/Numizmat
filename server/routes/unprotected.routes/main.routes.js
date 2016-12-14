@@ -133,7 +133,9 @@ module.exports = function(express) {
             if (err)
                 res.send(err);
 
-            Lot.find({}, function(err, lots) {
+            console.log(lot.auction)
+
+            Lot.find({auction: lot.auction}, function(err, lots) {
                 var index = lots.findIndex(function(l) {
                     return l._id == req.params.lot_id;
                 });

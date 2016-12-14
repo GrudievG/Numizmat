@@ -817,24 +817,30 @@ input[type="search"] {
   color: #275bec;
   cursor: pointer;
 }
+/* line 73, sass/_product.scss */
+.basketMsg h4 {
+  border: 1px solid #275bec;
+  border-radius: 10px;
+  padding: 10px;
+}
 
 @media (max-width: 767px) {
-  /* line 74, sass/_product.scss */
+  /* line 80, sass/_product.scss */
   .lot-price {
     font-size: 18px;
   }
 }
 
-/* line 80, sass/_product.scss */
+/* line 86, sass/_product.scss */
 .prev-next {
   cursor: pointer;
   color: #065ca7;
 }
-/* line 84, sass/_product.scss */
+/* line 90, sass/_product.scss */
 .prev-next .fa-chevron-left {
   margin-right: 10px;
 }
-/* line 88, sass/_product.scss */
+/* line 94, sass/_product.scss */
 .prev-next .fa-chevron-right {
   margin-left: 10px;
 }

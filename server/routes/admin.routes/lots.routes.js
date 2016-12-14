@@ -1,6 +1,7 @@
 
 
 var Auction    = require('../../models/auction');
+var Category   = require('../../models/category');
 var Lot        = require('../../models/lot');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
@@ -53,31 +54,82 @@ module.exports = function(express) {
                 lot.bets = 0;
                 lot.startTrading = req.body.startTrading;
                 lot.endTrading = req.body.endTrading;
-                lot.save(function(err) {   
-                    Lot.find({name: req.body.name}, function(err, lots) {
-                        var currentLot;
-                        lots.forEach(function(el) {
-                            if(currentAuc.lots.indexOf(el._id) == -1) {
-                                currentLot = el;
+
+                Lot.find({auction: currentAuc._id}, function(err, lots) {
+                    Category.find({}, function(err, cats) {
+                        var currentCategoryIndex = undefined;
+                        var currentSubcategoryIndex = undefined;
+                        var lotsCounter = 0;
+                        cats.forEach(function(item, index) {
+                            // console.log('lotsCounter as start dorEach: ', lotsCounter)
+                            // console.log('forEach indexes: ', index, item.subcats.indexOf(req.body.subcategory))
+                            if(item.name == req.body.category) {
+                                currentCategoryIndex = index;
+                                currentSubcategoryIndex = item.subcats.indexOf(req.body.subcategory);
                             }
+                            // console.log(currentCategoryIndex, currentSubcategoryIndex)
+                            if(currentCategoryIndex === undefined && currentSubcategoryIndex === undefined) {
+                                // console.log('!currentCategoryIndex && !currentSubcategoryIndex')
+                                var categoryLength = lots.filter(function(el) {
+                                    return el.category == item.name
+                                })
+                                lotsCounter = lotsCounter + categoryLength.length;
+                            } else if(currentCategoryIndex == index && currentSubcategoryIndex == item.subcats.indexOf(req.body.subcategory)) {
+                                // console.log('current indexes equals')
+                                for (var i = 0; i <= currentSubcategoryIndex; i++) {
+                                    // console.log('i=' + i + ' cicle for')
+                                    var subcategoryLength = lots.filter(function(el) {
+                                        return el.subcategory == item.subcats[i]
+                                    })
+                                    lotsCounter = lotsCounter + subcategoryLength.length
+                                    // console.log('lotsCounter: ', lotsCounter)
+                                } 
+                            }
+                        });
+                        // console.log('lotsCounter pered lot number: ', lotsCounter)
+                        lotsCounter = lotsCounter + 1; 
+                        lot.number = lotsCounter; 
+                        // console.log('lotsCounter posle lot number: ', lot.number)
+                        var recountLots = []
+                        var willBeRecount = lots.filter(function(el) {
+                            return el.number >= lotsCounter
                         })
-                        currentAuc.lots.push(currentLot)
-                        currentAuc.save(function(err) {
-                            res.json({ 
-                                success:true,
-                                message: 'Lot created!',
-                                auction: currentAuc
+                        willBeRecount.forEach(function(elem) {
+                            recountLots.push(function(callback) {
+                                Lot.findOne({number: lotsCounter}, function(err, recountLot) {
+                                    lotsCounter++; 
+                                    recountLot.number = lotsCounter;
+                                    callback(null, 'success')
+                                    recountLot.save(function(err) {})
+                                });
+                            })
+                        })
+                        async.series(recountLots, function(err, results) {
+                            lot.save(function(err) {  
+                                Lot.findOne({
+                                    name: req.body.name,
+                                    auction: currentAuc._id
+                                }, function(err, currentLot) {
+                                    currentAuc.lots.push(currentLot);
+                                    currentAuc.save(function(err) {
+                                        res.json({ 
+                                            success: true,
+                                            message: 'Lot created!',
+                                            auction: currentAuc
+                                        });
+                                    });
+                                });
+                                req.files.photos.forEach(function (el) { 
+                                    var path = el.path;
+                                    fs.unlink(path);
+                                });   
                             });
-                        })
-                    })
-                    req.files.photos.forEach(function (el) { 
-                        var path = el.path;
-                        fs.unlink(path)
-                    });   
-                });
+                        }); 
+                    });
+                })
             })     
-        })
-    })
+        })          
+    });
 
     apiRouter.post('/removeLot', function(req, res) {
         Lot.findByIdAndRemove(req.body.lot._id, function(err) {
@@ -98,10 +150,10 @@ module.exports = function(express) {
                 res.json({
                     success: true,
                     lots: auction.lots
-                })
-            })
-        })
-    })
+                });
+            });
+        });
+    });
 
     apiRouter.post('/updateLot', multipartMiddleware, function(req, res) {
         if (Object.keys(req.files).length == 0) {

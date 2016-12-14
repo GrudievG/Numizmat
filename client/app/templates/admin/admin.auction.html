@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" ng-if="adminAuction.currentAuction">
+	<div class="row" ng-if="adminAuction.currentAuction && adminAuction.superAdmin">
 		<div class="col-xs-12 text-center">
 			<button type="button" class="btn btn-success publish-btn btn-lg" ng-if="!adminAuction.publish" ng-click="adminAuction.changeStatus(true)">Опубликовать</button>
 			<button type="button" class="btn btn-danger publish-btn btn-lg" ng-if="adminAuction.publish" ng-click="adminAuction.changeStatus(false)">Скрыть публикацию</button>
@@ -36,7 +36,7 @@
 		<div class="col-xs-6 col-sm-3 col-md-2">
 			<h2>Лоты:</h2>
 		</div>
-		<div class="col-xs-6 col-sm-3">
+		<div class="col-xs-6 col-sm-3" ng-if="!adminAuction.publish">
 			<button class="addUser" type="button" title="Добавить лот" ui-sref="admin.createLot"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 		</div>
 	</div>
@@ -54,7 +54,8 @@
 			<table class="table table-hover prodList">
 	    		<thead>
 		    		<tr>
-		    			<td class="text-center"><strong>Товар</strong></td>
+		    			<td class="text-center"><strong>№</strong></td>
+		    			<td class="text-center"><strong>Лот</strong></td>
 		    			<td class="text-center"><strong>Категория</strong></td>
 		    			<td class="text-center"><strong>Подкатегория</strong></td>
 		    			<td class="text-center"><strong>Топ</strong></td>
@@ -63,7 +64,10 @@
 		    		</tr>
 	    		</thead>
 	    		<tbody>
-	    			<tr ng-repeat="lot in adminAuction.pagination.filtered">
+	    			<tr ng-repeat="lot in adminAuction.pagination.filtered | orderBy: 'number'">
+	    				<td class="text-center">
+		    				<span>{{lot.number}}</span>
+		    			</td>
 		    			<td class="prod-preview">
 		    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
 		    				<div class="prodName">
@@ -88,7 +92,7 @@
 			    				<button type="button" class="no-border" title="Редактировать лот" ui-sref="admin.editLot({ lot_id: lot._id })">
 			    					<i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
 			    				</button>
-			    				<button type="button" class="no-border" title="Удалить лот" ng-click="adminAuction.removeLot(lot)">
+			    				<button type="button" class="no-border" title="Удалить лот" ng-click="adminAuction.removeLot(lot)" ng-if="!adminAuction.publish">
 			    					<i class="fa fa-trash fa-lg" aria-hidden="true"></i>
 			    				</button>
 			    			</div>

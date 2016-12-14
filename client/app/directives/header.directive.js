@@ -11,8 +11,10 @@
 		    	templateUrl: '/app/directives/header.template.html',
 		    	scope: {},
 		    	link: function (scope, el, attr) {
-
-		    		scope.user = $window.localStorage.getItem('user');
+		    		if($window.localStorage.getItem('user')) {
+		    			var split = $window.localStorage.getItem('user').split('@')
+			    		scope.user = split[0];
+		    		}
 		    		scope.$on('changeEmail', function(event, data) {
 		    			scope.user = $window.localStorage.getItem('user');
 		    		});

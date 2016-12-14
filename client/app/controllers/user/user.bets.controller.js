@@ -13,6 +13,7 @@
 			vm.exist = false;
 			vm.activeAuc = false;
 			vm.bets = undefined;
+			vm.sum = 0;
 
 			$http.get('/api/getPublicAuction').then(function(resolve) {
 				if(resolve.data.success)
@@ -24,16 +25,17 @@
 					vm.exist = true;
 					bets = resolve.data;
 					bets.forEach(function(item) {
-						if (item.lot.customer == $window.localStorage.getItem('id'))
+						if (item.lot.customer == $window.localStorage.getItem('id')) {
 							item.leader = true;
-						else 
+							vm.sum += item.price
+						} else 
 							item.leader = false;
 						if(Number(item.lot.endTrading) > Date.now())
 							item.status = "Идут торги"
 						else
 							item.status = "Торги окончены"
 					})
-					vm.bets = bets
+					vm.bets = bets;
 				} else return					
 			})	
 

@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 
-	angular.module('numizmat').controller('StatisticController', ['$scope', '$http', '$rootScope', 'socket', '$uibModal', function ($scope, $http, $rootScope, socket, $uibModal) {
+	angular.module('numizmat').controller('StatisticController', ['$window', '$scope', '$http', '$rootScope', 'socket', '$uibModal', function ($window, $scope, $http, $rootScope, socket, $uibModal) {
 		moment.locale('ru')
 		var vm = this;
 		var reserveAuction = undefined;
@@ -11,6 +11,7 @@
 		vm.activeAuc = false;
 		vm.currentAuction = undefined;
 		vm.customers = [];
+		vm.superAdmin = false;
 		vm.pagination = {
 			pageSize: 10,
 			totalItems: undefined,
@@ -27,7 +28,11 @@
 					reserveAuction = angular.copy(auctionWithId);
 					getUsers()
 				}
-			}	
+			}
+			return $http.get('/api/admin/isSuperAdmin/' + $window.localStorage.getItem('id'))	
+		}).then(function(resolve) {
+			if(resolve.data.success)
+				vm.superAdmin = true;
 		})	
 
 		function getUsers () {

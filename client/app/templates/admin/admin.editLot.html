@@ -60,7 +60,7 @@
 					    			<div class="col-xs-8">
 					    				<input type="text" class="form-control" ng-if="prop.type == 'Текст'" ng-model="prop.currentValue">
 					      				<select class="form-control" ng-if="prop.type == 'Выбор'" ng-model="prop.currentValue">
-					      					<option ng-repeat="type in prop.values">{{type}}</option>
+					      					<option ng-repeat="type in prop.values | orderBy">{{type}}</option>
 					      				</select>
 					    			</div>
 					    		</div>

@@ -74,6 +74,10 @@
 		      		url: "/basket",
 		      		templateUrl: "/app/templates/user/user.basket.html"
 		    	})
+		    	.state('orders', {
+		      		url: "/my-orders",
+		      		templateUrl: "/app/templates/user/user.orders.html"
+		    	})
 		    	.state('admin', {
 		      		url: "/admin",
 		      		templateUrl: "/app/templates/admin/admin.html"

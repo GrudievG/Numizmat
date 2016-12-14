@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('AdminAuctionController', ['$http', '$uibModal', function ($http, $uibModal) {
+		.controller('AdminAuctionController', ['$window', '$http', '$uibModal', function ($window, $http, $uibModal) {
 			moment.locale('ru')
 			var vm = this;
 			var reserveCopy = undefined;
@@ -12,6 +12,7 @@
 
 			vm.showAddBtn = false;
 			vm.currentAuction = undefined;
+			vm.superAdmin = false;
 			vm.pagination = {
 				pageSize: 10,
 				totalItems: undefined,
@@ -41,6 +42,10 @@
 					reserveCopy = angular.copy(vm.currentAuction);
 					vm.changePage()
 				}
+				return $http.get('/api/admin/isSuperAdmin/' + $window.localStorage.getItem('id'))
+			}).then(function(resolve) {
+				if(resolve.data.success)
+					vm.superAdmin = true;
 			})	
 
 			$http.get('/api/getSettings').then(function(resolve) {

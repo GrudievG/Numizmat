@@ -1,7 +1,7 @@
 <div class="container" ng-controller="BetsController as bets">
 
 	<div class="row" ng-if="bets.activeAuc && bets.exist">
-		<div class="col-md-12 prods">
+		<div class="col-xs-12 prods">
 			<div class="card-container table-responsive" style="margin-bottom: 30px;">
 				<table class="table table-hover product-list">
 					<thead>
@@ -29,12 +29,15 @@
 								<span ng-if="!bet.leader"><strong>Нет</strong></span>
 							</td>
 							<td class="col-md-2 text-center">
-								<span class="price">{{bet.price}} грн</span>
+								<span style="font-size: 18px; font-weight: bold;" ng-class="{'price': bet.leader}">{{bet.price}} грн</span>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+		</div>
+		<div class="col-xs-12">
+			<h3 class="text-center">Сумма по выигравшим лотам: {{bets.sum}} грн</h3>
 		</div>
 	</div>
 	<div class="row" ng-if="bets.activeAuc && !bets.exist">

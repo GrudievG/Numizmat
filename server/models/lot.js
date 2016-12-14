@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var LotSchema = new Schema({
+	number: Number,
 	name: String,
 	main_description: String,
 	imgIds: Array,
@@ -21,7 +22,8 @@ var LotSchema = new Schema({
     }],
     history: [{
     	customer: String,
-    	price: Number
+    	price: Number,
+    	time: String
     }]
 });
 

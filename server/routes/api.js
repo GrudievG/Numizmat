@@ -61,12 +61,14 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                         }
                         async.parallel([function(callback) {
                             Lot.findById(data.lot._id, function(err, lot) {
+                                var split = data.user_email.split('@')
                                 lot.bets++
                                 lot.customer = data.user_id;
                                 lot.price = data.price;
                                 lot.history.push({
-                                    customer: data.user_email,
-                                    price: data.price
+                                    customer: split[0],
+                                    price: data.price,
+                                    time: data.time,
                                 });
                                 lot.save(function(err) {
                                     callback(null, lot)
@@ -166,7 +168,6 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
         })
 
         socket.on('buy monets', function(monets) {
-            console.log(monets)
             io.emit('change availability', monets)
         })
     })
