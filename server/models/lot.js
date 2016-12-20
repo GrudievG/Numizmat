@@ -24,7 +24,12 @@ var LotSchema = new Schema({
     	customer: String,
     	price: Number,
     	time: String
-    }]
+    }],
+    autobet:{
+    	customer_id: String,
+    	customer_email: String,
+    	price: Number
+    }
 });
 
 module.exports = mongoose.model('Lot', LotSchema);

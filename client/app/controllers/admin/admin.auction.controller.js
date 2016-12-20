@@ -130,17 +130,21 @@
 			}
 
 			vm.removeLot = function(lot) {
-				vm.currentAuction.lots.splice(vm.currentAuction.lots.indexOf(lot), 1);
-				vm.currentAuction.lots.forEach(function(el, i) {
-					el.startTrading = Number(auction.timeToStart) + (i * tradingLot);
-					el.endTrading = el.startTrading + tradingLot;
-				})
-				$http.post('/api/admin/removeLot', {
-					lot: lot,
-					lots: vm.currentAuction.lots
-				}).then(function(resolve) {
-					vm.changePage();
-				})
+				if (confirm("Вы уверены, что хотите удалить лот? Это приведёт к изменению нумерации остальных лотов")) {
+					vm.currentAuction.lots.splice(vm.currentAuction.lots.indexOf(lot), 1);
+					vm.currentAuction.lots.forEach(function(el, i) {
+						el.startTrading = Number(auction.timeToStart) + (i * tradingLot);
+						el.endTrading = el.startTrading + tradingLot;
+					})
+					$http.post('/api/admin/removeLot', {
+						lot: lot,
+						lots: vm.currentAuction.lots
+					}).then(function(resolve) {
+						vm.currentAuction.lots = resolve.data.lots;
+						reserveCopy.lots = resolve.data.lots;
+						vm.changePage();
+					})
+				}	
 			}
 
 		}]);

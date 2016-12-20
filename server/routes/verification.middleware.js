@@ -9,7 +9,7 @@ module.exports = function(express) {
 	var apiRouter = express.Router();
 
 	apiRouter.use(function(req, res, next) {
-        var token = req.body.accessToken || req.param('accessToken') || req.headers['x-access-token'];
+        var token = req.body.accessToken || req.params.accessToken || req.headers['x-access-token'];
         var email = req.headers['current-user']
 
         if (token) {

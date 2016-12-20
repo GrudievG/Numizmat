@@ -103,6 +103,9 @@
 			vm.doneOrder = function(order) {
 				$http.get('/api/admin/changeOrderStatus/' + order._id).then(function(resolve) {
 					vm.orders.splice(vm.orders.indexOf(order), 1);
+					reserveOrders = reserveOrders.filter(function(el) {
+						return el._id != order._id
+					})
 					vm.changePage();
 				})
 			}

@@ -845,6 +845,11 @@ input[type="search"] {
   margin-left: 10px;
 }
 
+/* line 99, sass/_product.scss */
+.auto-bet-popover {
+  padding: 20px;
+}
+
 /* line 3, sass/_basket.scss */
 .items-table td {
   vertical-align: middle !important;

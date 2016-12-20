@@ -6,7 +6,15 @@ module.exports = function(express) {
 
 	apiRouter.get('/getUserBets/:user_id', function(req, res) {
         User.findById(req.params.user_id).populate('bets.lot').exec(function(err, user) {
-            res.json(user.bets);
+            user.bets.forEach(function(bet) {
+                if (bet.lot == null) {
+                    user.bets.splice(user.bets.indexOf(bet), 1)
+                }
+            })
+            user.save(function(err, savedUser) {
+                res.json(savedUser.bets);
+            })
+            
         });
     })
      

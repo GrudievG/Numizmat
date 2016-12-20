@@ -69,10 +69,10 @@
 			    				<button class="addUser center-block" type="button" title="Добавить атрибут" style="margin-top: 0;" ng-click="adminEditLot.addAttr()"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 			    			</div>
 		  				</div>
-		  				<div class="form-group">
+		  				<div class="form-group" ng-if="!adminEditLot.published">
 			    			<label class="col-sm-2 control-label">Категория</label>
 			    			<div class="col-sm-4">
-			      				<select class="form-control" ng-model="adminEditLot.lot.category" ng-change="adminEditLot.getSubCat()">
+			      				<select class="form-control" ng-model="adminEditLot.lot.category" ng-change="adminEditLot.getSubCat(); adminEditLot.clearSubCatValue()">
 			      					<option ng-repeat="category in adminEditLot.categories">{{category.name}}</option>
 			      				</select>
 			    			</div>

@@ -46,10 +46,13 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                     } else {
                         var betExist = false;
                         user.bets.forEach(function(item) {
+                            if (item.lot == null) {
+                                user.bets.splice(user.bets.indexOf(item), 1)
+                                return
+                            }
                             if(item.lot._id == data.lot._id) {
                                 betExist = true;
                                 item.price = data.price;
-                                user.save(function(err) {})
                             }
                         })
                         if(!betExist) {
@@ -57,8 +60,9 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                 lot: data.lot,
                                 price:data.price
                             }) 
-                            user.save(function(err) {})
                         }
+                        user.save(function(err, savedUser) {})
+                        
                         async.parallel([function(callback) {
                             Lot.findById(data.lot._id, function(err, lot) {
                                 var split = data.user_email.split('@')

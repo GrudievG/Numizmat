@@ -88,7 +88,7 @@
 			<div class="row" ng-show="$root.showAsBlocks">
 				<div class="col-xs-12 col-sm-6" ng-repeat="product in auction.pagination.filtered">
 					<div class="lot" ui-sref="lot({ lot_id: product._id })">
-						<h4 class="text-center">{{product.name}}</h4>
+						<h4 class="text-center">Лот №{{product.number}} "{{product.name}}"</h4>
 						<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{product.imgIds[0]}}.png">	
 						<div class="row">
 							<div class="col-xs-12 bets">

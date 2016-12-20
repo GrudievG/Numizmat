@@ -20,6 +20,8 @@
 			vm.available = true;
 			vm.prevId = undefined;
 			vm.nextId = undefined;
+			vm.autobet = undefined;
+			vm.autobetTemplate = "autobetPopover.html"
 
 			if(!$rootScope.loggedIn) {
 				vm.errorMessage = "Только авторизованные пользователи могут делать ставки. Пожалуйста, авторизуйтесь."
@@ -37,6 +39,7 @@
 				return $http.get('api/lot/' + $stateParams.lot_id)
 			}).then(function(resolve) {
 				vm.lot = resolve.data.current;
+				console.log(vm.lot)
 				vm.prevId = resolve.data.prev_id;
 				vm.nextId = resolve.data.next_id;
 				if(vm.lot.customer == $window.localStorage.getItem('id')) {
@@ -48,6 +51,7 @@
 				});
 				checkBetStep();
 				checkTime();
+				vm.autobet = vm.lot.price + deltaBet;
 				if (Date.now() < Number(vm.lot.endTrading)) 
 					redirect = $interval(checkRedirect, 1000);
 			});
@@ -135,6 +139,34 @@
 			    });
 			}
 
+			vm.saveAutobet = function() {
+				console.log("deltaBet:", deltaBet)
+				console.log("vm.lot.autobets:", vm.lot.autobets)
+				var existCustomer = vm.lot.autobets.filter(function(el) {
+					return el.customer == $window.localStorage.getItem('id')
+				})
+				console.log("existCustomer:", existCustomer)
+				if (existCustomer.length == 0) {
+					vm.lot.autobets.push({
+						customer: $window.localStorage.getItem('id'),
+						price: vm.autobet
+					})
+				} else {
+					var arrIndex = vm.lot.autobets.findIndex(function(el) {
+						return el.customer == $window.localStorage.getItem('id')
+					})
+					vm.lot.autobets[arrIndex].price = vm.autobet
+					console.log("arrIndex: ", arrIndex)
+				}
+				console.log("vm.lot.autobets:", vm.lot.autobets)
+				console.log("vm.lot:", vm.lot)
+				// vm.lot.autobets.forEach(function(autobet) {
+				// 	if( (autobet.price - vm.lot.price) > deltaBet) {
+
+				// 	}
+				// })
+			}
+
 			function lotUpdate (data) {
 				if(data[0]._id != $stateParams.lot_id) {
 					return
@@ -147,17 +179,6 @@
 					checkBetStep();
 					$scope.$apply();
 				}
-			}
-
-			function recountingLot (data) {
-				data.forEach(function(lot) {
-					if(lot._id == $stateParams.lot_id) {
-						vm.lot.startTrading = lot.startTrading;
-						vm.lot.endTrading = lot.endTrading;
-						checkTime();
-						$scope.$apply();
-					}
-				})
 			}
 
 			function timeUpdate (data) {
@@ -174,6 +195,17 @@
 				$scope.$apply();
 			}
 
+			function recountingLot (data) {
+				data.forEach(function(lot) {
+					if(lot._id == $stateParams.lot_id) {
+						vm.lot.startTrading = lot.startTrading;
+						vm.lot.endTrading = lot.endTrading;
+						checkTime();
+						$scope.$apply();
+					}
+				})
+			}
+
 			function changeSets (data) {
 				settings = data;
 				deltaTime = settings.prolongTime;
@@ -182,14 +214,14 @@
 			}
 
 			socket.on('lot update', lotUpdate)
-			socket.on('recounting lots', recountingLot)
 			socket.on('trading time changed', timeUpdate)
+			socket.on('recounting lots', recountingLot)
 			socket.on('settings changed', changeSets)
 
 			$scope.$on('$destroy', function() {
 				socket.off('lot update', lotUpdate)
-				socket.off('recounting lots', recountingLot)
 				socket.off('trading time changed', timeUpdate)
+				socket.off('recounting lots', recountingLot)
 				socket.off('settings changed', changeSets)
 				$interval.cancel(interval)
 				$interval.cancel(redirect)

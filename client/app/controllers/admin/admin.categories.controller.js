@@ -75,7 +75,7 @@
 			}
 
 			vm.removeCat = function(item) {
-				$http.delete('/api/admin/removeCategory/'+item._id).then(function(resolve) {
+				$http.post('/api/admin/removeCategory/', item).then(function(resolve) {
 					vm.categories.splice(vm.categories.indexOf(item), 1)
 				})
 			}
@@ -85,6 +85,8 @@
 		angular.module('numizmat').controller('CategoryModalCtrl', ['$http', '$timeout', '$uibModalInstance', 'item',  function ($http, $timeout, $uibModalInstance, item) {
 			var modal = this;
 			modal.category = item;
+			var reserveCopy = angular.copy(item)
+
 			modal.edit = false;
 			modal.validForm = true;
 
@@ -112,7 +114,10 @@
 			}
 
 			modal.save = function() {
-				$http.put('/api/admin/updateCategory', modal.category).then(function(resolve) {
+				$http.put('/api/admin/updateCategory', {
+					oldcategory: reserveCopy,
+					newcategory: modal.category
+				}).then(function(resolve) {
 					if(!resolve.data.success) {
 						$timeout(function() {
 				        	modal.alert = resolve.data.message;

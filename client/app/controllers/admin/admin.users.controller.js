@@ -172,6 +172,7 @@
 				users.forEach(function(el) {
 					vm.allUsers.splice(vm.allUsers.indexOf(el), 1)
 				});
+				reserveUsers = angular.copy(vm.allUsers)
 				rebuildUserlist();
 				vm.arrayToShow.forEach(function(el) {
 					el.selected = false;
@@ -188,6 +189,7 @@
 			
 			$http.delete("/api/admin/removeUser/"+user._id).then(function(resolve) {
 				vm.allUsers.splice(vm.allUsers.indexOf(user), 1);
+				reserveUsers = angular.copy(vm.allUsers)
 				rebuildUserlist();
 				vm.changePage();
 			})

@@ -6,6 +6,7 @@
 		var vm = this;
 		var id = $stateParams.lot_id;
 		vm.processing = false;
+		vm.published = false;
 		vm.addProductSuccess = false;
 		vm.properties = []
 		vm.files = [];
@@ -17,6 +18,11 @@
 			photos: vm.files,
 			props:[]
 		}
+
+		$http.get('/api/admin/auctionIsExist').then(function(resolve) {
+			if (resolve.data.auction.status == 'published')
+				vm.published = true;
+		})
 
 		$http.get('/api/getAttributes').then(function(resolve) {
 			vm.lot.props = resolve.data;
@@ -31,6 +37,7 @@
 				})
 			})
 
+			vm.lot.auction = resolve.data.current.auction;
 			vm.lot.availability = resolve.data.current.availability;
 			vm.lot.name = resolve.data.current.name;
 			vm.lot.main_description = resolve.data.current.main_description;
@@ -62,6 +69,10 @@
 					vm.subcategories = el.subcats;
 				}
 			})
+		}
+
+		vm.clearSubCatValue = function () {
+			vm.lot.subcategory = undefined;
 		}
 
 		vm.removePhoto = function (index) {

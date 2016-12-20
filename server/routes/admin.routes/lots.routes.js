@@ -61,35 +61,26 @@ module.exports = function(express) {
                         var currentSubcategoryIndex = undefined;
                         var lotsCounter = 0;
                         cats.forEach(function(item, index) {
-                            // console.log('lotsCounter as start dorEach: ', lotsCounter)
-                            // console.log('forEach indexes: ', index, item.subcats.indexOf(req.body.subcategory))
                             if(item.name == req.body.category) {
                                 currentCategoryIndex = index;
                                 currentSubcategoryIndex = item.subcats.indexOf(req.body.subcategory);
                             }
-                            // console.log(currentCategoryIndex, currentSubcategoryIndex)
                             if(currentCategoryIndex === undefined && currentSubcategoryIndex === undefined) {
-                                // console.log('!currentCategoryIndex && !currentSubcategoryIndex')
                                 var categoryLength = lots.filter(function(el) {
                                     return el.category == item.name
                                 })
                                 lotsCounter = lotsCounter + categoryLength.length;
                             } else if(currentCategoryIndex == index && currentSubcategoryIndex == item.subcats.indexOf(req.body.subcategory)) {
-                                // console.log('current indexes equals')
                                 for (var i = 0; i <= currentSubcategoryIndex; i++) {
-                                    // console.log('i=' + i + ' cicle for')
                                     var subcategoryLength = lots.filter(function(el) {
                                         return el.subcategory == item.subcats[i]
                                     })
                                     lotsCounter = lotsCounter + subcategoryLength.length
-                                    // console.log('lotsCounter: ', lotsCounter)
                                 } 
                             }
                         });
-                        // console.log('lotsCounter pered lot number: ', lotsCounter)
                         lotsCounter = lotsCounter + 1; 
                         lot.number = lotsCounter; 
-                        // console.log('lotsCounter posle lot number: ', lot.number)
                         var recountLots = []
                         var willBeRecount = lots.filter(function(el) {
                             return el.number >= lotsCounter
@@ -105,18 +96,13 @@ module.exports = function(express) {
                             })
                         })
                         async.series(recountLots, function(err, results) {
-                            lot.save(function(err) {  
-                                Lot.findOne({
-                                    name: req.body.name,
-                                    auction: currentAuc._id
-                                }, function(err, currentLot) {
-                                    currentAuc.lots.push(currentLot);
-                                    currentAuc.save(function(err) {
-                                        res.json({ 
-                                            success: true,
-                                            message: 'Lot created!',
-                                            auction: currentAuc
-                                        });
+                            lot.save(function(err, currentLot) {  
+                                currentAuc.lots.push(currentLot);
+                                currentAuc.save(function(err) {
+                                    res.json({ 
+                                        success: true,
+                                        message: 'Lot created!',
+                                        auction: currentAuc
                                     });
                                 });
                                 req.files.photos.forEach(function (el) { 
@@ -137,22 +123,50 @@ module.exports = function(express) {
                 cloudinary.uploader.destroy(id, function(result) {})
             })
         })
-        req.body.lots.forEach(function(item) {
-            Lot.findById(item._id, function(err, lot) {
-                lot.startTrading = item.startTrading;
-                lot.endTrading = item.endTrading;
-                lot.save(function(err){})
-            })
-        })
         Auction.findById(req.body.lot.auction, function(err, auction) {
             auction.lots.splice(auction.lots.indexOf(req.body.lot._id), 1)
-            auction.save(function(err) {
-                res.json({
-                    success: true,
-                    lots: auction.lots
-                });
-            });
+            auction.save(function(err) {});
         });
+        var recountTradeTime = []
+        req.body.lots.forEach(function(item) {
+            recountTradeTime.push(function(callback) {
+                Lot.findById(item._id, function(err, lot) {
+                    lot.startTrading = item.startTrading;
+                    lot.endTrading = item.endTrading;
+                    lot.save(function(err){
+                        callback(null, 'success')
+                    })
+                })
+            })    
+        })
+        async.parallel(recountTradeTime, function(err, results) {
+            Lot.find({auction: req.body.lot.auction}, function(err, lots) {
+                var lotsCounter = req.body.lot.number+1;
+                var recountLots = [];
+                var lotsToRecount = lots.filter(function(el) {
+                    return el.number >= lotsCounter
+                })
+                lotsToRecount.forEach(function(elem) {
+                    recountLots.push(function(callback) {
+                        Lot.findOne({number: lotsCounter}, function(err, recountLot) {
+                            recountLot.number = lotsCounter-1;
+                            lotsCounter++;
+                            recountLot.save(function(err) {
+                                callback(null, 'success');
+                            })
+                        });
+                    })
+                })
+                async.series(recountLots, function(err, results) {
+                    Auction.findById(req.body.lot.auction).populate('lots').exec(function(err, curAuction) {
+                        res.json({
+                            success: true,
+                            lots: curAuction.lots
+                        });
+                    });       
+                }); 
+            })
+        })  
     });
 
     apiRouter.post('/updateLot', multipartMiddleware, function(req, res) {
@@ -167,14 +181,12 @@ module.exports = function(express) {
                 })
                 var props = [];
                 lot.top = req.body.top;
-                lot.category = req.body.category;
-                lot.subcategory = req.body.subcategory;
                 lot.name = req.body.name;
                 lot.main_description = req.body.main_description;
                 lot.availability = req.body.availability;
                 lot.price = req.body.price;
                 lot.imgIds = req.body.imgIds;
-                req.body.props.forEach(function(el){
+                req.body.props.forEach(function(el) {
                     props.push({
                         name: el.name,
                         meta: el.meta,
@@ -182,20 +194,82 @@ module.exports = function(express) {
                     });
                 });
                 lot.props = props;
-                lot.save(function(err) {
-                    if (err) {
-                        res.send(err);
-                    }
+                if(lot.category != req.body.category || lot.subcategory != req.body.subcategory) {
+                    lot.category = req.body.category;
+                    lot.subcategory = req.body.subcategory;
+                    Lot.find({auction: req.body.auction}, function(err, lots) {
+                        var recountLots = [];
+                        lots.forEach(function(elem) {
+                            recountLots.push(function(callback) {
+                                Lot.findById(elem._id, function(err, recountLot) {
+                                    if(recountLot.number > lot.number) {
+                                        recountLot.number = recountLot.number-1;
+                                        recountLot.save(function(err, newLot) {
+                                            callback(null, newLot);
+                                        });
+                                    } else {
+                                        callback(null, recountLot);
+                                    } 
+                                        
+                                });
+                            });
+                        });
 
-                    res.json({ 
-                        success:true,
-                        message: 'Lot updated!' 
-                    });
-                });     
+                        async.series(recountLots, function(err, newlots) {
+                            Category.find({}, function(err, cats) {
+                                var currentCategoryIndex = undefined;
+                                var currentSubcategoryIndex = undefined;
+                                var lotsCounter = 0;
+                                cats.forEach(function(item, index) {
+                                    if(item.name == req.body.category) {
+                                        currentCategoryIndex = index;
+                                        currentSubcategoryIndex = item.subcats.indexOf(req.body.subcategory);
+                                    }
+                                    if(currentCategoryIndex === undefined && currentSubcategoryIndex === undefined) {
+                                        var categoryLength = newlots.filter(function(el) {
+                                            return el.category == item.name && el._id != req.body.id
+                                        })
+                                        lotsCounter = lotsCounter + categoryLength.length;
+                                    } else if(currentCategoryIndex === index && currentSubcategoryIndex === item.subcats.indexOf(req.body.subcategory)) {
+                                        for (var i = 0; i <= currentSubcategoryIndex; i++) {
+                                            var subcategoryLength = newlots.filter(function(el) {
+                                                return el.subcategory == item.subcats[i] && el._id != req.body.id
+                                            })
+                                            lotsCounter = lotsCounter + subcategoryLength.length;
+                                        } 
+                                    }
+                                });
+                                lotsCounter = lotsCounter + 1; 
+                                lot.number = lotsCounter; 
+                                recountLots = [];
+                                var willBeRecount = newlots.filter(function(el) {
+                                    return el.number >= lotsCounter && el._id != req.body.id
+                                })
+                                willBeRecount.forEach(function(elem) {
+                                    recountLots.push(function(callback) {
+                                        Lot.findById(elem._id, function(err, recountLot) {
+                                            recountLot.number = recountLot.number + 1;
+                                            recountLot.save(function(err) {
+                                                callback(null, 'success')
+                                            })
+                                        });
+                                    })
+                                })
+                                async.series(recountLots, function(err, results) {
+                                    lot.save(function(err, currentLot) {  
+                                        res.json({ 
+                                            success: true,
+                                            message: 'Lot updated!'
+                                        });  
+                                    });
+                                }); 
+                            });
+                        });
+                    }); 
+                }  
             })
 
         } else {
-
             Lot.findById(req.body.id, function(err, lot) {
                 var newIds = [];
                 var imgToUpload = [];
@@ -233,8 +307,6 @@ module.exports = function(express) {
                         }
                     })
                     lot.top = req.body.top;
-                    lot.category = req.body.category;
-                    lot.subcategory = req.body.subcategory;
                     lot.name = req.body.name;
                     lot.main_description = req.body.main_description;
                     lot.availability = req.body.availability;
@@ -248,19 +320,83 @@ module.exports = function(express) {
                         });
                     });
                     lot.props = props;
-                    lot.save(function(err) {
-                        if (err) {
-                            res.send(err);
-                        }
-                        req.files.photos.forEach(function (el) { 
-                            var path = el.path;
-                            fs.unlink(path)
-                        });
-                        res.json({ 
-                            success:true,
-                            message: 'Lot updated!' 
-                        });
-                    });
+                    if(lot.category != req.body.category || lot.subcategory != req.body.subcategory) {
+                        lot.category = req.body.category;
+                        lot.subcategory = req.body.subcategory;
+                        Lot.find({auction: req.body.auction}, function(err, lots) {
+                            var recountLots = [];
+                            lots.forEach(function(elem) {
+                                recountLots.push(function(callback) {
+                                    Lot.findById(elem._id, function(err, recountLot) {
+                                        if(recountLot.number > lot.number) {
+                                            recountLot.number = recountLot.number-1;
+                                            recountLot.save(function(err, newLot) {
+                                                callback(null, newLot);
+                                            });
+                                        } else {
+                                            callback(null, recountLot);
+                                        } 
+                                            
+                                    });
+                                });
+                            });
+
+                            async.series(recountLots, function(err, newlots) {
+                                Category.find({}, function(err, cats) {
+                                    var currentCategoryIndex = undefined;
+                                    var currentSubcategoryIndex = undefined;
+                                    var lotsCounter = 0;
+                                    cats.forEach(function(item, index) {
+                                        if(item.name == req.body.category) {
+                                            currentCategoryIndex = index;
+                                            currentSubcategoryIndex = item.subcats.indexOf(req.body.subcategory);
+                                        }
+                                        if(currentCategoryIndex === undefined && currentSubcategoryIndex === undefined) {
+                                            var categoryLength = newlots.filter(function(el) {
+                                                return el.category == item.name && el._id != req.body.id
+                                            })
+                                            lotsCounter = lotsCounter + categoryLength.length;
+                                        } else if(currentCategoryIndex === index && currentSubcategoryIndex === item.subcats.indexOf(req.body.subcategory)) {
+                                            for (var i = 0; i <= currentSubcategoryIndex; i++) {
+                                                var subcategoryLength = newlots.filter(function(el) {
+                                                    return el.subcategory == item.subcats[i] && el._id != req.body.id
+                                                })
+                                                lotsCounter = lotsCounter + subcategoryLength.length;
+                                            } 
+                                        }
+                                    });
+                                    lotsCounter = lotsCounter + 1; 
+                                    lot.number = lotsCounter; 
+                                    recountLots = [];
+                                    var willBeRecount = newlots.filter(function(el) {
+                                        return el.number >= lotsCounter && el._id != req.body.id
+                                    })
+                                    willBeRecount.forEach(function(elem) {
+                                        recountLots.push(function(callback) {
+                                            Lot.findById(elem._id, function(err, recountLot) {
+                                                recountLot.number = recountLot.number + 1;
+                                                recountLot.save(function(err) {
+                                                    callback(null, 'success')
+                                                })
+                                            });
+                                        })
+                                    })
+                                    async.series(recountLots, function(err, results) {
+                                        lot.save(function(err, currentLot) { 
+                                            req.files.photos.forEach(function (el) { 
+                                                var path = el.path;
+                                                fs.unlink(path)
+                                            }); 
+                                            res.json({ 
+                                                success: true,
+                                                message: 'Lot updated!'
+                                            });  
+                                        });
+                                    }); 
+                                });
+                            });
+                        }); 
+                    }
                 })
             })  
         }

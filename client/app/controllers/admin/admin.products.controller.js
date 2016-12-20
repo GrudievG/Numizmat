@@ -87,7 +87,6 @@
 				}
 			}
 
-
 			vm.switchArray = function (array) {
 				if (array == 'all') {
 					vm.currentArray = array;
@@ -175,6 +174,7 @@
 					prods.forEach(function(el) {
 						vm.allProducts.splice(vm.allProducts.indexOf(el), 1)
 					});
+					reserveProds = angular.copy(vm.allProducts)
 					rebuildProdlist();
 					vm.arrayToShow.forEach(function(el) {
 						el.selected = false;
@@ -188,6 +188,7 @@
 			vm.removeProd = function (product) {	
 				$http.post("/api/admin/removeProduct/", product).then(function(resolve) {
 					vm.allProducts.splice(vm.allProducts.indexOf(product), 1);
+					reserveProds = angular.copy(vm.allProducts)
 					rebuildProdlist();
 					vm.changePage();
 				})
