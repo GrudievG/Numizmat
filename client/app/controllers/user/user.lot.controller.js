@@ -39,7 +39,6 @@
 				return $http.get('api/lot/' + $stateParams.lot_id)
 			}).then(function(resolve) {
 				vm.lot = resolve.data.current;
-				console.log(vm.lot)
 				vm.prevId = resolve.data.prev_id;
 				vm.nextId = resolve.data.next_id;
 				if(vm.lot.customer == $window.localStorage.getItem('id')) {
@@ -140,31 +139,18 @@
 			}
 
 			vm.saveAutobet = function() {
-				console.log("deltaBet:", deltaBet)
-				console.log("vm.lot.autobets:", vm.lot.autobets)
-				var existCustomer = vm.lot.autobets.filter(function(el) {
-					return el.customer == $window.localStorage.getItem('id')
+				var currentDelta = Number(vm.lot.endTrading) - Date.now()
+				socket.emit('bet up', {
+					price: vm.lot.price + deltaBet,
+					user_id: $window.localStorage.getItem('id'),
+					user_email: $window.localStorage.getItem('user'),
+					lot: vm.lot,
+					tradingLot: settings.tradingLot,
+					deltaTime: deltaTime,
+					currentDelta: currentDelta,
+					time: moment().format('LLL'),
+					autobet: vm.autobet
 				})
-				console.log("existCustomer:", existCustomer)
-				if (existCustomer.length == 0) {
-					vm.lot.autobets.push({
-						customer: $window.localStorage.getItem('id'),
-						price: vm.autobet
-					})
-				} else {
-					var arrIndex = vm.lot.autobets.findIndex(function(el) {
-						return el.customer == $window.localStorage.getItem('id')
-					})
-					vm.lot.autobets[arrIndex].price = vm.autobet
-					console.log("arrIndex: ", arrIndex)
-				}
-				console.log("vm.lot.autobets:", vm.lot.autobets)
-				console.log("vm.lot:", vm.lot)
-				// vm.lot.autobets.forEach(function(autobet) {
-				// 	if( (autobet.price - vm.lot.price) > deltaBet) {
-
-				// 	}
-				// })
 			}
 
 			function lotUpdate (data) {
@@ -172,11 +158,13 @@
 					return
 				} else {
 					vm.lot = data[0];
+
 					if(vm.lot.customer == $window.localStorage.getItem('id'))
 						vm.ownBet = true;
 					else
 						vm.ownBet = false;
 					checkBetStep();
+					vm.autobet = vm.minBet;
 					$scope.$apply();
 				}
 			}
@@ -213,18 +201,26 @@
 				$scope.$apply();
 			}
 
-			socket.on('lot update', lotUpdate)
-			socket.on('trading time changed', timeUpdate)
-			socket.on('recounting lots', recountingLot)
-			socket.on('settings changed', changeSets)
+			function sendEmail (data) {
+				$http.post('/api/sendEmail', data).then(function(resolve) {
+					console.log(resolve.data)
+				})
+			}
+
+			socket.on('lot update', lotUpdate);
+			socket.on('trading time changed', timeUpdate);
+			socket.on('recounting lots', recountingLot);
+			socket.on('settings changed', changeSets);
+			socket.on('send email', sendEmail);
 
 			$scope.$on('$destroy', function() {
-				socket.off('lot update', lotUpdate)
-				socket.off('trading time changed', timeUpdate)
-				socket.off('recounting lots', recountingLot)
-				socket.off('settings changed', changeSets)
-				$interval.cancel(interval)
-				$interval.cancel(redirect)
+				socket.off('lot update', lotUpdate);
+				socket.off('trading time changed', timeUpdate);
+				socket.off('recounting lots', recountingLot);
+				socket.off('settings changed', changeSets);
+				socket.off('send email', sendEmail);
+				$interval.cancel(interval);
+				$interval.cancel(redirect);
 			})
 
 		}]);

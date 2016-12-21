@@ -5,8 +5,8 @@ var Lot        = require('../models/lot');
 var Settings   = require('../models/settings');
 var async      = require('async');
 
-
 module.exports = function(app, express, io) {
+
 var apiRouter   = express.Router();
 
 var authRoutes             = require('./unprotected.routes/auth.routes')(express);
@@ -62,21 +62,115 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                             }) 
                         }
                         user.save(function(err, savedUser) {})
-                        
+
+                        var userToEmail = undefined;
                         async.parallel([function(callback) {
                             Lot.findById(data.lot._id, function(err, lot) {
-                                var split = data.user_email.split('@')
-                                lot.bets++
-                                lot.customer = data.user_id;
-                                lot.price = data.price;
-                                lot.history.push({
-                                    customer: split[0],
-                                    price: data.price,
-                                    time: data.time,
-                                });
-                                lot.save(function(err) {
-                                    callback(null, lot)
-                                })
+                                Settings.findOne({}, function(err, settings) {
+                                    var split = data.user_email.split('@');
+                                    var betStep = undefined;
+                                    userToEmail = lot.customer;
+                                    function checkBetStep () {
+                                        if (lot.price < 1000)
+                                            betStep = settings.betSteps.fromNull;
+                                        else if (lot.price >= 1000 && lot.price < 2000)
+                                            betStep = settings.betSteps.fromOneMile;
+                                        else if (lot.price >= 2000 && lot.price < 5000)
+                                            betStep = settings.betSteps.fromTwoMile;
+                                        else if (lot.price >= 5000 && lot.price < 10000)
+                                            betStep = settings.betSteps.fromFiveMile;
+                                        else if (lot.price >= 10000 && lot.price < 20000)
+                                            betStep = settings.betSteps.fromTenMile;
+                                        else if (lot.price >= 20000 && lot.price < 50000)
+                                            betStep = settings.betSteps.fromTwentyMile;
+                                        else if (lot.price >= 50000 && lot.price < 100000)
+                                            betStep = settings.betSteps.fromFiftyMile;
+                                        else if (lot.price >= 100000 && lot.price < 200000)
+                                            betStep = settings.betSteps.fromOneHundredMile;
+                                        else if (lot.price >= 200000 && lot.price < 500000)
+                                            betStep = settings.betSteps.fromTwoHundredMile;
+                                        else if (lot.price >= 500000)
+                                            betStep = settings.betSteps.fromFiveHundredMile;
+                                    }
+
+                                    lot.bets++
+                                    lot.customer = data.user_id;
+                                    lot.price = data.price;
+                                    lot.history.push({
+                                        customer: split[0],
+                                        price: data.price,
+                                        time: data.time,
+                                    });
+
+                                    if(lot.autobet && !data.autobet) {
+                                        if(data.price < lot.autobet.price) {
+                                            checkBetStep();
+                                            lot.bets++
+                                            lot.customer = lot.autobet.customer_id;
+                                            lot.price = data.price + betStep;
+                                            lot.history.push({
+                                                customer: lot.autobet.customer_email,
+                                                price: lot.price,
+                                                time: data.time,
+                                            });
+                                        }
+                                    }
+
+                                    if(data.autobet && !(lot.autobet && lot.autobet.price)) {
+                                        lot.autobet = {
+                                            customer_id: data.user_id,
+                                            customer_email: split[0],
+                                            price: data.autobet
+                                        }
+                                    }
+
+                                    if(data.autobet && data.autobet < lot.autobet.price) {
+                                        lot.bets++
+                                        lot.customer = lot.autobet.customer_id;
+                                        lot.price = data.autobet;
+                                        checkBetStep();
+                                        lot.price = lot.price + betStep;
+                                        lot.history.push({
+                                            customer: lot.autobet.customer_email,
+                                            price: lot.price,
+                                            time: data.time,
+                                        });
+                                    }
+
+                                    if(data.autobet && data.autobet > lot.autobet.price) {
+                                        lot.bets++
+                                        lot.history.push({
+                                            customer: lot.autobet.customer_id,
+                                            price: lot.autobet.price,
+                                            time: data.time,
+                                        });
+                                        lot.customer = data.user_id;
+                                        lot.price = lot.autobet.price;
+                                        checkBetStep();
+                                        lot.price = lot.price + betStep;
+                                        lot.autobet = {
+                                            customer_id: data.user_id,
+                                            customer_email: split[0],
+                                            price: data.autobet
+                                        }
+                                        lot.bets++
+                                        lot.history.push({
+                                            customer: lot.autobet.customer_email,
+                                            price: lot.autobet.price,
+                                            time: data.time,
+                                        });
+                                    }
+
+                                    lot.save(function(err, savedLot) {
+                                        if(userToEmail != savedLot.customer && Date.now() < savedLot.startTrading) {
+                                            socket.emit('send email', {
+                                                receiver: userToEmail,
+                                                lot: savedLot._id
+                                            });
+                                        }
+                                        callback(null, lot)
+                                    })
+                                })     
                             })
                         }], function(err, result) {
                             if(data.currentDelta < data.deltaTime) {

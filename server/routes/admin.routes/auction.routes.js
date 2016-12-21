@@ -3,6 +3,7 @@ var User       = require('../../models/user');
 var Auction    = require('../../models/auction');
 var Lot        = require('../../models/lot');
 var Settings   = require('../../models/settings');
+var Category   = require('../../models/category');
 var async      = require('async');
 
 module.exports = function(express) {
@@ -103,13 +104,48 @@ module.exports = function(express) {
     })
 
     apiRouter.put('/updateAuctionStatus', function(req, res) {
-        Auction.findById(req.body.id, function(err, auction) {
-
+        Auction.findById(req.body.id).populate('lots').exec(function(err, auction) {
             auction.status = req.body.status;
-
-            auction.save(function(err) {
-                res.json(req.body)
-            })
+            auction.save(function(err, savedAuction) {
+                var workingLots = [];
+                var counter = 0;
+                Category.find({}, function(err, categories) {
+                    var countingInCategory = [];
+                    categories.forEach(function(category) {
+                        countingInCategory.push(function(cb) {
+                            var countingInSubcategory = [];
+                            category.subcats.forEach(function(subcat) {
+                                countingInSubcategory.push(function(callback) {
+                                    workingLots = auction.lots.filter(function(el) {
+                                        return el.category == category.name && el.subcategory == subcat
+                                    })
+                                    var createNumberOfLot = []
+                                    workingLots.forEach(function(lot) {
+                                        createNumberOfLot.push(function(callb){
+                                            counter ++
+                                            lot.number = counter;
+                                            lot.save(function(err, savedLot){
+                                                callb(null, savedLot)
+                                            })
+                                        })  
+                                    })
+                                    async.series(createNumberOfLot, function(err, rslts) {
+                                        callback(null, rslts)
+                                    })
+                                })
+                            })
+                            async.series(countingInSubcategory, function(err, reslts) {
+                                cb(null, reslts)
+                            })
+                        })                           
+                    })
+                    async.series(countingInCategory, function(err, results) {
+                        Auction.findById(req.body.id).populate('lots').exec(function(err, auc) {
+                            res.json(auc)
+                        });  
+                    })
+                })
+            })     
         })
     })
 

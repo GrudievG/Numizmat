@@ -23,12 +23,18 @@
 				filtered: [],
 				totalItems: 0
 			}
+
+			function sortByNumber (a, b) {
+				if (a.number > b.number) return 1;
+  				if (a.number < b.number) return -1;
+			}
 				
 			$http.get('api/lots').then(function(resolve) {
 				if (resolve.data.success) {
 					vm.notExist = false;
-					reserveLots = resolve.data.auction.lots;
-					vm.lots = resolve.data.auction.lots;
+					var sortedLots = resolve.data.auction.lots.sort(sortByNumber)
+					reserveLots = sortedLots;
+					vm.lots = sortedLots;
 					vm.lots.forEach(function(lot) {
 						if(categories.indexOf(lot.category) == -1)
 							categories.push(lot.category)
@@ -66,7 +72,8 @@
 					category: category,
 					subcategory: subcategory
 				}).then(function(resolve) {
-					vm.lots = resolve.data
+					var sortedLots = resolve.data.sort(sortByNumber);
+					vm.lots = sortedLots;
 					vm.changePage();
 				})
 			}
@@ -76,7 +83,8 @@
 					vm.showAll();
 				else {
 					$http.get('api/searchLots/'+vm.query).then(function(resolve) {
-						vm.lots = resolve.data
+						var sortedLots = resolve.data.sort(sortByNumber);
+						vm.lots = sortedLots;
 						vm.changePage();
 					})
 				}
@@ -99,7 +107,8 @@
 					}
 				}
 				$http.post('api/filterLots', vm.filter).then(function(resolve) {
-					vm.lots = resolve.data
+					var sortedLots = resolve.data.sort(sortByNumber);
+					vm.lots = sortedLots
 					vm.changePage();
 				})
 			};
@@ -115,7 +124,8 @@
 			}
 
 			function recount(data) {
-				vm.lots = data;
+				var sortedLots = data.sort(sortByNumber);
+				vm.lots = sortedLots;
 				vm.lots.forEach(function(lot) {
 					if(Date.now() < Number(lot.startTrading)) {
 						lot.timeToStart = moment(new Date(Number(lot.startTrading))).fromNow();

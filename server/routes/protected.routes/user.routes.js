@@ -1,8 +1,11 @@
 var User       = require('../../models/user');
+var config     = require('../../../config');
+var nodemailer = require('nodemailer');
 
 module.exports = function(express) {
 
 	var apiRouter = express.Router();
+    var transporter = nodemailer.createTransport(config.emailTransport);
 
 	apiRouter.get('/getUserBets/:user_id', function(req, res) {
         User.findById(req.params.user_id).populate('bets.lot').exec(function(err, user) {
@@ -117,6 +120,30 @@ module.exports = function(express) {
             }
         });
     });
+
+    apiRouter.post('/sendEmail', function(req, res) {
+        User.findById(req.body.receiver, function(err, user) {
+            var linkToEmail = req.protocol + '://' + req.get('host') + '/lot/' + req.body.lot;
+
+            var mailOptions = {
+                from: 'Numizmat. Онлайн-аукцион',
+                to: user.email,
+                subject: 'Numizmat. Вы потеряли лидерство в торгах',
+                html: '<h3>Добрый день, '+ user.name + '!</h3><br><p>Ваша ставка больше не лидирует в торгах. Для дальнейшего участия в торгах за нужный вам лот перейдите по ссылке:<br> <a href="' + linkToEmail + '">' + linkToEmail + '</a><br> Если вы не участвуете в онлайн-аукционе, просто проигнорируйте это письмо.</p>' 
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if(error){
+                    res.json({yo: 'error'});
+                }else{
+                    res.json({
+                        message: 'Message sent',
+                        info: info.response
+                    });
+                };
+            });
+        })
+    })
 
     return apiRouter
 }

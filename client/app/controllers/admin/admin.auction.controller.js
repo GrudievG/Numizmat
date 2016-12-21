@@ -20,6 +20,11 @@
 				filtered: []
 			}
 
+			function sortByNumber (a, b) {
+				if (a.number > b.number) return 1;
+  				if (a.number < b.number) return -1;
+			}
+
 			$http.get('/api/admin/auctionIsExist').then(function(resolve) {
 				if (resolve.data.success) {
 					vm.showAddBtn = true;
@@ -32,12 +37,13 @@
 					}
 
 					var time = Number(resolve.data.auction.timeToStart)
+					var sortedLots = resolve.data.auction.lots.sort(sortByNumber)
 					vm.currentAuction = {
 						name: resolve.data.auction.name,
 						date: moment(time).format('LLL'),
 						timestamp: time,
 						id: resolve.data.auction._id,
-						lots: resolve.data.auction.lots
+						lots: sortedLots
 					}
 					reserveCopy = angular.copy(vm.currentAuction);
 					vm.changePage()
@@ -62,7 +68,8 @@
 					showAll();
 				else {
 					$http.get('api/searchLots/'+ vm.query).then(function(resolve) {
-						vm.currentAuction.lots = resolve.data;
+						var sortedLots = resolve.data.sort(sortByNumber)
+						vm.currentAuction.lots = sortedLots;
 						vm.changePage();
 					})
 				}
@@ -84,10 +91,16 @@
 					vm.publish = false;
 					status = "new"
 				}
+
 				$http.put('/api/admin/updateAuctionStatus', {
 					id: vm.currentAuction.id,
 					status: status
-				}).then(function(resolve) {})
+				}).then(function(resolve) {
+					var sortedLots = resolve.data.lots.sort(sortByNumber)
+					vm.currentAuction.lots = sortedLots;
+					reserveCopy.lots = sortedLots;
+					vm.changePage();
+				})
 			}
 
 			vm.remove = function() {
@@ -140,8 +153,9 @@
 						lot: lot,
 						lots: vm.currentAuction.lots
 					}).then(function(resolve) {
-						vm.currentAuction.lots = resolve.data.lots;
-						reserveCopy.lots = resolve.data.lots;
+						var sortedLots = resolve.data.lots.sort(sortByNumber)
+						vm.currentAuction.lots = sortedLots;
+						reserveCopy.lots = sortedLots;
 						vm.changePage();
 					})
 				}	

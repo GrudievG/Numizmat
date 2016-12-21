@@ -25,7 +25,7 @@ var LotSchema = new Schema({
     	price: Number,
     	time: String
     }],
-    autobet:{
+    autobet: {
     	customer_id: String,
     	customer_email: String,
     	price: Number

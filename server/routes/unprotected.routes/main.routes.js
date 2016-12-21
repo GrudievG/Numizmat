@@ -4,6 +4,7 @@ var Auction    = require('../../models/auction');
 var Attribute  = require('../../models/attribute');
 var Category   = require('../../models/category');
 var Settings   = require('../../models/settings');
+var async      = require('async');
 
 
 
@@ -130,21 +131,37 @@ module.exports = function(express) {
 
     apiRouter.get('/lot/:lot_id', function(req, res) {
         Lot.findById(req.params.lot_id, function(err, lot) {
-            if (err)
-                res.send(err);
 
-            console.log(lot.auction)
+            var prevNumber = lot.number - 1;
+            var nextNumber = lot.number + 1;
 
-            Lot.find({auction: lot.auction}, function(err, lots) {
-                var index = lots.findIndex(function(l) {
-                    return l._id == req.params.lot_id;
-                });
-                var prev = (lots[index - 1])? lots[index - 1]._id : lots.pop()._id;
-                var next = (lots[index + 1])? lots[index + 1]._id : lots.shift()._id;
-
+            async.parallel([
+                function(callback) {
+                    Lot.findOne({number: prevNumber}, function(err, prevLot) {
+                        if (prevLot === null) {
+                            Lot.find({auction: lot.auction}, function(err, lots) {
+                                prevLot = lots.filter(function(el) {
+                                    return el.number == lots.length
+                                })
+                                callback(null, prevLot[0])
+                            })
+                        } else
+                            callback(null, prevLot)
+                    })
+                }, function(callback) {
+                    Lot.findOne({number: nextNumber}, function(err, nextLot) {
+                        if (nextLot === null) {
+                            Lot.findOne({number: 1}, function(err, llot) {
+                                callback(null, llot)
+                            })
+                        } else 
+                            callback(null, nextLot)
+                    })
+                }
+            ], function(err, results) {
                 res.json({
-                    prev_id: prev,
-                    next_id: next,
+                    prev_id: results[0]._id,
+                    next_id: results[1]._id,
                     current: lot
                 });
             })
