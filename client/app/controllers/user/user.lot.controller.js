@@ -10,7 +10,8 @@
 			var deltaTime = undefined;
 			var settings = {};
 			var redirect = undefined;
-
+			vm.togglePopover = false;
+			vm.toggleMobilePopover = false;
 			vm.ownBet = false;
 			vm.bet = undefined;
 			vm.minBet = undefined;
@@ -21,7 +22,8 @@
 			vm.prevId = undefined;
 			vm.nextId = undefined;
 			vm.autobet = undefined;
-			vm.autobetTemplate = "autobetPopover.html"
+			vm.autobetTemplate = "autobetPopover.html";
+			vm.mobileautobetTemplate = "mobileautobetPopover.html";
 
 			if(!$rootScope.loggedIn) {
 				vm.errorMessage = "Только авторизованные пользователи могут делать ставки. Пожалуйста, авторизуйтесь."
@@ -123,7 +125,6 @@
 			}
 
 			vm.viewHistory = function (lot) {
-
 				var modalInstance = $uibModal.open({
 			      	ariaLabelledBy: 'modal-title',
 			      	ariaDescribedBy: 'modal-body',

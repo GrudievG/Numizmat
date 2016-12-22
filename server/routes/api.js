@@ -140,7 +140,7 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                     if(data.autobet && data.autobet > lot.autobet.price) {
                                         lot.bets++
                                         lot.history.push({
-                                            customer: lot.autobet.customer_id,
+                                            customer: lot.autobet.customer_email,
                                             price: lot.autobet.price,
                                             time: data.time,
                                         });
@@ -148,17 +148,17 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                         lot.price = lot.autobet.price;
                                         checkBetStep();
                                         lot.price = lot.price + betStep;
+                                        lot.bets++
+                                        lot.history.push({
+                                            customer: lot.autobet.customer_email,
+                                            price: lot.price,
+                                            time: data.time,
+                                        });
                                         lot.autobet = {
                                             customer_id: data.user_id,
                                             customer_email: split[0],
                                             price: data.autobet
                                         }
-                                        lot.bets++
-                                        lot.history.push({
-                                            customer: lot.autobet.customer_email,
-                                            price: lot.autobet.price,
-                                            time: data.time,
-                                        });
                                     }
 
                                     lot.save(function(err, savedLot) {

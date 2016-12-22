@@ -28,24 +28,20 @@
 				if (a.number > b.number) return 1;
   				if (a.number < b.number) return -1;
 			}
+
+			
 				
 			$http.get('api/lots').then(function(resolve) {
 				if (resolve.data.success) {
 					vm.notExist = false;
 					var sortedLots = resolve.data.auction.lots.sort(sortByNumber)
-					reserveLots = sortedLots;
 					vm.lots = sortedLots;
 					vm.lots.forEach(function(lot) {
 						if(categories.indexOf(lot.category) == -1)
 							categories.push(lot.category)
-						if(Date.now() < Number(lot.startTrading)) {
-							lot.timeToStart = moment(new Date(Number(lot.startTrading))).fromNow();
-						} else if (Date.now() > Number(lot.startTrading) && Date.now() < Number(lot.endTrading)) {
-							lot.timeToStart = "Торги идут в данный момент"
-						} else if (Date.now() > Number(lot.endTrading)) {
-							lot.timeToStart = "Торги завершены"
-						}
+						getTradingTime(lot);
 					})
+					reserveLots = angular.copy(vm.lots)
 					vm.changePage();
 					return $http.get('api/getCategories')
 				}	
@@ -61,6 +57,16 @@
 					return element.type == "Выбор"
 				});
 			})
+
+			function getTradingTime (lot) {
+				if(Date.now() < Number(lot.startTrading)) {
+					lot.timeToStart = moment(new Date(Number(lot.startTrading))).fromNow();
+				} else if (Date.now() > Number(lot.startTrading) && Date.now() < Number(lot.endTrading)) {
+					lot.timeToStart = "Торги идут в данный момент"
+				} else if (Date.now() > Number(lot.endTrading)) {
+					lot.timeToStart = "Торги завершены"
+				}
+			}
 
 			vm.showAll = function () {
 				vm.lots = reserveLots;
@@ -85,6 +91,9 @@
 					$http.get('api/searchLots/'+vm.query).then(function(resolve) {
 						var sortedLots = resolve.data.sort(sortByNumber);
 						vm.lots = sortedLots;
+						vm.lots.forEach(function(lot) {
+							getTradingTime(lot);
+						})
 						vm.changePage();
 					})
 				}

@@ -54,6 +54,22 @@
 							</div>
 						</div>
 		  				<div class="form-group">
+		  					<div class="col-xs-12 product-prop">
+		  						<div class="row">
+					    			<label class="col-xs-2 control-label">Год</label>
+					    			<div class="col-xs-2">
+					    				<input type="number" class="form-control" ng-model="adminEditProd.product.year.value" required>
+					    			</div>
+					    			<div class="col-xs-4">
+					    				<label class="radio-inline">
+									        <input type="radio" name="era-options" value="new" ng-model="adminEditProd.product.year.era"> н.э.
+									    </label>
+									    <label class="radio-inline">
+									        <input type="radio" name="era-options" value="old" ng-model="adminEditProd.product.year.era"> до н.э.
+									    </label>
+					    			</div>
+					    		</div>
+		  					</div>
 		  					<div class="col-sm-6 product-prop" ng-repeat="prop in adminEditProd.product.props">
 		  						<div class="row">
 					    			<label class="col-xs-4 control-label">{{prop.name}}</label>

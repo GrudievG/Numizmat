@@ -134,7 +134,9 @@
 
 	angular.module('numizmat').controller('HistoryModalCtrl', ['$http', '$timeout', '$uibModalInstance', 'lot', function ($http, $timeout, $uibModalInstance, lot) {
 		var modal = this;
-		modal.lot = lot;
+		var lotCopy = angular.copy(lot);
+		lotCopy.history = lotCopy.history.reverse();
+		modal.lot = lotCopy;
 
 		modal.close = function() {
 			$uibModalInstance.close();

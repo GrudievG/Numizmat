@@ -17,6 +17,12 @@ module.exports = function(express) {
 
 	var apiRouter = express.Router();
 
+    apiRouter.get('/lot/:lot_id', function(req, res) {
+        Lot.findById(req.params.lot_id, function(err, lot) {
+            res.json({current: lot});
+        });     
+    })
+
 
 	apiRouter.post('/addLot', multipartMiddleware, function(req, res) {
         var ImgsToUpload = [];
@@ -43,6 +49,10 @@ module.exports = function(express) {
                         value: el.currentValue
                     });
                 });
+                lot.year = {
+                    value: req.body.year.value,
+                    era: req.body.year.era
+                },
                 lot.auction = currentAuc._id;
                 lot.name = req.body.name;
                 lot.main_description = req.body.main_description;
@@ -115,6 +125,10 @@ module.exports = function(express) {
                     cloudinary.uploader.destroy(el, function(result) {})
                 })
                 var props = [];
+                lot.year = {
+                    value: req.body.year.value,
+                    era: req.body.year.era
+                },
                 lot.top = req.body.top;
                 lot.name = req.body.name;
                 lot.main_description = req.body.main_description;
@@ -176,6 +190,10 @@ module.exports = function(express) {
                             newIds.push(el.id)
                         }
                     })
+                    lot.year = {
+                        value: req.body.year.value,
+                        era: req.body.year.era
+                    },
                     lot.top = req.body.top;
                     lot.name = req.body.name;
                     lot.main_description = req.body.main_description;

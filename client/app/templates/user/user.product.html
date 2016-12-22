@@ -34,6 +34,7 @@
 			<div class="col-xs-12 col-md-7">
 				<p class="main-description">{{product.product.main_description}}</p>
 				<ul class="product-properties">
+					<li><strong>Год:</strong> {{product.product.year.value}} г. <span ng-if="product.product.year.era == 'old'">до н.э.</span></li>
 					<li ng-repeat="prop in product.product.props"><strong>{{prop.name}}:</strong> {{prop.value}}</li>
 				</ul>	
 				<div class="product_price">

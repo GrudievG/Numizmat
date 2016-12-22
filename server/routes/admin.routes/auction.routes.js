@@ -109,6 +109,20 @@ module.exports = function(express) {
             auction.save(function(err, savedAuction) {
                 var workingLots = [];
                 var counter = 0;
+
+                function sortByYear (a, b) {
+                    if (a.year.era == 'new' && b.year.era == 'old') return 1;
+                    if (a.year.era == 'old' && b.year.era == 'new') return -1;
+                    if (a.year.era == 'old' && b.year.era == 'old') {
+                        if (a.year.value < b.year.value) return 1;
+                        if (a.year.value > b.year.value) return -1;
+                    }
+                    if (a.year.era == 'new' && b.year.era == 'new') {
+                        if (a.year.value < b.year.value) return -1;
+                        if (a.year.value > b.year.value) return 1;
+                    }
+                }
+
                 Category.find({}, function(err, categories) {
                     var countingInCategory = [];
                     categories.forEach(function(category) {
@@ -119,6 +133,9 @@ module.exports = function(express) {
                                     workingLots = auction.lots.filter(function(el) {
                                         return el.category == category.name && el.subcategory == subcat
                                     })
+
+                                    workingLots = workingLots.sort(sortByYear)
+
                                     var createNumberOfLot = []
                                     workingLots.forEach(function(lot) {
                                         createNumberOfLot.push(function(callb){

@@ -28,7 +28,7 @@
 			vm.lot.props = resolve.data;
 		})
 
-		$http.get('/api/lot/'+id).then(function(resolve) {
+		$http.get('/api/admin/lot/'+id).then(function(resolve) {
 			resolve.data.current.props.forEach( function(prop, number) {
 				vm.lot.props.forEach(function (el, index) {
 					if(el.meta == prop.meta) {
@@ -48,6 +48,7 @@
 			vm.lot.category = resolve.data.current.category;
 			vm.lot.subcategory = resolve.data.current.subcategory;
 			vm.lot.top = resolve.data.current.top;
+			vm.lot.year = resolve.data.current.year;
 
 			return $http.get('/api/getCategories')
 		}).then(function(resolve) {

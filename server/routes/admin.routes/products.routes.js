@@ -41,7 +41,10 @@ module.exports = function(express) {
                     value: el.currentValue
                 });
             });
-
+            product.year = {
+                value: req.body.year.value,
+                era: req.body.year.era
+            };
             product.name = req.body.name;
             product.main_description = req.body.main_description;
             product.imgIds = results;
@@ -95,6 +98,10 @@ module.exports = function(express) {
                     cloudinary.uploader.destroy(el, function(result) {})
                 })
                 var props = [];
+                product.year = {
+                    value: req.body.year.value,
+                    era: req.body.year.era
+                };
                 product.name = req.body.name;
                 product.main_description = req.body.main_description;
                 product.availability = req.body.availability;
@@ -161,6 +168,10 @@ module.exports = function(express) {
                             newIds.push(el.id)
                         }
                     })
+                    product.year = {
+                        value: req.body.year.value,
+                        era: req.body.year.era
+                    };
                     product.name = req.body.name;
                     product.main_description = req.body.main_description;
                     product.availability = req.body.availability;

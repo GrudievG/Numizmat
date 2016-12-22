@@ -41,6 +41,7 @@
 			vm.product.id = id;
 			vm.product.category = resolve.data.current.category;
 			vm.product.subcategory = resolve.data.current.subcategory;
+			vm.product.year = resolve.data.current.year;
 
 			return $http.get('/api/getCategories')
 		}).then(function(resolve) {

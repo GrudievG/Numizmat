@@ -55,7 +55,8 @@
 	    		<thead>
 		    		<tr>
 		    			<td class="text-center"><strong>№</strong></td>
-		    			<td class="text-center"><strong>Лот</strong></td>
+		    			<td class="text-center"><strong>Фото</strong></td>
+		    			<td class="text-center"><strong>Название</strong></td>
 		    			<td class="text-center"><strong>Категория</strong></td>
 		    			<td class="text-center"><strong>Подкатегория</strong></td>
 		    			<td class="text-center"><strong>Топ</strong></td>
@@ -69,10 +70,10 @@
 		    				<span>{{lot.number}}</span>
 		    			</td>
 		    			<td class="prod-preview">
-		    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
-		    				<div class="prodName">
-		    					<span><strong>"{{lot.name}}"</strong></span>
-		    				</div>
+		    				<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
+		    			</td>
+		    			<td class="text-center">
+		    				<span><strong>"{{lot.name}}"</strong></span>
 		    			</td>
 		    			<td class="text-center">
 		    				<span>{{lot.category}}</span>

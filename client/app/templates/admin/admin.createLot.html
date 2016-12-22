@@ -38,6 +38,22 @@
 							</div>
 						</div>
 		  				<div class="form-group">
+		  					<div class="col-xs-12 product-prop">
+		  						<div class="row">
+					    			<label class="col-xs-2 control-label">Год</label>
+					    			<div class="col-xs-2">
+					    				<input type="number" class="form-control" ng-model="adminCreateLot.lot.year.value" required>
+					    			</div>
+					    			<div class="col-xs-4">
+					    				<label class="radio-inline">
+									        <input type="radio" name="era-options" value="new" ng-model="adminCreateLot.lot.year.era"> н.э.
+									    </label>
+									    <label class="radio-inline">
+									        <input type="radio" name="era-options" value="old" ng-model="adminCreateLot.lot.year.era"> до н.э.
+									    </label>
+					    			</div>
+					    		</div>
+		  					</div>
 		  					<div class="col-sm-6 product-prop" ng-repeat="prop in adminCreateLot.lot.props">
 		  						<div class="row">
 					    			<label class="col-xs-4 control-label">{{prop.name}}</label>
@@ -85,7 +101,7 @@
 		  				</div>
 		  				<div class="form-group">
 		    				<div class="col-xs-12">
-		      					<button type="submit" class="btn btn-lg btn-success center-block" style="margin-top: 50px;" ng-disabled="productCreating.$invalid || !adminCreateLot.files[0] || !adminCreateLot.lot.name">Добавить лот</button>
+		      					<button type="submit" class="btn btn-lg btn-success center-block" style="margin-top: 50px;" ng-disabled="productCreating.$invalid || !adminCreateLot.files[0] || !adminCreateLot.lot.name || !adminCreateLot.lot.year.era">Добавить лот</button>
 		    				</div>
 		  				</div>
 					</form>

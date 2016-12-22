@@ -29,6 +29,10 @@ var LotSchema = new Schema({
     	customer_id: String,
     	customer_email: String,
     	price: Number
+    },
+    year: {
+        value: Number,
+        era: String
     }
 });
 
