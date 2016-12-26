@@ -23,5 +23,8 @@
     "prerender-node": "^2.5.0",
     "socket.io": "1.5.1",
     "uuid": "^3.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
   }
 }

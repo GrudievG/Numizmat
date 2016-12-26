@@ -5,7 +5,6 @@
 
 		var vm = this;
 		var auction = {};
-		var tradingLot = undefined; 
 
 		$http.get('/api/admin/auctionIsExist').then(function(resolve) {
 			if(resolve.data.auction) {
@@ -34,14 +33,7 @@
 			vm.categories = resolve.data;
 		})
 
-		$http.get('/api/getSettings').then(function(resolve) {
-			tradingLot = resolve.data.tradingLot
-		})
-
 		vm.addProduct = function() {
-			var arrOfLotsLength = auction.lots.length;
-			vm.lot.startTrading = Number(auction.timeToStart) + (arrOfLotsLength*tradingLot);
-			vm.lot.endTrading = vm.lot.startTrading + tradingLot;
 
 			vm.processing = true;
 

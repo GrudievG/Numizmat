@@ -158,7 +158,26 @@ module.exports = function(express) {
                     })
                     async.series(countingInCategory, function(err, results) {
                         Auction.findById(req.body.id).populate('lots').exec(function(err, auc) {
-                            res.json(auc)
+                            function sortByNumber(a, b) {
+                                if( a.number > b.number) return 1;
+                                if(a.number < b.number) return -1;
+                            }
+                            auc.lots = auc.lots.sort(sortByNumber);
+                            Settings.findOne({}, function(err, settings) {
+                                var recountTradingTime = [];
+                                auc.lots.forEach(function(item, i) {
+                                    recountTradingTime.push(function(cllbck) {
+                                        item.startTrading = Number(auc.timeToStart) + (i * settings.tradingLot);
+                                        item.endTrading = Number(item.startTrading) + settings.tradingLot;
+                                        item.save(function(err, savedLot) {
+                                            cllbck(null, savedLot)
+                                        })
+                                    });   
+                                });
+                                async.parallel(recountTradingTime, function(err, results) {
+                                    res.json(results)
+                                }); 
+                            })
                         });  
                     })
                 })

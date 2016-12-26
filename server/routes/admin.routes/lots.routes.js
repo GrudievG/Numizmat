@@ -62,8 +62,7 @@ module.exports = function(express) {
                 lot.category = req.body.category;
                 lot.subcategory = req.body.subcategory;
                 lot.bets = 0;
-                lot.startTrading = req.body.startTrading;
-                lot.endTrading = req.body.endTrading;
+
                 lot.save(function(err, currentLot) {  
                     currentAuc.lots.push(currentLot);
                     currentAuc.save(function(err) {
@@ -90,28 +89,15 @@ module.exports = function(express) {
         })
         Auction.findById(req.body.lot.auction, function(err, auction) {
             auction.lots.splice(auction.lots.indexOf(req.body.lot._id), 1)
-            auction.save(function(err) {});
-        });
-        var recountTradeTime = []
-        req.body.lots.forEach(function(item) {
-            recountTradeTime.push(function(callback) {
-                Lot.findById(item._id, function(err, lot) {
-                    lot.startTrading = item.startTrading;
-                    lot.endTrading = item.endTrading;
-                    lot.save(function(err){
-                        callback(null, 'success')
-                    })
-                })
-            })    
-        })
-        async.parallel(recountTradeTime, function(err, results) {
-            Auction.findById(req.body.lot.auction).populate('lots').exec(function(err, curAuction) {
-                res.json({
-                    success: true,
-                    lots: curAuction.lots
+            auction.save(function(err, savedAuc) {
+                Auction.findById(req.body.lot.auction).populate('lots').exec(function(err, curAuction) {
+                    res.json({
+                        success: true,
+                        lots: curAuction.lots
+                    });
                 });
-            });       
-        })  
+            });
+        });
     });
 
     apiRouter.post('/updateLot', multipartMiddleware, function(req, res) {

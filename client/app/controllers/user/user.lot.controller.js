@@ -41,7 +41,6 @@
 				return $http.get('api/lot/' + $stateParams.lot_id)
 			}).then(function(resolve) {
 				vm.lot = resolve.data.current;
-				console.log(vm.lot)
 				vm.prevId = resolve.data.prev_id;
 				vm.nextId = resolve.data.next_id;
 				if(vm.lot.customer == $window.localStorage.getItem('id')) {
@@ -52,6 +51,7 @@
 					vm.imgUrls.push(url)
 				});
 				if(vm.lot.bets == 0) {
+					checkBetStep();
 					vm.bet = vm.lot.price;
 					vm.minBet = vm.lot.price;
 					vm.autobet = vm.lot.price;

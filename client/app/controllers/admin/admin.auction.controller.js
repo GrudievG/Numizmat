@@ -96,7 +96,7 @@
 					id: vm.currentAuction.id,
 					status: status
 				}).then(function(resolve) {
-					var sortedLots = resolve.data.lots.sort(sortByNumber)
+					var sortedLots = resolve.data.sort(sortByNumber)
 					vm.currentAuction.lots = sortedLots;
 					reserveCopy.lots = sortedLots;
 					vm.changePage();
@@ -145,13 +145,9 @@
 			vm.removeLot = function(lot) {
 				if (confirm("Вы уверены, что хотите удалить лот? Это приведёт к изменению нумерации остальных лотов")) {
 					vm.currentAuction.lots.splice(vm.currentAuction.lots.indexOf(lot), 1);
-					vm.currentAuction.lots.forEach(function(el, i) {
-						el.startTrading = Number(auction.timeToStart) + (i * tradingLot);
-						el.endTrading = el.startTrading + tradingLot;
-					})
+
 					$http.post('/api/admin/removeLot', {
-						lot: lot,
-						lots: vm.currentAuction.lots
+						lot: lot
 					}).then(function(resolve) {
 						var sortedLots = resolve.data.lots.sort(sortByNumber)
 						vm.currentAuction.lots = sortedLots;

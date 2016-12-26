@@ -176,6 +176,13 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                             if(data.currentDelta < data.deltaTime) {
                                 Auction.findById(data.lot.auction).populate('lots').exec(function(err, auction) {
                                     var lotsToUpdate = [];
+
+                                    function sortByNumber (a, b) {
+                                        if( a.number > b.number) return 1;
+                                        if(a.number < b.number) return -1
+                                    }
+
+                                    auction.lots = auction.lots.sort(sortByNumber)
                                     auction.lots.forEach(function(item, index) {
                                         if(Number(item.endTrading) < Date.now()) {
                                             lotsToUpdate.push(function(callback) {
