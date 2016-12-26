@@ -33,6 +33,7 @@
 			}
 
 			$http.get('/api/getCurrentAuction').then(function(resolve) {
+				console.log(resolve.data)
 				if(resolve.data.success) {
 					vm.auctionExist = 'yes';
 					auction_id = resolve.data.auction._id;
@@ -59,6 +60,7 @@
 				})
 				vm.categories = cats
 			}).catch(function(error) {
+				console.log(error)
 				return
 			});
 
