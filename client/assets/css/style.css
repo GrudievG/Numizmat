@@ -387,7 +387,7 @@ input[type="search"] {
   background-color: #fff;
   border-radius: 4px;
   width: 100%;
-  height: 330px;
+  height: 360px;
   margin-bottom: 30px;
   cursor: pointer;
   box-shadow: 5px 5px 10px -2px rgba(0, 0, 0, 0.3);
@@ -395,7 +395,7 @@ input[type="search"] {
 @media (max-width: 1199px) {
   /* line 1, sass/_store.scss */
   .lot, .product {
-    height: 320px;
+    height: 350px;
   }
 }
 /* line 18, sass/_store.scss */
@@ -441,108 +441,103 @@ input[type="search"] {
   height: 45px;
 }
 /* line 55, sass/_store.scss */
-.lot .product_description, .product .product_description {
-  padding: 5px 25px 5px 25px;
-  height: 90px;
-}
-@media (max-width: 767px) {
-  /* line 55, sass/_store.scss */
-  .lot .product_description, .product .product_description {
-    font-size: 13px !important;
-  }
-}
-/* line 64, sass/_store.scss */
 .lot .price, .product .price {
   color: green;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 70, sass/_store.scss */
+/* line 61, sass/_store.scss */
 .lot .detail-info, .product .detail-info {
   color: #275bec;
   font-size: 1.2em;
   margin-right: 20px;
 }
 
-/* line 77, sass/_store.scss */
+/* line 68, sass/_store.scss */
 .product {
   height: 270px;
 }
 @media (max-width: 1199px) {
-  /* line 77, sass/_store.scss */
+  /* line 68, sass/_store.scss */
   .product {
     height: 260px;
   }
 }
 
-/* line 86, sass/_store.scss */
+/* line 77, sass/_store.scss */
 .filters {
   margin-top: -20px;
 }
 
 @media (max-width: 767px) {
-  /* line 90, sass/_store.scss */
+  /* line 81, sass/_store.scss */
   .category-filter {
     font-size: 12px;
   }
 }
 
-/* line 98, sass/_store.scss */
+/* line 89, sass/_store.scss */
 .toggle-view {
   margin: 0 5px 0 5px;
   color: #76808e;
 }
 
-/* line 103, sass/_store.scss */
+/* line 94, sass/_store.scss */
 .active-tab {
   color: #211818;
 }
 
-/* line 108, sass/_store.scss */
+/* line 99, sass/_store.scss */
 .product-list tr {
   cursor: pointer;
 }
-/* line 112, sass/_store.scss */
+/* line 103, sass/_store.scss */
 .product-list td {
   vertical-align: middle !important;
 }
-/* line 116, sass/_store.scss */
+/* line 107, sass/_store.scss */
 .product-list .price {
   color: green;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 122, sass/_store.scss */
+/* line 113, sass/_store.scss */
 .product-list .detail-info {
   color: #275bec;
   font-size: 1.2em;
   margin-right: 20px;
 }
 
-/* line 129, sass/_store.scss */
+/* line 120, sass/_store.scss */
 .bets {
   padding: 0 0 10px 40px !important;
 }
-/* line 132, sass/_store.scss */
+/* line 123, sass/_store.scss */
 .bets span {
   font-size: 15px;
 }
-/* line 136, sass/_store.scss */
+/* line 127, sass/_store.scss */
 .bets .font-icon {
   margin-right: 10px;
 }
+@media (max-width: 767px) {
+  /* line 120, sass/_store.scss */
+  .bets {
+    padding: 0 0 10px 20px !important;
+  }
+}
 
-/* line 141, sass/_store.scss */
+/* line 136, sass/_store.scss */
 .bets-as-list {
   padding-left: 15px !important;
 }
 
-/* line 146, sass/_store.scss */
+/* line 141, sass/_store.scss */
 .dropdown-submenu {
   position: relative;
 }
 
-/* line 150, sass/_store.scss */
+/* line 145, sass/_store.scss */
 .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
@@ -553,12 +548,12 @@ input[type="search"] {
   border-radius: 0 6px 6px 6px;
 }
 
-/* line 160, sass/_store.scss */
+/* line 155, sass/_store.scss */
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-/* line 164, sass/_store.scss */
+/* line 159, sass/_store.scss */
 .dropdown-submenu > a:after {
   display: block;
   content: " ";
@@ -573,17 +568,17 @@ input[type="search"] {
   margin-right: -10px;
 }
 
-/* line 178, sass/_store.scss */
+/* line 173, sass/_store.scss */
 .dropdown-submenu:hover > a:after {
   border-left-color: #fff;
 }
 
-/* line 182, sass/_store.scss */
+/* line 177, sass/_store.scss */
 .dropdown-submenu.pull-left {
   float: none;
 }
 
-/* line 186, sass/_store.scss */
+/* line 181, sass/_store.scss */
 .dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
@@ -787,37 +782,51 @@ input[type="search"] {
   font-size: 16px;
   padding: 0 20px 20px 20px;
 }
+@media (max-width: 767px) {
+  /* line 42, sass/_product.scss */
+  .main-description {
+    padding: 0 0 20px 0;
+    font-size: 14px;
+  }
+}
 
-/* line 47, sass/_product.scss */
+/* line 52, sass/_product.scss */
 .product-properties {
   font-size: 16px;
   list-style: none;
   padding-left: 20px;
 }
-/* line 52, sass/_product.scss */
+@media (max-width: 767px) {
+  /* line 52, sass/_product.scss */
+  .product-properties {
+    padding-left: 0;
+    font-size: 14px;
+  }
+}
+/* line 62, sass/_product.scss */
 .product-properties li {
   padding: 5px;
 }
-/* line 55, sass/_product.scss */
+/* line 65, sass/_product.scss */
 .product-properties li strong {
   margin-right: 10px;
 }
 
-/* line 61, sass/_product.scss */
+/* line 71, sass/_product.scss */
 .product_price {
   display: inline-block;
   color: #4cae4c;
   margin: 10px 50px 20px 20px;
 }
 
-/* line 67, sass/_product.scss */
+/* line 77, sass/_product.scss */
 .basketMsg {
   height: 30px;
   display: inline-block;
   color: #275bec;
   cursor: pointer;
 }
-/* line 73, sass/_product.scss */
+/* line 83, sass/_product.scss */
 .basketMsg h4 {
   border: 1px solid #275bec;
   border-radius: 10px;
@@ -825,29 +834,44 @@ input[type="search"] {
 }
 
 @media (max-width: 767px) {
-  /* line 80, sass/_product.scss */
+  /* line 90, sass/_product.scss */
   .lot-price {
     font-size: 18px;
+    margin-top: 0;
   }
 }
 
-/* line 86, sass/_product.scss */
+/* line 97, sass/_product.scss */
 .prev-next {
   cursor: pointer;
   color: #065ca7;
 }
-/* line 90, sass/_product.scss */
+/* line 101, sass/_product.scss */
 .prev-next .fa-chevron-left {
   margin-right: 10px;
 }
-/* line 94, sass/_product.scss */
+/* line 105, sass/_product.scss */
 .prev-next .fa-chevron-right {
   margin-left: 10px;
 }
 
-/* line 99, sass/_product.scss */
+/* line 110, sass/_product.scss */
 .auto-bet-popover {
   padding: 20px;
+}
+
+/* line 114, sass/_product.scss */
+.actual-price {
+  margin-left: 25px;
+  margin-top: 27px;
+}
+@media (max-width: 767px) {
+  /* line 114, sass/_product.scss */
+  .actual-price {
+    margin-left: 0;
+    margin-top: 0;
+    font-size: 14px;
+  }
 }
 
 /* line 3, sass/_basket.scss */
@@ -1146,43 +1170,33 @@ input[type="checkbox"], input[type="radio"] {
   margin: 20px 0 50px 0;
 }
 
-/* line 1, sass/_home.scss */
-.auction-timer {
-  width: 380px;
-}
-@media (max-width: 767px) {
-  /* line 1, sass/_home.scss */
-  .auction-timer {
-    width: 290px;
-  }
+/* line 4, sass/_home.scss */
+.auction-timer .timer-item {
+  display: inline-block;
 }
 /* line 8, sass/_home.scss */
-.auction-timer .timer-item {
-  display: table-cell;
-}
-/* line 12, sass/_home.scss */
 .auction-timer .time-count {
   font-size: 60px;
 }
 @media (max-width: 767px) {
-  /* line 12, sass/_home.scss */
+  /* line 8, sass/_home.scss */
   .auction-timer .time-count {
     font-size: 40px;
   }
 }
-/* line 20, sass/_home.scss */
+/* line 16, sass/_home.scss */
 .auction-timer .double-dot {
   padding-left: 10px;
   padding-right: 10px;
   vertical-align: top;
 }
-/* line 26, sass/_home.scss */
+/* line 22, sass/_home.scss */
 .auction-timer .timer-signature {
   font-size: 12px;
   color: gray;
 }
 
-/* line 32, sass/_home.scss */
+/* line 28, sass/_home.scss */
 .badge-new, .badge-sold {
   position: absolute;
   top: -45px;
@@ -1191,7 +1205,7 @@ input[type="checkbox"], input[type="radio"] {
   height: 60px;
 }
 
-/* line 40, sass/_home.scss */
+/* line 36, sass/_home.scss */
 .badge-sold {
   left: -15px;
 }

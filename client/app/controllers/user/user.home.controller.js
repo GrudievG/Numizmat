@@ -14,13 +14,13 @@
 			vm.minutes = undefined;
 			vm.seconds = undefined;
 			vm.auctionName = "";
-			vm.active = false;
+			vm.active = undefined;
 			vm.products = [];
 			vm.topLots = [];
 
 			$http.get('/api/getPublicAuction').then(function(resolve) {
 				if(resolve.data.success) {
-					vm.active = true
+					vm.active = 'yes';
 					vm.auctionName = resolve.data.auction.name;
 					var top = resolve.data.auction.lots.filter(function(lot) {
 						return lot.top == true
@@ -50,7 +50,9 @@
 						vm.minutes = 0;
 						vm.seconds = 0;
 					}
-				} else return	
+				} else {
+					vm.active = 'no'
+				}
 			})
 
 			$http.get('/api/getNewProds').then(function(resolve) {

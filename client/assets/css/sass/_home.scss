@@ -1,12 +1,8 @@
 .auction-timer {
-	width: 380px;
-
-	@media (max-width : 767px) {
-		width: 290px;
-	}
+	
 
 	.timer-item {
-		display: table-cell;
+		display: inline-block;
 	}
 
 	.time-count {

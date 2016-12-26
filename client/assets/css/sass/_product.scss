@@ -42,12 +42,22 @@
 .main-description {
 	font-size: 16px;
 	padding: 0 20px 20px 20px;
+
+	@media (max-width: 767px) {
+		padding: 0 0 20px 0;
+		font-size: 14px;
+	}
 }
 
 .product-properties {
 	font-size: 16px;
 	list-style: none;
 	padding-left: 20px;
+
+	@media (max-width: 767px) {
+		padding-left: 0;
+		font-size: 14px;
+	}
 
 	li {
 		padding: 5px;
@@ -80,6 +90,7 @@
 .lot-price {
 	@media (max-width : 767px) {
 		font-size: 18px;
+		margin-top: 0;
 	}
 }
 
@@ -98,4 +109,15 @@
 
 .auto-bet-popover {
 	padding: 20px;
+}
+
+.actual-price {
+	margin-left: 25px; 
+	margin-top: 27px;
+
+	@media (max-width : 767px) {
+		margin-left: 0;
+		margin-top: 0;
+		font-size: 14px;
+	}
 }

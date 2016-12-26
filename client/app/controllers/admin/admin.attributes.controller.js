@@ -144,14 +144,12 @@
 			}
 
 			modal.editSubcats = function() {
-				console.log(modal.attribute.values)
 				var subcatsError = false;
 				modal.errorMsg = "";
 				modal.attribute.values.forEach(function(value) {
 					var checkedValue = modal.attribute.values.filter(function(el) {
 						return el == value
 					})
-					console.log(checkedValue)
 					if (checkedValue.length > 1)
 						subcatsError = true;
 				})

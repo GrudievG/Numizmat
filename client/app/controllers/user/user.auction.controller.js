@@ -33,7 +33,6 @@
 			}
 
 			$http.get('/api/getCurrentAuction').then(function(resolve) {
-				console.log(resolve.data)
 				if(resolve.data.success) {
 					vm.auctionExist = 'yes';
 					auction_id = resolve.data.auction._id;
@@ -50,7 +49,6 @@
 						categories.push(lot.category)
 					getTradingTime(lot);
 				})
-				console.log(vm.lots)
 				reserveLots = angular.copy(vm.lots)
 				vm.changePage();
 				return $http.get('api/getCategories')	
@@ -60,7 +58,6 @@
 				})
 				vm.categories = cats
 			}).catch(function(error) {
-				console.log(error)
 				return
 			});
 
@@ -150,7 +147,6 @@
 						delete vm.filter[i]
 					}
 				}
-				console.log(currentCategory, currentSubcategory)
 				$http.post('api/filterLots', {
 					filter: vm.filter,
 					auction: auction_id,

@@ -2,21 +2,21 @@
 	<div ui-sref="auction" style="cursor: pointer" title="Перейти к аукицону">
 		<div class="row">
 			<div class="col-xs-12">
-				<h1 class="text-center hidden-xs" ng-if="!home.active">Нет активных аукционов</h1>
-				<h3 class="text-center visible-xs" ng-if="!home.active">Нет активных аукционов</h3>
-				<h1 class="text-center hidden-xs" ng-if="home.active">{{home.auctionName}}</h1>
-				<h3 class="text-center visible-xs" ng-if="home.active">{{home.auctionName}}</h3>
+				<h1 class="text-center hidden-xs" ng-if="home.active == 'no'">Нет активных аукционов</h1>
+				<h3 class="text-center visible-xs" ng-if="home.active == 'no'">Нет активных аукционов</h3>
+				<h1 class="text-center hidden-xs" ng-if="home.active == 'yes'">{{home.auctionName}}</h1>
+				<h3 class="text-center visible-xs" ng-if="home.active == 'yes'">{{home.auctionName}}</h3>
 			</div>
 		</div>
-		<div class="row" ng-if="home.active">
+		<div class="row" ng-if="home.active  == 'yes'">
 			<div class="col-xs-12">
 				<h3 class="text-center hidden-xs">Начало онлайн-торгов через:</h3>
 				<h4 class="text-center visible-xs">Начало онлайн-торгов через:</h4>
 			</div>
 		</div>
-		<div class="row" ng-if="home.active">
+		<div class="row" ng-if="home.active  == 'yes'">
 			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
-				<div class="auction-timer center-block">
+				<div class="auction-timer text-center">
 					<div class="timer-item">
 						<div class="text-center">
 							<span class="time-count">{{home.days}}</span>
@@ -92,17 +92,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" ng-if="home.active  == 'yes'">
 		<div class="col-xs-12">
 			<h2 class="text-center hidden-xs">Топ лотов:</h2>
 			<h4 class="text-center visible-xs">Топ лотов:</h4>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" ng-if="home.active  == 'yes'">
 		<div class="col-md-4" ng-repeat="lot in home.topLots">
 			<div class="lot" ui-sref="lot({ lot_id: lot._id })">
-				<img class="badge-new" src="assets/img/top.svg"">
-				<h4 class="text-center">{{lot.name}}</h4>
+				<img class="badge-new" src="assets/img/top.svg">
+				<h4 class="text-center">Лот №{{lot.number}}</h4>
+				<h4 class="text-center">"{{lot.name}}"</h4>
 				<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{lot.imgIds[0]}}.png">
 				<div class="row">
 					<div class="col-xs-12 bets">
