@@ -15,6 +15,7 @@
 			};
 
 			vm.alert = "";
+			vm.popoverAlert = "";
 			vm.inputValue = "";
 			vm.attributes = [];
 
@@ -24,6 +25,15 @@
 
 			vm.appendValue = function () {
 				if(!vm.inputValue) return;
+				if(vm.attribute.values.indexOf(vm.inputValue) != -1) {
+					$timeout(function() {
+				        vm.popoverAlert = "Такое значение уже есть!";
+				    }, 100);
+			      	$timeout(function() {
+			        	vm.popoverAlert = "";
+			      	}, 1600);
+			      	return
+				}
 				vm.attribute.values.push(vm.inputValue);
 				vm.inputValue = "";
 			}
@@ -103,9 +113,19 @@
 			modal.attribute = item;
 			modal.edit = false;
 			modal.validForm = true;
+			modal.popoverAlert = "";
 
 			modal.appendValue = function () {
 				if(!modal.inputValue) return;
+				if(modal.attribute.values.indexOf(modal.inputValue) != -1) {
+					$timeout(function() {
+				        modal.popoverAlert = "Такое значение уже есть!";
+				    }, 100);
+			      	$timeout(function() {
+			        	modal.popoverAlert = "";
+			      	}, 1600);
+			      	return
+				}
 				modal.attribute.values.push(modal.inputValue);
 				modal.inputValue = "";
 			}
@@ -124,6 +144,27 @@
 			}
 
 			modal.editSubcats = function() {
+				console.log(modal.attribute.values)
+				var subcatsError = false;
+				modal.errorMsg = "";
+				modal.attribute.values.forEach(function(value) {
+					var checkedValue = modal.attribute.values.filter(function(el) {
+						return el == value
+					})
+					console.log(checkedValue)
+					if (checkedValue.length > 1)
+						subcatsError = true;
+				})
+
+				if (subcatsError) {
+					$timeout(function() {
+				        modal.errorMsg = "Ошибка! Найдены одинаковые подкатегории.";
+				    }, 100);
+			      	$timeout(function() {
+			        	modal.errorMsg = "";
+			      	}, 1600);
+			      	return
+				}
 				modal.edit = false;
 			}
 

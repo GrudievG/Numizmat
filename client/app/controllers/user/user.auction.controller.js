@@ -6,11 +6,14 @@
 		.controller('AuctionController', ['$scope', '$http', '$rootScope', 'socket', function ($scope, $http, $rootScope, socket) {
 			moment.locale('ru')
 			var vm = this;
-			vm.notExist = true;
-
-			var reserveLots = []
+			var reserveLots = [];
+			var filteredLots = [];
 			var categories = [];
+			var auction_id = undefined;
+			var currentCategory = 'all';
+			var currentSubcategory = 'all';
 
+			vm.auctionExist = undefined;
 			vm.lots = [];
 			vm.filters = [];
 			vm.categories = [];
@@ -29,27 +32,34 @@
   				if (a.number < b.number) return -1;
 			}
 
-			
-				
-			$http.get('api/lots').then(function(resolve) {
-				if (resolve.data.success) {
-					vm.notExist = false;
-					var sortedLots = resolve.data.auction.lots.sort(sortByNumber)
-					vm.lots = sortedLots;
-					vm.lots.forEach(function(lot) {
-						if(categories.indexOf(lot.category) == -1)
-							categories.push(lot.category)
-						getTradingTime(lot);
-					})
-					reserveLots = angular.copy(vm.lots)
-					vm.changePage();
-					return $http.get('api/getCategories')
-				}	
+			$http.get('/api/getCurrentAuction').then(function(resolve) {
+				if(resolve.data.success) {
+					vm.auctionExist = 'yes';
+					auction_id = resolve.data.auction._id;
+					return $http.get('api/lots/' + auction_id)
+				} else {
+					vm.auctionExist = 'no';
+					throw new Error()
+				}
+			}).then(function(resolve) {
+				var sortedLots = resolve.data.lots.sort(sortByNumber)
+				vm.lots = sortedLots;
+				vm.lots.forEach(function(lot) {
+					if(categories.indexOf(lot.category) == -1)
+						categories.push(lot.category)
+					getTradingTime(lot);
+				})
+				console.log(vm.lots)
+				reserveLots = angular.copy(vm.lots)
+				vm.changePage();
+				return $http.get('api/getCategories')	
 			}).then(function(resolve) {
 				var cats = resolve.data.filter(function(item) {
 					return categories.indexOf(item.name) != -1
 				})
 				vm.categories = cats
+			}).catch(function(error) {
+				return
 			});
 
 			$http.get('api/getAttributes').then(function(resolve) {
@@ -69,19 +79,42 @@
 			}
 
 			vm.showAll = function () {
+				currentCategory = 'all';
+				currentSubcategory = 'all';
 				vm.lots = reserveLots;
 				vm.changePage();
+				vm.filterLots();
 			}
 
 			vm.selectCat = function (category, subcategory) {
-				$http.post('api/getFilteredLotsByCategory', {
-					category: category,
-					subcategory: subcategory
-				}).then(function(resolve) {
-					var sortedLots = resolve.data.sort(sortByNumber);
-					vm.lots = sortedLots;
+				// $http.post('api/getFilteredLotsByCategory', {
+				// 	category: category,
+				// 	subcategory: subcategory
+				// }).then(function(resolve) {
+				// 	var sortedLots = resolve.data.sort(sortByNumber);
+				// 	vm.lots = sortedLots;
+				// 	vm.changePage();
+				// })
+				if (category) {
+					currentCategory = category;
+				}
+				if (subcategory) {
+					currentSubcategory = subcategory;
+				}
+				
+				if(!subcategory) {
+					vm.lots = reserveLots.filter(function(lot) {
+						return lot.category == category
+					})
 					vm.changePage();
-				})
+				} else {
+					vm.lots = reserveLots.filter(function(lot) {
+						return lot.category == category && lot.subcategory == subcategory
+					})
+					vm.changePage();
+				}
+				vm.filterLots();
+				
 			}
 
 			vm.searchLots = function() {
@@ -115,9 +148,18 @@
 						delete vm.filter[i]
 					}
 				}
-				$http.post('api/filterLots', vm.filter).then(function(resolve) {
+				console.log(currentCategory, currentSubcategory)
+				$http.post('api/filterLots', {
+					filter: vm.filter,
+					auction: auction_id,
+					category: currentCategory,
+					subcategory: currentSubcategory
+				}).then(function(resolve) {
 					var sortedLots = resolve.data.sort(sortByNumber);
-					vm.lots = sortedLots
+					vm.lots = sortedLots;
+					vm.lots.forEach(function(lot) {
+						getTradingTime(lot);
+					})
 					vm.changePage();
 				})
 			};

@@ -1,6 +1,6 @@
 <div class="container" ng-controller="AuctionController as auction">
 
-	<div class="row" style="margin-top:20px" ng-if="!auction.notExist" ng-cloak>
+	<div class="row" style="margin-top:20px" ng-if="auction.auctionExist == 'yes'" ng-cloak>
 		<div class="col-xs-12 col-md-9 prods">
 			<div class="row" style="margin-bottom:20px">
 				<div class="col-xs-7 col-sm-5 col-lg-4">
@@ -118,7 +118,7 @@
 							<tbody>
 								<tr class="row" ng-repeat="product in auction.pagination.filtered" ui-sref="lot({ lot_id: product._id })">
 									<td class="col-md-3">
-										<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_90/{{product.imgIds[0]}}.png">
+										<img  class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_90/{{product.imgIds[0]}}.png">
 									</td>
 									<td class="col-md-5">
 										<h4 class="text-center">Лот №{{product.number}} "{{product.name}}"</h4>
@@ -188,7 +188,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" ng-if="auction.notExist">
+	<div class="row" ng-if="auction.auctionExist  == 'no'">
 		<div class="col-xs-8 col-xs-offset-2 text-center">
 			<h3 style="margin-top: 100px;">Сейчас нет активных аукционов.</h3>
 		</div>

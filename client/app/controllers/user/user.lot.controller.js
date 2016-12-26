@@ -41,6 +41,7 @@
 				return $http.get('api/lot/' + $stateParams.lot_id)
 			}).then(function(resolve) {
 				vm.lot = resolve.data.current;
+				console.log(vm.lot)
 				vm.prevId = resolve.data.prev_id;
 				vm.nextId = resolve.data.next_id;
 				if(vm.lot.customer == $window.localStorage.getItem('id')) {
@@ -50,9 +51,15 @@
 					var url = "http://res.cloudinary.com/dsimmrwjb/image/upload/" + el + ".png"
 					vm.imgUrls.push(url)
 				});
-				checkBetStep();
+				if(vm.lot.bets == 0) {
+					vm.bet = vm.lot.price;
+					vm.minBet = vm.lot.price;
+					vm.autobet = vm.lot.price;
+				} else {
+					checkBetStep();
+					vm.autobet = vm.lot.price + deltaBet;
+				}
 				checkTime();
-				vm.autobet = vm.lot.price + deltaBet;
 				if (Date.now() < Number(vm.lot.endTrading)) 
 					redirect = $interval(checkRedirect, 1000);
 			});

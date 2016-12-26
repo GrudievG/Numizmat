@@ -111,8 +111,8 @@ module.exports = function(express) {
         })
     })
 
-    apiRouter.get('/lots', function(req, res) {
-        Auction.find({}).populate('lots').exec(function(err, auctions) {
+    apiRouter.get('/getCurrentAuction', function(req, res) {
+        Auction.find({}, function(err, auctions) {
             var current = auctions.filter(function(auc) {
                 return auc.status == "published"
             })
@@ -126,6 +126,12 @@ module.exports = function(express) {
                     success: false
                 })
             }
+        })
+    })
+
+    apiRouter.get('/lots/:auction_id', function(req, res) {
+        Lot.find({auction: req.params.auction_id}, function(err, lots) {
+            res.json({lots})
         })
     })
 
@@ -168,18 +174,18 @@ module.exports = function(express) {
         });     
     })
 
-    apiRouter.post('/getFilteredLotsByCategory', function(req, res) {
-        Lot.find({category: req.body.category}, function(err, lots) {
-            if(req.body.subcategory) {
-                var subcatLots = lots.filter(function(item) {
-                    return item.subcategory == req.body.subcategory
-                })
-                res.json(subcatLots)
-            } else {
-                res.json(lots)
-            }
-        })
-    })
+    // apiRouter.post('/getFilteredLotsByCategory', function(req, res) {
+    //     Lot.find({category: req.body.category}, function(err, lots) {
+    //         if(req.body.subcategory) {
+    //             var subcatLots = lots.filter(function(item) {
+    //                 return item.subcategory == req.body.subcategory
+    //             })
+    //             res.json(subcatLots)
+    //         } else {
+    //             res.json(lots)
+    //         }
+    //     })
+    // })
 
     apiRouter.get('/searchLots/:query', function(req, res) {
         var query = new RegExp(req.params.query, 'i')        
@@ -189,9 +195,21 @@ module.exports = function(express) {
     })
 
     apiRouter.post('/filterLots', function(req, res) {
-        var propKeys = Object.keys(req.body)
+        var propKeys = Object.keys(req.body.filter)
         var filteredLots = [];
-        Lot.find({}, function(err, lots) {
+        Lot.find({auction: req.body.auction}, function(err, lots) {
+
+            if(req.body.category != 'all') {
+                lots = lots.filter(function(lot) {
+                    return lot.category == req.body.category
+                })
+            }
+            if(req.body.subcategory != 'all') {
+                lots = lots.filter(function(lot) {
+                    return lot.subcategory == req.body.subcategory
+                })
+            }
+
             filteredLots = lots
             filteredLots = filteredLots.map(function(lot) {
                 lot.props.forEach(function(prop, i) {
@@ -202,7 +220,7 @@ module.exports = function(express) {
             })
             filteredLots = filteredLots.filter(function(lot) {
                 return propKeys.every(function(prop) {
-                    return lot[prop] === req.body[prop];
+                    return lot[prop] === req.body.filter[prop];
                 });
             })
             res.json(filteredLots);

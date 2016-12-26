@@ -102,6 +102,9 @@
 	<script type="text/ng-template" id="addProp.html">
     	<div class="rolePopover">
     		<input type="text" class="form-control" placeholder="Название" ng-model="adminAttrs.inputValue">
+    		<div class="alert alert-danger toggle" ng-if="adminAttrs.popoverAlert" style="margin-top: 15px;">
+    			<span>{{adminAttrs.popoverAlert}}</span>
+    		</div>
     		<button type="button" class="btn btn-primary propPlus center-block" ng-click="adminAttrs.appendValue()">Добавить</button>
     	</div>
     </script>
@@ -109,6 +112,9 @@
     <script type="text/ng-template" id="modalAddProp.html">
     	<div class="rolePopover">
     		<input type="text" class="form-control" placeholder="Название" ng-model="modal.inputValue">
+    		<div class="alert alert-danger toggle" ng-if="modal.popoverAlert" style="margin-top: 15px;">
+    			<span>{{modal.popoverAlert}}</span>
+    		</div>
     		<button type="button" class="btn btn-primary propPlus center-block" ng-click="modal.appendValue()">Добавить</button>
     	</div>
     </script>
@@ -165,6 +171,11 @@
 							<form>
 								<div class="form-group" ng-repeat="value in modal.attribute.values track by $index">
 									<input type="text" class="form-control" ng-model="value" ng-change="modal.checkValid(value, $index)">
+								</div>
+								<div class="form-group toggle" ng-if="modal.errorMsg">
+									<div class="alert alert-danger">
+						    			<span>{{modal.errorMsg}}</span>
+						    		</div>
 								</div>
 								<div class="form-group">
 									<button class="btn btn-primary center-block" type="button" ng-click="modal.editSubcats()" ng-disabled="!modal.validForm">OK!</button>

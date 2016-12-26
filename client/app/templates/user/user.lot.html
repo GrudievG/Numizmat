@@ -71,7 +71,8 @@
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-4 col-md-5 col-lg-4">
-						<h4 style="margin-left: 25px; margin-top: 27px;">Актуальная цена:</h4>
+						<h4 style="margin-left: 25px; margin-top: 27px;" ng-if="lot.lot.bets > 0">Актуальная цена:</h4>
+						<h4 style="margin-left: 25px; margin-top: 27px;" ng-if="lot.lot.bets == 0">Стартовая цена:</h4>
 					</div>
 					<div class="col-xs-6 col-sm-8 col-md-7 col-lg-8">
 						<h2 class="lot-price">{{lot.lot.price}} грн</h2>
