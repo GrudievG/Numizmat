@@ -150,7 +150,7 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                         lot.price = lot.price + betStep;
                                         lot.bets++
                                         lot.history.push({
-                                            customer: lot.autobet.customer_email,
+                                            customer: split[0],
                                             price: lot.price,
                                             time: data.time,
                                         });
