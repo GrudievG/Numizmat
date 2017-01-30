@@ -32,6 +32,14 @@
 					</button>	
 				</div>
 				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
+					<h5 ng-if="auction.filterCat">
+						<span>Фильтр: </span>
+						<span class="label label-primary">{{auction.filterCat}}</span>
+						<span ng-if="auction.filterSubcat"> / </span>
+						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
+					</h5>
+				</div>
+				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
 					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.searchLots()">
 				</div>
 				<div class="col-lg-6 visible-lg">
@@ -47,6 +55,14 @@
 					<button class="btn pull-right toggle-view" ng-class="{ 'active-tab': $root.showAsList == true}" ng-click="auction.changeActiveTab('list')">
 						<i class="fa fa-list fa-lg" aria-hidden="true"></i>
 					</button>	
+				</div>
+				<div class="col-sm-12 visible-sm" style="margin-top: 15px;">
+					<h4 ng-if="auction.filterCat">
+						<span>Фильтр: </span>
+						<span class="label label-primary">{{auction.filterCat}}</span>
+						<span ng-if="auction.filterSubcat"> / </span>
+						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
+					</h4>
 				</div>
 			</div>
 			<div class="row filters visible-xs visible-sm" style="margin-bottom:20px">
@@ -83,6 +99,16 @@
 							</div>
 						</form>
 					</div>
+				</div>
+			</div>
+			<div class="row hidden-xs hidden-sm">
+				<div class="col-xs-12" style="margin-bottom: 15px;">
+					<h4 ng-if="auction.filterCat">
+						<span>Фильтр: </span>
+						<span class="label label-primary">{{auction.filterCat}}</span>
+						<span ng-if="auction.filterSubcat"> / </span>
+						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
+					</h4>
 				</div>
 			</div>
 			<div class="row" ng-show="$root.showAsBlocks">

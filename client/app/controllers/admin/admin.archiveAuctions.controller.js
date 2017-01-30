@@ -18,9 +18,18 @@
 			})
 			
 			$q.all(deffArr).then(function(results) {
+				results.forEach(function(auc) {
+					console.log(auc.lots)
+					auc.lots = auc.lots.sort(sortByNumber);
+				})
 				vm.auctions = results;
 			});	
 		})
+
+		function sortByNumber (a, b) {
+			if (a.number > b.number) return 1;
+			if (a.number < b.number) return -1;
+		}
 
 		function getUsers (item) {
 			var users = []

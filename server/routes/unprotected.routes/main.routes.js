@@ -52,18 +52,18 @@ module.exports = function(express) {
         });
     })
 
-    apiRouter.post('/getFilteredProdsByCategory', function(req, res) {
-        Product.find({category: req.body.category}, function(err, prods) {
-            if(req.body.subcategory) {
-                var subcatProds = prods.filter(function(item) {
-                    return item.subcategory == req.body.subcategory
-                })
-                res.json(subcatProds)
-            } else {
-                res.json(prods)
-            }
-        })
-    })
+    // apiRouter.post('/getFilteredProdsByCategory', function(req, res) {
+    //     Product.find({category: req.body.category}, function(err, prods) {
+    //         if(req.body.subcategory) {
+    //             var subcatProds = prods.filter(function(item) {
+    //                 return item.subcategory == req.body.subcategory
+    //             })
+    //             res.json(subcatProds)
+    //         } else {
+    //             res.json(prods)
+    //         }
+    //     })
+    // })
 
     apiRouter.get('/searchProds/:query', function(req, res) {
         var query = new RegExp(req.params.query, 'i')        
@@ -73,22 +73,78 @@ module.exports = function(express) {
     })
 
     apiRouter.post('/filterProds', function(req, res) {
-        var propKeys = Object.keys(req.body)
+        var propKeys;
+        if (req.body.filter) {
+            propKeys = Object.keys(req.body.filter);
+        } else {
+            propKeys = [];
+        }
         var filteredProds = [];
         Product.find({}, function(err, prods) {
+            if(req.body.category != 'all') {
+                prods = prods.filter(function(lot) {
+                    return lot.category == req.body.category
+                })
+            }
+            if(req.body.subcategory != 'all') {
+                prods = prods.filter(function(lot) {
+                    return lot.subcategory == req.body.subcategory
+                })
+            }
+
             filteredProds = prods
             filteredProds = filteredProds.map(function(prod) {
                 prod.props.forEach(function(prop, i) {
                    prod[prop.meta] = prop.value;
                 })
                 return prod; 
-            })
-            filteredProds = filteredProds.filter(function(prod) {
-                return propKeys.every(function(prop) {
-                    return prod[prop] === req.body[prop];
-                });
-            })
+            });
+            if(req.body.filter) {
+                filteredProds = filteredProds.filter(function(prod) {
+                    return propKeys.every(function(prop) {
+                        return prod[prop] === req.body.filter[prop];
+                    });
+                })
+            }
             res.json(filteredProds);
+        })
+    })
+
+    apiRouter.post('/filterLots', function(req, res) {
+        var propKeys;
+        if (req.body.filter) {
+            propKeys = Object.keys(req.body.filter);
+        } else {
+            propKeys = [];
+        }
+        var filteredLots = [];
+        Lot.find({auction: req.body.auction}, function(err, lots) {
+            if(req.body.category != 'all') {
+                lots = lots.filter(function(lot) {
+                    return lot.category == req.body.category
+                })
+            }
+            if(req.body.subcategory != 'all') {
+                lots = lots.filter(function(lot) {
+                    return lot.subcategory == req.body.subcategory
+                })
+            }
+
+            filteredLots = lots
+            filteredLots = filteredLots.map(function(lot) {
+                lot.props.forEach(function(prop, i) {
+                   lot[prop.meta] = prop.value;
+                })
+                return lot; 
+            })
+            if (req.body.filter) {
+                filteredLots = filteredLots.filter(function(lot) {
+                    return propKeys.every(function(prop) {
+                        return lot[prop] === req.body.filter[prop];
+                    });
+                })
+            }
+            res.json(filteredLots);
         })
     })
 
@@ -137,13 +193,15 @@ module.exports = function(express) {
 
     apiRouter.get('/lot/:lot_id', function(req, res) {
         Lot.findById(req.params.lot_id, function(err, lot) {
-
+            
+            var auction_id = lot.auction;
+            console.log(auction_id)
             var prevNumber = lot.number - 1;
             var nextNumber = lot.number + 1;
 
             async.parallel([
                 function(callback) {
-                    Lot.findOne({number: prevNumber}, function(err, prevLot) {
+                    Lot.findOne({number: prevNumber, auction: auction_id}, function(err, prevLot) {
                         if (prevLot === null) {
                             Lot.find({auction: lot.auction}, function(err, lots) {
                                 prevLot = lots.filter(function(el) {
@@ -155,7 +213,7 @@ module.exports = function(express) {
                             callback(null, prevLot)
                     })
                 }, function(callback) {
-                    Lot.findOne({number: nextNumber}, function(err, nextLot) {
+                    Lot.findOne({number: nextNumber, auction: auction_id}, function(err, nextLot) {
                         if (nextLot === null) {
                             Lot.findOne({number: 1}, function(err, llot) {
                                 callback(null, llot)
@@ -194,38 +252,7 @@ module.exports = function(express) {
         })
     })
 
-    apiRouter.post('/filterLots', function(req, res) {
-        var propKeys = Object.keys(req.body.filter)
-        var filteredLots = [];
-        Lot.find({auction: req.body.auction}, function(err, lots) {
-
-            if(req.body.category != 'all') {
-                lots = lots.filter(function(lot) {
-                    return lot.category == req.body.category
-                })
-            }
-            if(req.body.subcategory != 'all') {
-                lots = lots.filter(function(lot) {
-                    return lot.subcategory == req.body.subcategory
-                })
-            }
-
-            filteredLots = lots
-            filteredLots = filteredLots.map(function(lot) {
-                lot.props.forEach(function(prop, i) {
-                   lot[prop.meta] = prop.value;
-                })
-
-                return lot; 
-            })
-            filteredLots = filteredLots.filter(function(lot) {
-                return propKeys.every(function(prop) {
-                    return lot[prop] === req.body.filter[prop];
-                });
-            })
-            res.json(filteredLots);
-        })
-    })
+    
 
 	apiRouter.get('/getAttributes', function(req, res) {
         Attribute.find(function(err, attrs) {

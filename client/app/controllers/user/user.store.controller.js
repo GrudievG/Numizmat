@@ -9,10 +9,14 @@
 
 			var reserveProds = [];
 			var categories = [];
+			var currentCategory = 'all';
+			var currentSubcategory = 'all';
 
 			vm.products = [];
 			vm.categories = [];
 			vm.filters = [];
+			vm.filterCat = "";
+			vm.filterSubcat = "";
 			vm.mode = 'pagination';
 			vm.pageSizeVars = [10, 20, 40, 80, 100];
 
@@ -46,26 +50,37 @@
 			})
 
 			vm.showAll = function () {
+				vm.filterCat = "";
+				vm.filterSubcat = "";
+				currentCategory = 'all';
+				currentSubcategory = 'all';
 				vm.products = reserveProds;
-				vm.changePage();
+				vm.filterProds();
 			}
 
 			vm.selectCat = function (category, subcategory) {
-				$http.post('api/getFilteredProdsByCategory', {
-					category: category,
-					subcategory: subcategory
-				}).then(function(resolve) {
-					vm.products = resolve.data
-					vm.changePage();
-				})
+				currentCategory = 'all';
+				currentSubcategory = 'all';
+				if (category) {
+					currentCategory = category;
+					vm.filterCat = currentCategory;
+				}
+				if (subcategory) {
+					currentSubcategory = subcategory;
+					vm.filterSubcat = currentSubcategory;
+				}
+				if(!subcategory) {
+					vm.filterSubcat = "";
+				}
+				vm.filterProds();
 			}
 
 			vm.searchProds = function() {
 				if(vm.query.length == 0)
 					vm.showAll();
 				else {
-					$http.get('api/searchProds/'+vm.query).then(function(resolve) {
-						vm.products = resolve.data
+					$http.get('api/searchProds/' + vm.query).then(function(resolve) {
+						vm.products = resolve.data;
 						vm.changePage();
 					})
 				}
@@ -87,8 +102,12 @@
 						delete vm.filter[i]
 					}
 				}
-				$http.post('api/filterProds', vm.filter).then(function(resolve) {
-					vm.products = resolve.data
+				$http.post('api/filterProds', {
+					filter: vm.filter,
+					category: currentCategory,
+					subcategory: currentSubcategory
+				}).then(function(resolve) {
+					vm.products = resolve.data;
 					vm.changePage();
 				})
 			};

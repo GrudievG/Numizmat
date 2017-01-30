@@ -1,21 +1,22 @@
 <div class="container" ng-controller="HomeController as home">
-	<div ui-sref="auction" style="cursor: pointer" title="Перейти к аукицону">
+	<div ui-sref="auction" class="bordered-section" style="cursor: pointer" title="Перейти к аукциону" ng-if="home.active  == 'yes'">
 		<div class="row">
 			<div class="col-xs-12">
-				<h1 class="text-center hidden-xs" ng-if="home.active == 'no'">Нет активных аукционов</h1>
-				<h3 class="text-center visible-xs" ng-if="home.active == 'no'">Нет активных аукционов</h3>
-				<h1 class="text-center hidden-xs" ng-if="home.active == 'yes'">{{home.auctionName}}</h1>
-				<h3 class="text-center visible-xs" ng-if="home.active == 'yes'">{{home.auctionName}}</h3>
+				<h1 class="text-center hidden-xs">{{home.auctionName}}</h1>
+				<h3 class="text-center visible-xs">{{home.auctionName}}</h3>
+				<h4 class="text-center" ng-show="home.auctionTime">
+					<i>{{home.auctionTime}}</i>
+				</h4>
 			</div>
 		</div>
-		<div class="row" ng-if="home.active  == 'yes'">
+		<div class="row"">
 			<div class="col-xs-12">
 				<h3 class="text-center hidden-xs">Начало онлайн-торгов через:</h3>
 				<h4 class="text-center visible-xs">Начало онлайн-торгов через:</h4>
 			</div>
 		</div>
-		<div class="row" ng-if="home.active  == 'yes'">
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+		<div class="row">
+			<div class="col-xs-12">
 				<div class="auction-timer text-center">
 					<div class="timer-item">
 						<div class="text-center">
@@ -69,61 +70,68 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<h2 class="text-center hidden-xs">Новинки:</h2>
-			<h4 class="text-center visible-xs">Новинки:</h4>
-		</div>
+	<div class="row" ng-if="home.active == 'no'" style="margin-top: 20px;">
+		<h1 class="text-center hidden-xs">Нет активных аукционов</h1>
+		<h3 class="text-center visible-xs">Нет активных аукционов</h3>
 	</div>
-	<div class="row">
-		<div class="col-md-4" ng-repeat="product in home.products">
-			<div class="product" ui-sref="product({ product_id: product._id })">
-				<img class="badge-new" src="assets/img/new.svg"">
-				<h4 class="text-center">{{product.name}}</h4>
-				<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{product.imgIds[0]}}.png">
-				<div class="row">
-					<div class="col-xs-5 col-xs-offset-1">
-						<span class="text-center price">{{product.price}} грн</span>
+	<div class="bordered-section toggle-border">
+		<div class="row">
+			<div class="col-xs-12">
+				<h2 class="text-center hidden-xs">Новинки:</h2>
+				<h4 class="text-center visible-xs">Новинки:</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4" ng-repeat="product in home.products">
+				<div class="product" ui-sref="product({ product_id: product._id })">
+					<img class="badge-new" src="assets/img/new.svg"">
+					<h4 class="text-center">{{product.name}}</h4>
+					<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{product.imgIds[0]}}.png">
+					<div class="row">
+						<div class="col-xs-5 col-xs-offset-1">
+							<span class="text-center price">{{product.price}} грн</span>
+						</div>
+						<div class="col-xs-6">
+							<span class="detail-info pull-right"><strong>Подробнее</strong></span>
+						</div>
 					</div>
-					<div class="col-xs-6">
-						<span class="detail-info pull-right"><strong>Подробнее</strong></span>
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-if="home.active  == 'yes'">
+			<div class="col-xs-12">
+				<h2 class="text-center hidden-xs">Топ лотов:</h2>
+				<h4 class="text-center visible-xs">Топ лотов:</h4>
+			</div>
+		</div>
+		<div class="row" ng-if="home.active  == 'yes'">
+			<div class="col-md-4" ng-repeat="lot in home.topLots">
+				<div class="lot" ui-sref="lot({ lot_id: lot._id })">
+					<img class="badge-new" src="assets/img/top.svg">
+					<h4 class="text-center">Лот №{{lot.number}}</h4>
+					<h4 class="text-center">"{{lot.name}}"</h4>
+					<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{lot.imgIds[0]}}.png">
+					<div class="row">
+						<div class="col-xs-12 bets">
+							<span class="font-icon"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></span>
+							<span><b>Онлайн торги:</b> {{lot.timeToStart}}</span>
+						</div>
+						<div class="col-xs-12 bets">
+							<span class="font-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+							<span><b>Ставки:</b> {{lot.bets}}</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 bets">
+							<span class="text-center price">{{lot.price}} грн</span>
+						</div>
+						<div class="col-xs-6">
+							<span class="detail-info pull-right"><strong>Подробнее</strong></span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row" ng-if="home.active  == 'yes'">
-		<div class="col-xs-12">
-			<h2 class="text-center hidden-xs">Топ лотов:</h2>
-			<h4 class="text-center visible-xs">Топ лотов:</h4>
-		</div>
-	</div>
-	<div class="row" ng-if="home.active  == 'yes'">
-		<div class="col-md-4" ng-repeat="lot in home.topLots">
-			<div class="lot" ui-sref="lot({ lot_id: lot._id })">
-				<img class="badge-new" src="assets/img/top.svg">
-				<h4 class="text-center">Лот №{{lot.number}}</h4>
-				<h4 class="text-center">"{{lot.name}}"</h4>
-				<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{lot.imgIds[0]}}.png">
-				<div class="row">
-					<div class="col-xs-12 bets">
-						<span class="font-icon"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></span>
-						<span><b>Онлайн торги:</b> {{lot.timeToStart}}</span>
-					</div>
-					<div class="col-xs-12 bets">
-						<span class="font-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
-						<span><b>Ставки:</b> {{lot.bets}}</span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 bets">
-						<span class="text-center price">{{lot.price}} грн</span>
-					</div>
-					<div class="col-xs-6">
-						<span class="detail-info pull-right"><strong>Подробнее</strong></span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+		
 </div>

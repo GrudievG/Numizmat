@@ -17,7 +17,8 @@
 						<table class="table table-hover prodList">
 				    		<thead>
 					    		<tr>
-					    			<td class="text-center"><strong>Товар</strong></td>
+					    			<td class="text-center"><strong>Номер лота</strong></td>
+					    			<td class="text-center"><strong>Лот</strong></td>
 					    			<td class="text-center"><strong>Кол-во ставок</strong></td>
 					    			<td class="text-center"><strong>Победитель</strong></td>
 					    			<td class="text-center"><strong>Итоговая цена</strong></td>
@@ -25,6 +26,9 @@
 				    		</thead>
 				    		<tbody>
 				    			<tr ng-repeat="lot in auction.lots">
+				    				<td class="text-center">
+					    				<span>{{lot.number}}</span>
+					    			</td>
 					    			<td class="prod-preview">
 					    				<img ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_70/{{lot.imgIds[0]}}.png">
 					    				<div class="prodName">

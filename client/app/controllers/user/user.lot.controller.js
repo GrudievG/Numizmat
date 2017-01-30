@@ -118,17 +118,20 @@
 			};
 
 			vm.makeBet = function() {
-				var currentDelta = Number(vm.lot.endTrading) - Date.now()
-				socket.emit('bet up', {
-					price: vm.bet,
-					user_id: $window.localStorage.getItem('id'),
-					user_email: $window.localStorage.getItem('user'),
-					lot: vm.lot,
-					tradingLot: settings.tradingLot,
-					deltaTime: deltaTime,
-					currentDelta: currentDelta,
-					time: moment().format('LLL')
-				})
+				var sure = confirm("Вы подтверждаете ставку?")
+				if(sure) {
+					var currentDelta = Number(vm.lot.endTrading) - Date.now()
+					socket.emit('bet up', {
+						price: vm.bet,
+						user_id: $window.localStorage.getItem('id'),
+						user_email: $window.localStorage.getItem('user'),
+						lot: vm.lot,
+						tradingLot: settings.tradingLot,
+						deltaTime: deltaTime,
+						currentDelta: currentDelta,
+						time: moment().format('LLL')
+					})
+				} else return;	
 			}
 
 			vm.viewHistory = function (lot) {

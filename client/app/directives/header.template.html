@@ -2,7 +2,7 @@
 	<div class="row header">
 		<div class="col-xs-12 visible-xs">
 			<div class="pull-right goToAdmin-tablet-view" ng-if="$root.loggedIn && $root.admin">
-				<span class="goToAdmin" ui-sref="admin">Перейти к админ. панели</span>
+				<span class="goToAdmin" ui-sref="admin.orders">Перейти к админ. панели</span>
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-4 col-md-3">
@@ -16,14 +16,14 @@
 					<span uib-popover-template="dynamicPopover.loginTemplateUrl" popover-placement="bottom-right" popover-append-to-body="true" popover-trigger="'outsideClick'"><i class="fa fa-sign-in" aria-hidden="true"></i>Вход</span>
 				</div>
 				<div ng-if="$root.loggedIn">
-					<span class="goToAdmin hidden-xs hidden-sm" ui-sref="admin" ng-if="$root.admin">Перейти к админ. панели</span>
+					<span class="goToAdmin hidden-xs hidden-sm" ui-sref="admin.orders" ng-if="$root.admin">Перейти к админ. панели</span>
 					<span uib-popover-template="dynamicPopover.userTemplateUrl" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'"><i class="fa fa-user" aria-hidden="true"></i>{{user}}</span>
 					<span class="margins">/</span>
 					<span ng-click="doLogout()"><i class="fa fa-sign-out" aria-hidden="true"></i>Выйти</span>
 				</div>
 			</div>
 			<div class="pull-left visible-sm goToAdmin-tablet-view" ng-if="$root.loggedIn && $root.admin">
-				<span class="goToAdmin" ui-sref="admin">Перейти к админ. панели</span>
+				<span class="goToAdmin" ui-sref="admin.orders">Перейти к админ. панели</span>
 			</div>
 			<div class="authentication text-center visible-xs">
 				<div ng-if="!$root.loggedIn">
@@ -32,7 +32,7 @@
 					<span uib-popover-template="dynamicPopover.loginTemplateUrl" popover-placement="bottom-right" popover-append-to-body="true" popover-trigger="'outsideClick'"><i class="fa fa-sign-in" aria-hidden="true"></i>Вход</span>
 				</div>
 				<div ng-if="$root.loggedIn">
-					<span class="goToAdmin hidden-xs hidden-sm" ui-sref="admin" ng-if="$root.admin">Перейти к админ. панели</span>
+					<span class="goToAdmin hidden-xs hidden-sm" ui-sref="admin.orders" ng-if="$root.admin">Перейти к админ. панели</span>
 					<span uib-popover-template="dynamicPopover.userTemplateUrl" popover-placement="bottom" popover-append-to-body="true" popover-trigger="'outsideClick'"><i class="fa fa-user" aria-hidden="true"></i>{{user}}</span>
 					<span class="margins">/</span>
 					<span ng-click="doLogout()"><i class="fa fa-sign-out" aria-hidden="true"></i>Выйти</span>

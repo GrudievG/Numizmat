@@ -22,6 +22,8 @@
 				if(resolve.data.success) {
 					vm.active = 'yes';
 					vm.auctionName = resolve.data.auction.name;
+					var time = Number(resolve.data.auction.timeToStart);
+					vm.auctionTime = moment(time).format('LLL');
 					var top = resolve.data.auction.lots.filter(function(lot) {
 						return lot.top == true
 					});

@@ -15,8 +15,10 @@
 
 			vm.auctionExist = undefined;
 			vm.lots = [];
-			vm.filters = [];
 			vm.categories = [];
+			vm.filters = [];
+			vm.filterCat = "";
+			vm.filterSubcat = "";
 			vm.mode = 'pagination';
 			vm.pageSizeVars = [10, 20, 40, 80, 100];
 
@@ -78,42 +80,29 @@
 			}
 
 			vm.showAll = function () {
+				vm.filterCat = "";
+				vm.filterSubcat = "";
 				currentCategory = 'all';
 				currentSubcategory = 'all';
 				vm.lots = reserveLots;
-				vm.changePage();
 				vm.filterLots();
 			}
 
 			vm.selectCat = function (category, subcategory) {
-				// $http.post('api/getFilteredLotsByCategory', {
-				// 	category: category,
-				// 	subcategory: subcategory
-				// }).then(function(resolve) {
-				// 	var sortedLots = resolve.data.sort(sortByNumber);
-				// 	vm.lots = sortedLots;
-				// 	vm.changePage();
-				// })
+				currentCategory = 'all';
+				currentSubcategory = 'all';
 				if (category) {
 					currentCategory = category;
+					vm.filterCat = currentCategory;
 				}
 				if (subcategory) {
 					currentSubcategory = subcategory;
+					vm.filterSubcat = currentSubcategory;
 				}
-				
 				if(!subcategory) {
-					vm.lots = reserveLots.filter(function(lot) {
-						return lot.category == category
-					})
-					vm.changePage();
-				} else {
-					vm.lots = reserveLots.filter(function(lot) {
-						return lot.category == category && lot.subcategory == subcategory
-					})
-					vm.changePage();
+					vm.filterSubcat = "";
 				}
 				vm.filterLots();
-				
 			}
 
 			vm.searchLots = function() {
@@ -144,7 +133,7 @@
 			vm.filterLots = function () {
 				for (var i in vm.filter) {
 					if(vm.filter[i] == "< не выбрано >") {
-						delete vm.filter[i]
+						delete vm.filter[i];
 					}
 				}
 				$http.post('api/filterLots', {
@@ -157,7 +146,7 @@
 					vm.lots = sortedLots;
 					vm.lots.forEach(function(lot) {
 						getTradingTime(lot);
-					})
+					});
 					vm.changePage();
 				})
 			};
@@ -166,10 +155,11 @@
 				var begin = ((vm.pagination.currentPage - 1) * vm.pagination.pageSize);
             	var end = begin + vm.pagination.pageSize;
                 vm.pagination.totalItems = vm.lots.length;
-                if(vm.mode == 'pagination')
+                if(vm.mode == 'pagination') {
                 	vm.pagination.filtered = vm.lots.slice(begin, end);
-                else
-                	vm.pagination.filtered = vm.lots
+                } else {
+                	vm.pagination.filtered = vm.lots;
+                }
 			}
 
 			function recount(data) {
