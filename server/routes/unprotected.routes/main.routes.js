@@ -111,45 +111,10 @@ module.exports = function(express) {
         })
     });
 
-    apiRouter.post('/filterLots', function(req, res) {
-        var query = new RegExp(req.body.query, 'i');
-        var propKeys;
-        if (req.body.filter) {
-            propKeys = Object.keys(req.body.filter);
-        } else {
-            propKeys = [];
-        }
-        var filteredLots = [];
-        Lot.find({
-            name: query,
-            auction: req.body.auction
-        }, function(err, lots) {
-            if(req.body.category != 'all') {
-                lots = lots.filter(function(lot) {
-                    return lot.category == req.body.category
-                })
-            }
-            if(req.body.subcategory != 'all') {
-                lots = lots.filter(function(lot) {
-                    return lot.subcategory == req.body.subcategory
-                })
-            }
-
-            filteredLots = lots
-            filteredLots = filteredLots.map(function(lot) {
-                lot.props.forEach(function(prop, i) {
-                   lot[prop.meta] = prop.value;
-                })
-                return lot; 
-            })
-            if (req.body.filter) {
-                filteredLots = filteredLots.filter(function(lot) {
-                    return propKeys.every(function(prop) {
-                        return lot[prop] === req.body.filter[prop];
-                    });
-                })
-            }
-            res.json(filteredLots);
+    apiRouter.get('/searchLots/:query', function(req, res) {
+        var query = new RegExp(req.params.query, 'i')        
+        Lot.find({"name": query}, function(err, lots) {
+            res.json(lots)
         })
     });
 
@@ -235,6 +200,55 @@ module.exports = function(express) {
             });
         });     
     }); 
+
+    apiRouter.get('/searchProds/:query', function(req, res) {
+        var query = new RegExp(req.params.query, 'i')        
+        Product.find({"name": query}, function(err, prods) {
+            res.json(prods)
+        })
+    });
+
+    apiRouter.post('/filterLots', function(req, res) {
+        var query = new RegExp(req.body.query, 'i');
+        var propKeys;
+        if (req.body.filter) {
+            propKeys = Object.keys(req.body.filter);
+        } else {
+            propKeys = [];
+        }
+        var filteredLots = [];
+        Lot.find({
+            name: query,
+            auction: req.body.auction
+        }, function(err, lots) {
+            if(req.body.category != 'all') {
+                lots = lots.filter(function(lot) {
+                    return lot.category == req.body.category
+                })
+            }
+            if(req.body.subcategory != 'all') {
+                lots = lots.filter(function(lot) {
+                    return lot.subcategory == req.body.subcategory
+                })
+            }
+
+            filteredLots = lots
+            filteredLots = filteredLots.map(function(lot) {
+                lot.props.forEach(function(prop, i) {
+                   lot[prop.meta] = prop.value;
+                })
+                return lot; 
+            })
+            if (req.body.filter) {
+                filteredLots = filteredLots.filter(function(lot) {
+                    return propKeys.every(function(prop) {
+                        return lot[prop] === req.body.filter[prop];
+                    });
+                })
+            }
+            res.json(filteredLots);
+        })
+    });
 
 	apiRouter.get('/getAttributes', function(req, res) {
         Attribute.find(function(err, attrs) {
