@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('StoreController', ['$http', '$rootScope', '$timeout', 'Auth', function ($http, $rootScope, $timeout, Auth) {
+		.controller('StoreController', ['$location', '$http', '$rootScope', '$timeout', 'Auth', function ($location, $http, $rootScope, $timeout, Auth) {
 
 			var vm = this;
 
@@ -19,13 +19,12 @@
 			vm.filterSubcat = "";
 			vm.mode = 'pagination';
 			vm.pageSizeVars = [10, 20, 40, 80, 100];
-
 			vm.pagination = {
 				currentPage: 1,
 				pageSize: vm.pageSizeVars[0],
 				filtered: [],
 				totalItems: 0
-			}
+			};
 				
 			$http.get('api/products').then(function(resolve) {
 				vm.products = resolve.data;
@@ -47,7 +46,7 @@
 				vm.filters = resolve.data.filter(function(element) {
 					return element.type == "Выбор"
 				});
-			})
+			});
 
 			vm.showAll = function () {
 				vm.filterCat = "";
@@ -56,6 +55,10 @@
 				currentSubcategory = 'all';
 				vm.products = reserveProds;
 				vm.filterProds();
+			};
+
+			vm.checkScroll = function () {
+				console.log(window.pageYOffset, $location.$$path)
 			}
 
 			vm.selectCat = function (category, subcategory) {
@@ -73,18 +76,7 @@
 					vm.filterSubcat = "";
 				}
 				vm.filterProds();
-			}
-
-			vm.searchProds = function() {
-				if(vm.query.length == 0)
-					vm.showAll();
-				else {
-					$http.get('api/searchProds/' + vm.query).then(function(resolve) {
-						vm.products = resolve.data;
-						vm.changePage();
-					})
-				}
-			}
+			};
 
 			vm.changeActiveTab = function (value) {
 				if(value == "block") {
@@ -94,15 +86,18 @@
 					$rootScope.showAsBlocks = false;
 					$rootScope.showAsList = true;
 				}
-			}
+			};
 
 			vm.filterProds = function () {
+
 				for (var i in vm.filter) {
 					if(vm.filter[i] == "< не выбрано >") {
 						delete vm.filter[i]
 					}
 				}
+
 				$http.post('api/filterProds', {
+					query: vm.query,
 					filter: vm.filter,
 					category: currentCategory,
 					subcategory: currentSubcategory
@@ -113,15 +108,18 @@
 			};
 
 			vm.changePage = function() {
+
 				var begin = ((vm.pagination.currentPage - 1) * vm.pagination.pageSize);
             	var end = begin + vm.pagination.pageSize;
 
                 vm.pagination.totalItems = vm.products.length;
-                if(vm.mode == 'pagination')
+
+                if(vm.mode == 'pagination') {
                 	vm.pagination.filtered = vm.products.slice(begin, end);
-                else
+                } else {
                 	vm.pagination.filtered = vm.products
-			}
+                }
+			};
 
 		}]);
 

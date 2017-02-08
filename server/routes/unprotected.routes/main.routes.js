@@ -12,6 +12,11 @@ module.exports = function(express) {
 
 	var apiRouter = express.Router();
 
+    function sortByDate (a, b) {
+        if (a.createdAt > b.createdAt) return -1;
+        if (a.createdAt < b.createdAt) return 1;
+    };
+
 	apiRouter.get('/getNewProds', function(req, res) {
         Product.find(function(err, products) {
             Settings.findOne({}, function(err, settings) {
@@ -21,27 +26,34 @@ module.exports = function(express) {
                 res.json(products);
             })
         });
-    })
+    });
 
     apiRouter.get('/products', function(req, res) {
-        Product.find(function(err, products) {
-            if (err)
-                res.send(err);
 
+        Product.find(function(err, products) {
+
+            if (err) {
+                return res.send(err);
+            }
+
+            products = products.sort(sortByDate);
             res.json(products);
         });
     });
 
     apiRouter.get('/product/:product_id', function(req, res) {
         Product.findById(req.params.product_id, function(err, product) {
-            if (err)
-                res.send(err);
+
+            if (err) {
+                return res.send(err);
+            }
+
             Product.find({}, function(err, prods) {
                 var index = prods.findIndex(function(l) {
                     return l._id == req.params.product_id;
                 });
-                var prev = (prods[index - 1])? prods[index - 1]._id : prods.pop()._id;
-                var next = (prods[index + 1])? prods[index + 1]._id : prods.shift()._id;
+                var next = (prods[index - 1])? prods[index - 1]._id : prods.pop()._id;
+                var prev = (prods[index + 1])? prods[index + 1]._id : prods.shift()._id;
 
                 res.json({
                     prev_id: prev,
@@ -50,42 +62,28 @@ module.exports = function(express) {
                 });
             })
         });
-    })
-
-    // apiRouter.post('/getFilteredProdsByCategory', function(req, res) {
-    //     Product.find({category: req.body.category}, function(err, prods) {
-    //         if(req.body.subcategory) {
-    //             var subcatProds = prods.filter(function(item) {
-    //                 return item.subcategory == req.body.subcategory
-    //             })
-    //             res.json(subcatProds)
-    //         } else {
-    //             res.json(prods)
-    //         }
-    //     })
-    // })
-
-    apiRouter.get('/searchProds/:query', function(req, res) {
-        var query = new RegExp(req.params.query, 'i')        
-        Product.find({"name": query}, function(err, prods) {
-            res.json(prods)
-        })
-    })
+    });
 
     apiRouter.post('/filterProds', function(req, res) {
+
+        var query = new RegExp(req.body.query, 'i');
         var propKeys;
+        var filteredProds = [];
+
         if (req.body.filter) {
             propKeys = Object.keys(req.body.filter);
         } else {
             propKeys = [];
         }
-        var filteredProds = [];
-        Product.find({}, function(err, prods) {
+
+        Product.find({name: query}, function(err, prods) {
+
             if(req.body.category != 'all') {
                 prods = prods.filter(function(lot) {
                     return lot.category == req.body.category
                 })
             }
+
             if(req.body.subcategory != 'all') {
                 prods = prods.filter(function(lot) {
                     return lot.subcategory == req.body.subcategory
@@ -99,6 +97,7 @@ module.exports = function(express) {
                 })
                 return prod; 
             });
+
             if(req.body.filter) {
                 filteredProds = filteredProds.filter(function(prod) {
                     return propKeys.every(function(prop) {
@@ -106,11 +105,14 @@ module.exports = function(express) {
                     });
                 })
             }
+
+            filteredProds = filteredProds.sort(sortByDate);
             res.json(filteredProds);
         })
-    })
+    });
 
     apiRouter.post('/filterLots', function(req, res) {
+        var query = new RegExp(req.body.query, 'i');
         var propKeys;
         if (req.body.filter) {
             propKeys = Object.keys(req.body.filter);
@@ -118,7 +120,10 @@ module.exports = function(express) {
             propKeys = [];
         }
         var filteredLots = [];
-        Lot.find({auction: req.body.auction}, function(err, lots) {
+        Lot.find({
+            name: query,
+            auction: req.body.auction
+        }, function(err, lots) {
             if(req.body.category != 'all') {
                 lots = lots.filter(function(lot) {
                     return lot.category == req.body.category
@@ -146,7 +151,7 @@ module.exports = function(express) {
             }
             res.json(filteredLots);
         })
-    })
+    });
 
     apiRouter.get('/getPublicAuction', function(req, res) {
         Auction.find({}).populate('lots').exec(function(err, auctions) {
@@ -165,7 +170,7 @@ module.exports = function(express) {
                 })
             }
         })
-    })
+    });
 
     apiRouter.get('/getCurrentAuction', function(req, res) {
         Auction.find({}, function(err, auctions) {
@@ -183,19 +188,18 @@ module.exports = function(express) {
                 })
             }
         })
-    })
+    });
 
     apiRouter.get('/lots/:auction_id', function(req, res) {
         Lot.find({auction: req.params.auction_id}, function(err, lots) {
             res.json({lots})
         })
-    })
+    });
 
     apiRouter.get('/lot/:lot_id', function(req, res) {
         Lot.findById(req.params.lot_id, function(err, lot) {
             
             var auction_id = lot.auction;
-            console.log(auction_id)
             var prevNumber = lot.number - 1;
             var nextNumber = lot.number + 1;
 
@@ -228,31 +232,9 @@ module.exports = function(express) {
                     next_id: results[1]._id,
                     current: lot
                 });
-            })
+            });
         });     
-    })
-
-    // apiRouter.post('/getFilteredLotsByCategory', function(req, res) {
-    //     Lot.find({category: req.body.category}, function(err, lots) {
-    //         if(req.body.subcategory) {
-    //             var subcatLots = lots.filter(function(item) {
-    //                 return item.subcategory == req.body.subcategory
-    //             })
-    //             res.json(subcatLots)
-    //         } else {
-    //             res.json(lots)
-    //         }
-    //     })
-    // })
-
-    apiRouter.get('/searchLots/:query', function(req, res) {
-        var query = new RegExp(req.params.query, 'i')        
-        Lot.find({"name": query}, function(err, lots) {
-            res.json(lots)
-        })
-    })
-
-    
+    }); 
 
 	apiRouter.get('/getAttributes', function(req, res) {
         Attribute.find(function(err, attrs) {
@@ -270,13 +252,13 @@ module.exports = function(express) {
 
             res.json(cats);
         });
-    })
+    });
 
     apiRouter.get('/getSettings', function(req, res) {
         Settings.findOne({}, function(err, settings) {
             res.json(settings)
         })
-    })
+    });
 
 	return apiRouter
 }

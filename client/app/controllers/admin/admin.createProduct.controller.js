@@ -27,6 +27,7 @@
 
 		vm.addProduct = function() {
 			vm.processing = true;
+			vm.product.createdAt = Date.now();
 
 			var upload = Upload.upload({
 				url: 'api/admin/addProduct',
@@ -202,40 +203,37 @@
 		}
 
 		modal.save = function() {
+			modal.attribute.meta = modal.attribute.meta.toLowerCase()
+			
+			if(modal.attribute.type == "Выбор" && modal.attribute.values.length < 1) {
+				$timeout(function() {
+			        modal.alert = "Добавьте хотя бы одно значение атрибута";
+			    }, 100);
+		      	$timeout(function() {
+		        	modal.alert = "";
+		      	}, 2500);
+		      	return
+			}
 
-				modal.attribute.meta = modal.attribute.meta.toLowerCase()
-				
-				if(modal.attribute.type == "Выбор" && modal.attribute.values.length < 1) {
+			$http.put('/api/admin/updateAttr/', modal.attribute).then(function(resolve) {
+
+				if(!resolve.data.success) {
 					$timeout(function() {
-				        modal.alert = "Добавьте хотя бы одно значение атрибута";
+			        	modal.alert = resolve.data.message;
 				    }, 100);
 			      	$timeout(function() {
 			        	modal.alert = "";
 			      	}, 2500);
 			      	return
+				} else if (resolve.data.success) {
+					$uibModalInstance.close(modal.attribute);
 				}
-
-				$http.put('/api/admin/updateAttr/', modal.attribute).then(function(resolve) {
-
-					if(!resolve.data.success) {
-						$timeout(function() {
-				        	modal.alert = resolve.data.message;
-					    }, 100);
-				      	$timeout(function() {
-				        	modal.alert = "";
-				      	}, 2500);
-				      	return
-					} else if (resolve.data.success) {
-						$uibModalInstance.close(modal.attribute);
-					}
-				})
-			}
+			})
+		}
 
 		modal.cancel = function () {
 		    $uibModalInstance.dismiss('cancel');
 		};
-
-
 	}]);
 
 })();

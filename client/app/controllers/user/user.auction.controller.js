@@ -4,8 +4,13 @@
 	angular
 		.module('numizmat')
 		.controller('AuctionController', ['$scope', '$http', '$rootScope', 'socket', function ($scope, $http, $rootScope, socket) {
-			moment.locale('ru')
+
+			moment.locale('ru');
+
 			var vm = this;
+
+			
+
 			var reserveLots = [];
 			var filteredLots = [];
 			var categories = [];
@@ -21,18 +26,17 @@
 			vm.filterSubcat = "";
 			vm.mode = 'pagination';
 			vm.pageSizeVars = [10, 20, 40, 80, 100];
-
 			vm.pagination = {
 				currentPage: 1,
 				pageSize: vm.pageSizeVars[0],
 				filtered: [],
 				totalItems: 0
-			}
+			};
 
 			function sortByNumber (a, b) {
 				if (a.number > b.number) return 1;
   				if (a.number < b.number) return -1;
-			}
+			};
 
 			$http.get('/api/getCurrentAuction').then(function(resolve) {
 				if(resolve.data.success) {
@@ -58,7 +62,12 @@
 				var cats = resolve.data.filter(function(item) {
 					return categories.indexOf(item.name) != -1
 				})
-				vm.categories = cats
+				vm.categories = cats;
+
+				// setTimeout(function() { 
+				// 	document.body.scrollTop = 300;
+				// }, 0);
+
 			}).catch(function(error) {
 				return
 			});
@@ -67,7 +76,7 @@
 				vm.filters = resolve.data.filter(function(element) {
 					return element.type == "Выбор"
 				});
-			})
+			});
 
 			function getTradingTime (lot) {
 				if(Date.now() < Number(lot.startTrading)) {
@@ -77,7 +86,7 @@
 				} else if (Date.now() > Number(lot.endTrading)) {
 					lot.timeToStart = "Торги завершены"
 				}
-			}
+			};
 
 			vm.showAll = function () {
 				vm.filterCat = "";
@@ -86,39 +95,29 @@
 				currentSubcategory = 'all';
 				vm.lots = reserveLots;
 				vm.filterLots();
-			}
+			};
 
 			vm.selectCat = function (category, subcategory) {
+
 				currentCategory = 'all';
 				currentSubcategory = 'all';
+
 				if (category) {
 					currentCategory = category;
 					vm.filterCat = currentCategory;
 				}
+
 				if (subcategory) {
 					currentSubcategory = subcategory;
 					vm.filterSubcat = currentSubcategory;
 				}
+
 				if(!subcategory) {
 					vm.filterSubcat = "";
 				}
-				vm.filterLots();
-			}
 
-			vm.searchLots = function() {
-				if(vm.query.length == 0)
-					vm.showAll();
-				else {
-					$http.get('api/searchLots/'+vm.query).then(function(resolve) {
-						var sortedLots = resolve.data.sort(sortByNumber);
-						vm.lots = sortedLots;
-						vm.lots.forEach(function(lot) {
-							getTradingTime(lot);
-						})
-						vm.changePage();
-					})
-				}
-			}
+				vm.filterLots();
+			};
 
 			vm.changeActiveTab = function (value) {
 				if(value == "block") {
@@ -128,15 +127,18 @@
 					$rootScope.showAsBlocks = false;
 					$rootScope.showAsList = true;
 				}
-			}
+			};
 
 			vm.filterLots = function () {
+
 				for (var i in vm.filter) {
 					if(vm.filter[i] == "< не выбрано >") {
 						delete vm.filter[i];
 					}
 				}
+
 				$http.post('api/filterLots', {
+					query: vm.query,
 					filter: vm.filter,
 					auction: auction_id,
 					category: currentCategory,
@@ -160,7 +162,7 @@
                 } else {
                 	vm.pagination.filtered = vm.lots;
                 }
-			}
+			};
 
 			function recount(data) {
 				var sortedLots = data.sort(sortByNumber);
@@ -173,18 +175,18 @@
 					} else if (Date.now() > Number(lot.endTrading)) {
 						lot.timeToStart = "Торги завершены"
 					}
-				})
+				});
 				vm.changePage();
-				$scope.$apply()
-			}
+				$scope.$apply();
+			};
 
-			socket.on('recounting lots', recount)
-			socket.on('trading time changed', recount)
+			socket.on('recounting lots', recount);
+			socket.on('trading time changed', recount);
 
 			$scope.$on('$destroy', function() {
-				socket.off('recounting lots', recount)
-				socket.off('trading time changed', recount)
-			})
+				socket.off('recounting lots', recount);
+				socket.off('trading time changed', recount);
+			});
 
 		}]);
 

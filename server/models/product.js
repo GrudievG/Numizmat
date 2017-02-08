@@ -17,7 +17,8 @@ var ProductSchema = new Schema({
     year: {
         value: Number,
         era: String
-    }
+    },
+    createdAt: Number
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

@@ -46,17 +46,21 @@
 			$http.post('/api/admin/getCustomers', users).then(function(resolve) {
 				auctionWithEmail.lots.forEach(function(lot, index) {
 					if(resolve.data[index] == 0) {
-						if(Number(lot.endTrading) > Date.now())
+						if(Number(lot.endTrading) > Date.now()) {
 							lot.status = "Идут торги"
-						else if (Number(lot.endTrading) <= Date.now())
-							lot.status = "Ожидается оплата"
+						}
+						else if (Number(lot.endTrading) <= Date.now()) {
+							lot.status = "Не продано"
+						}
 					} else {
 						var split = resolve.data[index].split('@')
 						lot.customer = split[0]
-						if(Number(lot.endTrading) > Date.now())
-							lot.status = "Идут торги"
-						else if (Number(lot.endTrading) <= Date.now())
-							lot.status = "Ожидается оплата"
+						if(Number(lot.endTrading) > Date.now()) {
+							lot.status = "Идут торги";
+						}
+						else if (Number(lot.endTrading) <= Date.now()) {
+							lot.status = "Ожидается оплата";
+						}
 					}
 				})
 				vm.currentAuction = auctionWithEmail;

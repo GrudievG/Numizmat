@@ -15,7 +15,7 @@ module.exports = function(express) {
 	var apiRouter = express.Router();
 
     apiRouter.post('/addProduct', multipartMiddleware, function(req, res) {
-
+        console.log(typeof req.body.createdAt)
         var ImgsToUpload = [];
         req.files.photos.forEach(function (el) { 
             var path = el.path;
@@ -52,6 +52,7 @@ module.exports = function(express) {
             product.price = req.body.price;
             product.category = req.body.category;
             product.subcategory = req.body.subcategory;
+            product.createdAt = Number(req.body.createdAt);
 
             product.save(function(err) {
                 if (err) {
@@ -249,7 +250,7 @@ module.exports = function(express) {
                 })
             })
         })
-    })
+    });
 
     return apiRouter
 }

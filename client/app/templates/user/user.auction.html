@@ -40,13 +40,13 @@
 					</h5>
 				</div>
 				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
-					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.searchLots()">
+					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.filterLots()">
 				</div>
 				<div class="col-lg-6 visible-lg">
-					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.searchLots()">
+					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.filterLots()">
 				</div>
 				<div class="col-sm-4 visible-sm visible-md">
-					<input type="search" class="form-control" placeholder="Поиск по названию" ng-model="auction.query" ng-change="auction.searchLots()">
+					<input type="search" class="form-control" placeholder="Поиск по названию" ng-model="auction.query" ng-change="auction.filterLots()">
 				</div>
 				<div class="col-sm-3 col-md-3 col-lg-2 hidden-xs">
 					<button class="btn pull-right toggle-view" ng-class="{ 'active-tab': $root.showAsBlocks == true }" ng-click="auction.changeActiveTab('block')">
