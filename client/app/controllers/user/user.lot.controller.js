@@ -113,7 +113,6 @@
 			};
 
 			vm.configAutobet = function () {
-				console.log(typeof $window.localStorage.getItem('id'))
 				var modalInstance = $uibModal.open({
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
@@ -130,7 +129,6 @@
                 });
 
 				modalInstance.result.then(function(resolve) {
-					console.log('Resolve: ', resolve)
                     var currentDelta = Number(vm.lot.endTrading) - Date.now();
 					if (vm.lot.autobet && vm.lot.autobet.customer_id === $window.localStorage.getItem('id')) {
 						console.log('Customer equals!')
@@ -309,8 +307,7 @@
 			}
 
             modal.ok = function () {
-				if (modal.autoBet === lot.autobet.price) {
-					console.log("Hey, bro! You can't do it!")
+				if (lot.autobet && modal.autoBet === lot.autobet.price) {
 					$timeout(() => {
 						modal.errorMessage = "Вы не можете установить автоповышение до этой суммы. Такая автоставка уже существует"
 					}, 100);
@@ -326,7 +323,6 @@
             modal.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
-
         }]);;
 
 })();
