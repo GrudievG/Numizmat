@@ -41,7 +41,7 @@
 
 .main-description {
 	font-size: 16px;
-	padding: 0 20px 20px 20px;
+	padding: 0 20px 20px 0;
 
 	@media (max-width: 767px) {
 		padding: 0 0 20px 0;
@@ -52,7 +52,7 @@
 .product-properties {
 	font-size: 16px;
 	list-style: none;
-	padding-left: 20px;
+	padding-left: 0;
 
 	@media (max-width: 767px) {
 		padding-left: 0;
@@ -88,6 +88,7 @@
 }
 
 .lot-price {
+	margin-top: 0;
 	@media (max-width : 767px) {
 		font-size: 18px;
 		margin-top: 0;
@@ -112,11 +113,9 @@
 }
 
 .actual-price {
-	margin-left: 25px; 
-	margin-top: 27px;
+	margin-top: 10px;
 
 	@media (max-width : 767px) {
-		margin-left: 0;
 		margin-top: 0;
 		font-size: 14px;
 	}

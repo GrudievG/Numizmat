@@ -77,8 +77,8 @@
 	<div class="bordered-section toggle-border">
 		<div class="row">
 			<div class="col-xs-12">
-				<h2 class="text-center hidden-xs">Новинки:</h2>
-				<h4 class="text-center visible-xs">Новинки:</h4>
+				<h2 class="text-center hidden-xs">Новинки магазина:</h2>
+				<h4 class="text-center visible-xs">Новинки магазина:</h4>
 			</div>
 		</div>
 		<div class="row">
@@ -98,13 +98,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="row" ng-if="home.active  == 'yes'">
+	</div>
+	<div class="bordered-section toggle-border" ng-if="home.active  == 'yes'">
+		<div class="row" >
 			<div class="col-xs-12">
-				<h2 class="text-center hidden-xs">Топ лотов:</h2>
-				<h4 class="text-center visible-xs">Топ лотов:</h4>
+				<h2 class="text-center hidden-xs">Топ лотов аукциона:</h2>
+				<h4 class="text-center visible-xs">Топ лотов аукциона:</h4>
 			</div>
 		</div>
-		<div class="row" ng-if="home.active  == 'yes'">
+		<div class="row">
 			<div class="col-md-4" ng-repeat="lot in home.topLots">
 				<div class="lot" ui-sref="lot({ lot_id: lot._id })">
 					<img class="badge-new" src="assets/img/top.svg">

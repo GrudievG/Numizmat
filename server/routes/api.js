@@ -36,6 +36,15 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
 
     io.on('connection', function(socket) {
 
+        socket.on('update:autoBet:price', function (data) {
+            Lot.findById(data.lot._id, function(err, lot) {
+                lot.autobet.price = data.autobet;
+                lot.save(function(err) {
+                    io.emit('lot update', [lot])
+                });
+            });
+        });
+
         socket.on('bet up', function (data) {
             User.findById(data.user_id).populate('bets.lot').exec(function(err, user) {
                 if(!user) {
@@ -54,14 +63,14 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                 betExist = true;
                                 item.price = data.price;
                             }
-                        })
+                        });
                         if(!betExist) {
                             user.bets.push({
                                 lot: data.lot,
                                 price:data.price
-                            }) 
+                            });
                         }
-                        user.save(function(err, savedUser) {})
+                        user.save();
 
                         var userToEmail = undefined;
                         async.parallel([function(callback) {
@@ -102,18 +111,16 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                         time: data.time,
                                     });
 
-                                    if(lot.autobet && !data.autobet) {
-                                        if(data.price < lot.autobet.price) {
-                                            checkBetStep();
-                                            lot.bets++
-                                            lot.customer = lot.autobet.customer_id;
-                                            lot.price = data.price + betStep;
-                                            lot.history.push({
-                                                customer: lot.autobet.customer_email,
-                                                price: lot.price,
-                                                time: data.time,
-                                            });
-                                        }
+                                    if(!data.autobet && lot.autobet && data.price < lot.autobet.price) {
+                                        checkBetStep();
+                                        lot.bets++
+                                        lot.customer = lot.autobet.customer_id;
+                                        lot.price = data.price + betStep;
+                                        lot.history.push({
+                                            customer: lot.autobet.customer_email,
+                                            price: lot.price,
+                                            time: data.time,
+                                        });
                                     }
 
                                     if(data.autobet && !(lot.autobet && lot.autobet.price)) {
@@ -121,7 +128,7 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                             customer_id: data.user_id,
                                             customer_email: split[0],
                                             price: data.autobet
-                                        }
+                                        };
                                     }
 
                                     if(data.autobet && data.autobet < lot.autobet.price) {
@@ -270,7 +277,9 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
             Settings.findOne({}, function(err, sets) {
                 io.emit('settings changed', sets)
             })
-        })
+        });
+
+
 
         socket.on('buy monets', function(monets) {
             io.emit('change availability', monets)

@@ -21,9 +21,6 @@
 			vm.available = true;
 			vm.prevId = undefined;
 			vm.nextId = undefined;
-			vm.autobet = undefined;
-			vm.autobetTemplate = "autobetPopover.html";
-			vm.mobileautobetTemplate = "mobileautobetPopover.html";
 
 			if(!$rootScope.loggedIn) {
 				vm.errorMessage = "Только авторизованные пользователи могут делать ставки. Пожалуйста, авторизуйтесь."
@@ -54,10 +51,8 @@
 					checkBetStep();
 					vm.bet = vm.lot.price;
 					vm.minBet = vm.lot.price;
-					vm.autobet = vm.lot.price;
 				} else {
 					checkBetStep();
-					vm.autobet = vm.lot.price + deltaBet;
 				}
 				checkTime();
 				if (Date.now() < Number(vm.lot.endTrading)) 
@@ -117,22 +112,74 @@
 			    Lightbox.openModal(vm.imgUrls, index);
 			};
 
+			vm.configAutobet = function () {
+				console.log(typeof $window.localStorage.getItem('id'))
+				var modalInstance = $uibModal.open({
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    templateUrl: 'autobetModal.html',
+                    controller: 'AutobetModalCtrl',
+                    controllerAs: 'modal',
+					resolve: {
+                    	lot: vm.lot,
+						minBet: vm.minBet,
+						user: function () {
+                            return $window.localStorage.getItem('id');
+						}
+					}
+                });
+
+				modalInstance.result.then(function(resolve) {
+					console.log('Resolve: ', resolve)
+                    var currentDelta = Number(vm.lot.endTrading) - Date.now();
+					if (vm.lot.autobet && vm.lot.autobet.customer_id === $window.localStorage.getItem('id')) {
+						console.log('Customer equals!')
+						socket.emit('update:autoBet:price', {
+                            lot: vm.lot,
+							autobet: resolve
+						});
+					} else {
+                        socket.emit('bet up', {
+                            price: vm.lot.price + deltaBet,
+                            user_id: $window.localStorage.getItem('id'),
+                            user_email: $window.localStorage.getItem('user'),
+                            lot: vm.lot,
+                            tradingLot: settings.tradingLot,
+                            deltaTime: deltaTime,
+                            currentDelta: currentDelta,
+                            time: moment().format('LLL'),
+                            autobet: resolve
+                        });
+					}
+				}, function(reject) {
+
+				});
+			};
+
 			vm.makeBet = function() {
-				var sure = confirm("Вы подтверждаете ставку?")
-				if(sure) {
-					var currentDelta = Number(vm.lot.endTrading) - Date.now()
-					socket.emit('bet up', {
-						price: vm.bet,
-						user_id: $window.localStorage.getItem('id'),
-						user_email: $window.localStorage.getItem('user'),
-						lot: vm.lot,
-						tradingLot: settings.tradingLot,
-						deltaTime: deltaTime,
-						currentDelta: currentDelta,
-						time: moment().format('LLL')
-					})
-				} else return;	
-			}
+                var modalInstance = $uibModal.open({
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    templateUrl: 'confirmationModal.html',
+                    controller: 'ConfirmModalCtrl',
+                    controllerAs: 'modal'
+                });
+                modalInstance.result.then(function () {
+                    var currentDelta = Number(vm.lot.endTrading) - Date.now();
+                    socket.emit('bet up', {
+                        price: vm.bet,
+                        user_id: $window.localStorage.getItem('id'),
+                        user_email: $window.localStorage.getItem('user'),
+                        lot: vm.lot,
+                        tradingLot: settings.tradingLot,
+                        deltaTime: deltaTime,
+                        currentDelta: currentDelta,
+                        time: moment().format('LLL')
+                    });
+                }, function () {
+                    return;
+                });
+            };
 
 			vm.viewHistory = function (lot) {
 				var modalInstance = $uibModal.open({
@@ -149,20 +196,20 @@
 			    });
 			}
 
-			vm.saveAutobet = function() {
-				var currentDelta = Number(vm.lot.endTrading) - Date.now()
-				socket.emit('bet up', {
-					price: vm.lot.price + deltaBet,
-					user_id: $window.localStorage.getItem('id'),
-					user_email: $window.localStorage.getItem('user'),
-					lot: vm.lot,
-					tradingLot: settings.tradingLot,
-					deltaTime: deltaTime,
-					currentDelta: currentDelta,
-					time: moment().format('LLL'),
-					autobet: vm.autobet
-				})
-			}
+			// vm.saveAutobet = function() {
+			// 	var currentDelta = Number(vm.lot.endTrading) - Date.now()
+			// 	socket.emit('bet up', {
+			// 		price: vm.lot.price + deltaBet,
+			// 		user_id: $window.localStorage.getItem('id'),
+			// 		user_email: $window.localStorage.getItem('user'),
+			// 		lot: vm.lot,
+			// 		tradingLot: settings.tradingLot,
+			// 		deltaTime: deltaTime,
+			// 		currentDelta: currentDelta,
+			// 		time: moment().format('LLL'),
+			// 		autobet: vm.autobet
+			// 	})
+			// }
 
 			function lotUpdate (data) {
 				if(data[0]._id != $stateParams.lot_id) {
@@ -232,8 +279,54 @@
 				socket.off('send email', sendEmail);
 				$interval.cancel(interval);
 				$interval.cancel(redirect);
-			})
+			});
 
-		}]);
+		}])
+		.controller('ConfirmModalCtrl', [ '$uibModalInstance', function($uibModalInstance) {
+			var modal = this;
+
+			modal.confirm = function () {
+				$uibModalInstance.close();
+			};
+
+			modal.cancel = function () {
+				$uibModalInstance.dismiss('cancel');
+			};
+
+		}])
+        .controller('AutobetModalCtrl', [ '$uibModalInstance', '$timeout', 'lot', 'minBet', 'user', function($uibModalInstance, $timeout, lot, minBet, user) {
+            var modal = this;
+
+            modal.price = lot.price;
+            modal.minBet = minBet;
+            console.log(lot);
+
+			if (lot.autobet && lot.autobet.customer_id === user) {
+            	modal.ownBet = lot.autobet.price;
+                modal.autoBet = modal.ownBet;
+			} else {
+                modal.autoBet = minBet;
+			}
+
+            modal.ok = function () {
+				if (modal.autoBet === lot.autobet.price) {
+					console.log("Hey, bro! You can't do it!")
+					$timeout(() => {
+						modal.errorMessage = "Вы не можете установить автоповышение до этой суммы. Такая автоставка уже существует"
+					}, 100);
+					$timeout(() => {
+						modal.errorMessage = "";
+					}, 2100);
+				} else {
+                    $uibModalInstance.close(modal.autoBet);
+				}
+
+            };
+
+            modal.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+        }]);;
 
 })();

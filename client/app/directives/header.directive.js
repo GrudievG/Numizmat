@@ -47,21 +47,21 @@
 
 					scope.doLogin = function() {
 
-						Auth.login(scope.loginData).success(function(data) {
-							if(data.success) {
+						Auth.login(scope.loginData).then(function(resolve) {
+							if(resolve.data.success) {
 								
-								if(data.admin) {
+								if(resolve.data.admin) {
 									$rootScope.admin = true;
 								}
 								else {
 									$rootScope.admin = false;
 								}
 								
-								AuthToken.setToken(data.accessToken);
+								AuthToken.setToken(resolve.data.accessToken);
 
-								scope.user = data.email;
-								$window.localStorage.setItem('user', data.email);
-								$window.localStorage.setItem('id', data.id);
+								scope.user = resolve.data.email;
+								$window.localStorage.setItem('user', resolve.data.email);
+								$window.localStorage.setItem('id', resolve.data.id);
 								$rootScope.loggedIn = Auth.isLoggedIn();
 								scope.loginData = {
 									email: "",
@@ -69,7 +69,7 @@
 								};
 								$state.go('home');
 							} else
-								alertTrigger(data.message)		
+								alertTrigger(resolve.data.message)
 						});
 					};
 
