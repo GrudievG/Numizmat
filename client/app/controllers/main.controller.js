@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('MainController', ['$location', '$window', '$rootScope', 'Auth', function ($location, $window, $rootScope, Auth) {
+		.controller('MainController', ['$state', '$location', '$window', '$rootScope', 'Auth', function ($state, $location, $window, $rootScope, Auth) {
 
 			var vm = this;
 

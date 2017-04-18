@@ -19,7 +19,6 @@
 			
 			$q.all(deffArr).then(function(results) {
 				results.forEach(function(auc) {
-					console.log(auc.lots)
 					auc.lots = auc.lots.sort(sortByNumber);
 				})
 				vm.auctions = results;

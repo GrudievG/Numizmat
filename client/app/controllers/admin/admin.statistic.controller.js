@@ -64,9 +64,15 @@
 					}
 				})
 				vm.currentAuction = auctionWithEmail;
-				vm.changePage()
+				vm.currentAuction.lots = vm.currentAuction.lots.sort(sortByNumber);
+				vm.changePage();
 			})
 		}
+
+		function sortByNumber (a, b) {
+ 			if (a.number > b.number) return 1;
+ 			if (a.number < b.number) return -1;
+ 		}
 
 		function showAll () {
 			auctionWithId = reserveAuction;

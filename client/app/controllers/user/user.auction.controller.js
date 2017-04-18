@@ -8,9 +8,6 @@
 			moment.locale('ru');
 
 			var vm = this;
-
-			
-
 			var reserveLots = [];
 			var filteredLots = [];
 			var categories = [];
@@ -56,18 +53,19 @@
 					getTradingTime(lot);
 				})
 				reserveLots = angular.copy(vm.lots)
+				if ($rootScope.prevPage !== $rootScope.currentPage && $rootScope.prevPage.substr(0,5) === "/lot/" && $rootScope.paginationPosition) {
+					vm.pagination.currentPage = $rootScope.paginationPosition
+				}
 				vm.changePage();
+				setTimeout(function() { 
+					document.body.scrollTop = $rootScope.pageYOffset;
+				}, 0);
 				return $http.get('api/getCategories')	
 			}).then(function(resolve) {
 				var cats = resolve.data.filter(function(item) {
 					return categories.indexOf(item.name) != -1
 				})
 				vm.categories = cats;
-
-				// setTimeout(function() { 
-				// 	document.body.scrollTop = 300;
-				// }, 0);
-
 			}).catch(function(error) {
 				return
 			});
@@ -87,6 +85,11 @@
 					lot.timeToStart = "Торги завершены"
 				}
 			};
+
+			$scope.$on('$stateChangeStart', function() {				
+				console.log(window.pageYOffset)
+				$rootScope.pageYOffset = window.pageYOffset;
+			});
 
 			vm.showAll = function () {
 				vm.filterCat = "";
@@ -154,6 +157,9 @@
 			};
 
 			vm.changePage = function() {
+				console.log($rootScope.paginationPosition)
+				console.log(vm.pagination.currentPage)
+				$rootScope.paginationPosition = vm.pagination.currentPage;
 				var begin = ((vm.pagination.currentPage - 1) * vm.pagination.pageSize);
             	var end = begin + vm.pagination.pageSize;
                 vm.pagination.totalItems = vm.lots.length;
