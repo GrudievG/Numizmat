@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('HomeController', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
+		.controller('HomeController', ['$rootScope', '$scope', '$http', '$interval', function ($rootScope, $scope, $http, $interval) {
 			moment.locale('ru')
 			var vm = this;
 			var timestamp = undefined;
@@ -23,7 +23,9 @@
 					vm.active = 'yes';
 					vm.auctionName = resolve.data.auction.name;
 					var time = Number(resolve.data.auction.timeToStart);
+
 					vm.auctionTime = moment(time).format('LLL');
+					console.log(Date.now() > time)
 					var top = resolve.data.auction.lots.filter(function(lot) {
 						return lot.top == true
 					});

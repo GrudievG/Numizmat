@@ -46,21 +46,21 @@
 		      		url: "/product/:product_id",
 		      		templateUrl: "/app/templates/user/user.product.html"
 	    		})
-	    		.state('aboutUs', {
-		      		url: "/aboutUs",
-		      		template: "<h1>aboutUs</h1>"
+	    		.state('about', {
+		      		url: "/about",
+		      		templateUrl: "/app/templates/user/about.html"
 		    	})
 		    	.state('payments', {
 		      		url: "/payments",
-		      		template: "<h1>payments</h1>",
+		      		templateUrl: "/app/templates/user/payments.html"
 		    	})
 		    	.state('rules', {
 		      		url: "/rules",
-		      		templateUrl: "/app/templates/user/user.rules.html",
+		      		templateUrl: "/app/templates/user/user.rules.html"
 		    	})
-		    	.state('archive', {
-		      		url: "/archive",
-		      		template: "<h1>archive</h1>",
+		    	.state('terms-for-vendors', {
+		      		url: "/terms-for-vendors",
+		      		templateUrl: "/app/templates/user/termsForVendors.html"
 		    	})
 		    	.state('profile', {
 		      		url: "/profile",

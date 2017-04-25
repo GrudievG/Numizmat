@@ -157,8 +157,6 @@
 			};
 
 			vm.changePage = function() {
-				console.log($rootScope.paginationPosition)
-				console.log(vm.pagination.currentPage)
 				$rootScope.paginationPosition = vm.pagination.currentPage;
 				var begin = ((vm.pagination.currentPage - 1) * vm.pagination.pageSize);
             	var end = begin + vm.pagination.pageSize;
