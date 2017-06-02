@@ -21,6 +21,7 @@
 			vm.available = true;
 			vm.prevId = undefined;
 			vm.nextId = undefined;
+			vm.lotsCount = undefined;
 
 			if(!$rootScope.loggedIn) {
 				vm.errorMessage = "Только авторизованные пользователи могут делать ставки. Пожалуйста, авторизуйтесь."
@@ -31,6 +32,10 @@
 					}
 				})
 			}
+
+			$http.get('/api/getCurrentAuction').then(function(resolve) {
+				vm.lotsCount = resolve.data.auction.lots.length;
+			});
 
 			$http.get('/api/getSettings').then(function(resolve) {
 				settings = resolve.data
@@ -90,7 +95,7 @@
 						vm.endToTrade = moment(new Date(Number(vm.lot.endTrading))).fromNow();
 					else 
 						vm.endToTrade = "Через " + Math.floor((vm.lot.endTrading - Date.now()) / 1000) + " секунд"
-				} else if (Date.now() > Number(vm.lot.endTrading)) {
+				} else {
 					vm.endToTrade = "Торги завершены";
 					vm.available = false;
 					$interval.cancel(interval)
@@ -101,7 +106,11 @@
 				if (Date.now() >= Number(vm.lot.endTrading)) {
 					$interval.cancel(redirect)
 					$timeout(function() {
-						$location.path('/lot/'+vm.nextId)
+						if(vm.lot.number === vm.lotsCount) {
+							$location.path('/congrats')
+						} else {
+							$location.path('/lot/'+vm.nextId)
+						}
 					}, 1500)
 				}
 			}
@@ -193,21 +202,6 @@
 			      	}
 			    });
 			}
-
-			// vm.saveAutobet = function() {
-			// 	var currentDelta = Number(vm.lot.endTrading) - Date.now()
-			// 	socket.emit('bet up', {
-			// 		price: vm.lot.price + deltaBet,
-			// 		user_id: $window.localStorage.getItem('id'),
-			// 		user_email: $window.localStorage.getItem('user'),
-			// 		lot: vm.lot,
-			// 		tradingLot: settings.tradingLot,
-			// 		deltaTime: deltaTime,
-			// 		currentDelta: currentDelta,
-			// 		time: moment().format('LLL'),
-			// 		autobet: vm.autobet
-			// 	})
-			// }
 
 			function lotUpdate (data) {
 				if(data[0]._id != $stateParams.lot_id) {

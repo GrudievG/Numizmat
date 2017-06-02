@@ -161,6 +161,18 @@ module.exports = function(express) {
         })
     });
 
+    apiRouter.get('/activeLot/:auction_id', function (req, res) {
+        var currentTime = Date.now();
+        Lot.findOne({
+            auction: req.params.auction_id,
+            startTrading: {$lt: currentTime},
+            endTrading: {$gt: currentTime}
+        })
+        .then(function(lot) {
+            res.json(lot);
+        });
+    })
+
     apiRouter.get('/lot/:lot_id', function(req, res) {
         Lot.findById(req.params.lot_id, function(err, lot) {
             
@@ -184,7 +196,7 @@ module.exports = function(express) {
                 }, function(callback) {
                     Lot.findOne({number: nextNumber, auction: auction_id}, function(err, nextLot) {
                         if (nextLot === null) {
-                            Lot.findOne({number: 1}, function(err, llot) {
+                            Lot.findOne({number: 1, auction: lot.auction}, function(err, llot) {
                                 callback(null, llot)
                             })
                         } else 

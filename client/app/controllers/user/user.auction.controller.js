@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('AuctionController', ['$scope', '$http', '$rootScope', 'socket', function ($scope, $http, $rootScope, socket) {
+		.controller('AuctionController', ['$state', '$scope', '$http', '$rootScope', 'socket', function ($state, $scope, $http, $rootScope, socket) {
 
 			moment.locale('ru');
 
@@ -14,6 +14,8 @@
 			var auction_id = undefined;
 			var currentCategory = 'all';
 			var currentSubcategory = 'all';
+			var auctionStartTrading;
+			var auctionStopTrading;
 
 			vm.auctionExist = undefined;
 			vm.lots = [];
@@ -29,6 +31,7 @@
 				filtered: [],
 				totalItems: 0
 			};
+			vm.onlineTrading = false;
 
 			function sortByNumber (a, b) {
 				if (a.number > b.number) return 1;
@@ -38,6 +41,7 @@
 			$http.get('/api/getCurrentAuction').then(function(resolve) {
 				if(resolve.data.success) {
 					vm.auctionExist = 'yes';
+					auctionStartTrading = Number(resolve.data.auction.timeToStart);
 					auction_id = resolve.data.auction._id;
 					return $http.get('api/lots/' + auction_id)
 				} else {
@@ -47,6 +51,10 @@
 			}).then(function(resolve) {
 				var sortedLots = resolve.data.lots.sort(sortByNumber)
 				vm.lots = sortedLots;
+				auctionStopTrading = Number(vm.lots[vm.lots.length-1].endTrading);
+				if(auctionStartTrading < Date.now() && Date.now() < auctionStopTrading) {
+					vm.onlineTrading = true;
+				}
 				vm.lots.forEach(function(lot) {
 					if(categories.indexOf(lot.category) == -1)
 						categories.push(lot.category)
@@ -87,7 +95,6 @@
 			};
 
 			$scope.$on('$stateChangeStart', function() {				
-				console.log(window.pageYOffset)
 				$rootScope.pageYOffset = window.pageYOffset;
 			});
 
@@ -98,6 +105,12 @@
 				currentSubcategory = 'all';
 				vm.lots = reserveLots;
 				vm.filterLots();
+			};
+
+			vm.goToActiveLot = function () {
+				$http.get('api/activeLot/' + auction_id).then(function(resolve) {
+					$state.go('lot', {lot_id: resolve.data._id})
+				});
 			};
 
 			vm.selectCat = function (category, subcategory) {

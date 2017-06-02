@@ -25,7 +25,7 @@
 					var time = Number(resolve.data.auction.timeToStart);
 
 					vm.auctionTime = moment(time).format('LLL');
-					console.log(Date.now() > time)
+					resolve.data.auction.lots = resolve.data.auction.lots.sort(sortByNumber);
 					var top = resolve.data.auction.lots.filter(function(lot) {
 						return lot.top == true
 					});
@@ -41,6 +41,7 @@
 					vm.topLots = top;
 					timestamp = Number(resolve.data.auction.timeToStart)
 					if (timestamp > Date.now()) {
+						vm.tradeStatus = 'donotstart';
 						updateTimer(timestamp);
 						interval = $interval(function() {
 							updateTimer(timestamp);
@@ -49,6 +50,12 @@
 						   	}
 						}, 1000)
 					} else {
+						var stopTrading = Number(resolve.data.auction.lots[resolve.data.auction.lots.length-1].endTrading);
+						if(Date.now() > timestamp && Date.now() < stopTrading) {
+							vm.tradeStatus = 'started';
+						} else if (Date.now() > stopTrading) {
+							vm.tradeStatus = 'finished';
+						}
 						vm.days = 0;
 						vm.hours = 0;
 						vm.minutes = 0;
@@ -83,6 +90,11 @@
 				vm.hours = getTimeRemaining(timestamp).hours;
 				vm.minutes = getTimeRemaining(timestamp).minutes;
 				vm.seconds = getTimeRemaining(timestamp).seconds;
+			}
+
+			function sortByNumber (a, b) {
+				if (a.number > b.number) return 1;
+				if (a.number < b.number) return -1;
 			}
 
 			$scope.$on('$destroy', function() {

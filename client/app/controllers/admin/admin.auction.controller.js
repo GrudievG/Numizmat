@@ -182,6 +182,7 @@
 
 			modal.save = function() {
 				modal.auction.lots.forEach(function(el, i) {
+					console.log(el.number)
 					el.startTrading = currentTimestamp + (i * tradingLot);
 					el.endTrading = el.startTrading + tradingLot;
 				})
@@ -191,9 +192,10 @@
 					id: auction.id,
 					lots: modal.auction.lots
 				}
+				
 				$http.put('/api/admin/updateAuction', auc).then(function(resolve) {
 					$uibModalInstance.close(auc);
-					socket.emit('recount trading time')
+					socket.emit('recount trading time', modal.auction.lots)
 				})	
 			}
 

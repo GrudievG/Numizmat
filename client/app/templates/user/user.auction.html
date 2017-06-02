@@ -101,14 +101,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="row hidden-xs hidden-sm">
-				<div class="col-xs-12" style="margin-bottom: 15px;">
+			<div class="row hidden-xs hidden-sm" style="margin-bottom:20px">
+				<div class="col-md-9">
 					<h4 ng-if="auction.filterCat">
 						<span>Фильтр: </span>
 						<span class="label label-primary">{{auction.filterCat}}</span>
 						<span ng-if="auction.filterSubcat"> / </span>
 						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
 					</h4>
+				</div>
+				<div class="col-md-3 hidden-xs hidden-sm">
+					<button type="button" class="btn btn-success btn-lg" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
 				</div>
 			</div>
 			<div class="row" ng-show="$root.showAsBlocks">

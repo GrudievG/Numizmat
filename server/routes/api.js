@@ -242,35 +242,7 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
         }); 
 
         socket.on('recount trading time', function(data) {
-            var settings = undefined;
-            Settings.findOne({}, function(err, sets) {
-                settings = sets
-                Auction.find({}, function(err, auctions) {
-                    var current = auctions.filter(function(auc) {
-                        return auc.status != "archived"
-                    })
-                    if (current.length == 0) {
-                        return
-                    } else if (current.length > 0) {
-                        current = current[0];
-                        var lotsToSave = [];
-                        current.lots.forEach(function(item, i) {
-                            lotsToSave.push(function(callback) {
-                                Lot.findById(item, function(err, lot) {
-                                    lot.startTrading = Number(current.timeToStart) + (i * settings.tradingLot);
-                                    lot.endTrading = Number(lot.startTrading) + settings.tradingLot
-                                    lot.save(function(err) {
-                                        callback(null, lot)
-                                    })
-                                })
-                            })   
-                        })
-                        async.parallel(lotsToSave, function(err, results) {
-                            io.emit('recounting lots', results) 
-                        })
-                    }
-                })
-            })       
+            io.emit('recounting lots', data)     
         });
 
         socket.on('change settings', function(data) {

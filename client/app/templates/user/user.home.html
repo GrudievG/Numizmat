@@ -9,63 +9,79 @@
 				</h4>
 			</div>
 		</div>
-		<div class="row"">
-			<div class="col-xs-12">
-				<h3 class="text-center hidden-xs">Начало онлайн-торгов через:</h3>
-				<h4 class="text-center visible-xs">Начало онлайн-торгов через:</h4>
+		<div ng-if="home.tradeStatus !== 'undefined' && home.tradeStatus == 'donotstart'">
+			<div class="row"">
+				<div class="col-xs-12">
+					<h3 class="text-center hidden-xs">Начало онлайн-торгов через:</h3>
+					<h4 class="text-center visible-xs">Начало онлайн-торгов через:</h4>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-xs-12">
+					<div class="auction-timer text-center">
+						<div class="timer-item">
+							<div class="text-center">
+								<span class="time-count">{{home.days}}</span>
+							</div>
+							<div class="text-center timer-signature">
+								<span>
+									<i>дней</i>
+								</span>
+							</div>
+						</div>
+						<div class="timer-item double-dot">
+							<span class="time-count">:</span>
+						</div>
+						<div class="timer-item">
+							<div class="text-center">
+								<span class="time-count">{{home.hours}}</span>
+							</div>
+							<div class="text-center timer-signature">
+								<span>
+									<i>часов</i>
+								</span>
+							</div>
+						</div>
+						<div class="timer-item double-dot">
+							<span class="time-count">:</span>
+						</div>
+						<div class="timer-item">
+							<div class="text-center">
+								<span class="time-count">{{home.minutes}}</span>
+							</div>
+							<div class="text-center timer-signature">
+								<span>
+									<i>минут</i>
+								</span>
+							</div>
+						</div>
+						<div class="timer-item double-dot">
+							<span class="time-count">:</span>
+						</div><div class="timer-item">
+							<div class="text-center">
+								<span class="time-count">{{home.seconds}}</span>
+							</div>
+							<div class="text-center timer-signature">
+								<span>
+									<i>секунд</i>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="auction-timer text-center">
-					<div class="timer-item">
-						<div class="text-center">
-							<span class="time-count">{{home.days}}</span>
-						</div>
-						<div class="text-center timer-signature">
-							<span>
-								<i>дней</i>
-							</span>
-						</div>
-					</div>
-					<div class="timer-item double-dot">
-						<span class="time-count">:</span>
-					</div>
-					<div class="timer-item">
-						<div class="text-center">
-							<span class="time-count">{{home.hours}}</span>
-						</div>
-						<div class="text-center timer-signature">
-							<span>
-								<i>часов</i>
-							</span>
-						</div>
-					</div>
-					<div class="timer-item double-dot">
-						<span class="time-count">:</span>
-					</div>
-					<div class="timer-item">
-						<div class="text-center">
-							<span class="time-count">{{home.minutes}}</span>
-						</div>
-						<div class="text-center timer-signature">
-							<span>
-								<i>минут</i>
-							</span>
-						</div>
-					</div>
-					<div class="timer-item double-dot">
-						<span class="time-count">:</span>
-					</div><div class="timer-item">
-						<div class="text-center">
-							<span class="time-count">{{home.seconds}}</span>
-						</div>
-						<div class="text-center timer-signature">
-							<span>
-								<i>секунд</i>
-							</span>
-						</div>
-					</div>
+		<div ng-if="home.tradeStatus !== 'undefined' && home.tradeStatus == 'started'">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3 class="text-center text-primary">Торги идут в данный момент!</h3>
+				</div>
+			</div>
+		</div>
+		<div ng-if="home.tradeStatus !== 'undefined' && home.tradeStatus == 'finished'">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3 class="text-center text-danger">Торги завершены!</h3>
 				</div>
 			</div>
 		</div>
