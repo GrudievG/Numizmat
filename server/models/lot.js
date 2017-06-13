@@ -30,6 +30,12 @@ var LotSchema = new Schema({
     	customer_email: String,
     	price: Number
     },
+	autobet_history: [{
+        customer: String,
+        price: Number,
+        time: String,
+		status: String
+	}],
     year: {
         value: Number,
         era: String

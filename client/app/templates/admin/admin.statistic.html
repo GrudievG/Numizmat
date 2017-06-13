@@ -84,30 +84,65 @@
 	    	</div>
         </div>
         <div class="modal-body" id="modal-body">
-	        <div class="table-responsive">
-	        	<table class="table">
-	        		<thead>
-			    		<tr>
-			    			<td><strong>Пользователь</strong></td>
-			    			<td><strong>Время ставки</strong></td>
-			    			<td class="text-center"><strong>Ставка</strong></td>
-			    		</tr>
-		    		</thead>
-		    		<tbody>
-		    			<tr ng-repeat="bet in modal.lot.history">
-			    			<td>
-			    				<span>{{bet.customer}}</span>
-			    			</td>
-			    			<td>
-			    				<span>{{bet.time}}</span>
-			    			</td>
-			    			<td class="text-center">
-				    			<span>{{bet.price}} грн</span>
-			    			</td>
-			    		</tr>
-		    		</tbody>
-	        	</table>
-	        </div>
+			<uib-tabset active="activeJustified" justified="true">
+				<uib-tab index="0" heading="История ставок">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+							<tr>
+								<td class="text-center"><strong>Пользователь</strong></td>
+								<td class="text-center"><strong>Время ставки</strong></td>
+								<td class="text-center"><strong>Сумма</strong></td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="bet in modal.lot.history">
+								<td class="text-center">
+									<span>{{bet.customer}}</span>
+								</td>
+								<td class="text-center">
+									<span>{{bet.time}}</span>
+								</td>
+								<td class="text-center">
+									<span>{{bet.price}} грн</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</uib-tab>
+				<uib-tab index="1" heading="История автоставок">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+							<tr>
+								<td class="text-center"><strong>Пользователь</strong></td>
+								<td class="text-center"><strong>Время ставки</strong></td>
+								<td class="text-center"><strong>Статус</strong></td>
+								<td class="text-center"><strong>Сумма</strong></td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="bet in modal.lot.autobet_history">
+								<td class="text-center">
+									<span>{{bet.customer}}</span>
+								</td>
+								<td class="text-center">
+									<span>{{bet.time}}</span>
+								</td>
+								<td class="text-center">
+									<span>{{bet.status}}</span>
+								</td>
+								<td class="text-center">
+									<span>{{bet.price}} грн</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+
         </div>
     </script>
 </div>

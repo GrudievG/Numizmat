@@ -40,6 +40,9 @@
 					</h5>
 				</div>
 				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
+					<button type="button" class="btn btn-success btn-lg center-block" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
+				</div>
+				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
 					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.filterLots()">
 				</div>
 				<div class="col-lg-6 visible-lg">
@@ -63,6 +66,9 @@
 						<span ng-if="auction.filterSubcat"> / </span>
 						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
 					</h4>
+				</div>
+				<div class="col-sm-12 visible-sm" style="margin-top: 15px;">
+					<button type="button" class="btn btn-success btn-lg center-block" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
 				</div>
 			</div>
 			<div class="row filters visible-xs visible-sm" style="margin-bottom:20px">
@@ -102,7 +108,7 @@
 				</div>
 			</div>
 			<div class="row hidden-xs hidden-sm" style="margin-bottom:20px">
-				<div class="col-md-9">
+				<div class="col-md-12">
 					<h4 ng-if="auction.filterCat">
 						<span>Фильтр: </span>
 						<span class="label label-primary">{{auction.filterCat}}</span>
@@ -110,8 +116,8 @@
 						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
 					</h4>
 				</div>
-				<div class="col-md-3 hidden-xs hidden-sm">
-					<button type="button" class="btn btn-success btn-lg" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
+				<div class="col-md-12 hidden-xs hidden-sm">
+					<button type="button" class="btn btn-success btn-lg center-block" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
 				</div>
 			</div>
 			<div class="row" ng-show="$root.showAsBlocks">

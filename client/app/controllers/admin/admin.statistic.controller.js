@@ -146,6 +146,7 @@
 		var modal = this;
 		var lotCopy = angular.copy(lot);
 		lotCopy.history = lotCopy.history.reverse();
+		lotCopy.autobet_history = lotCopy.autobet_history.reverse();
 		modal.lot = lotCopy;
 
 		modal.close = function() {

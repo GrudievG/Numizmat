@@ -139,27 +139,49 @@
 
 				modalInstance.result.then(function(resolve) {
                     var currentDelta = Number(vm.lot.endTrading) - Date.now();
+
 					if (vm.lot.autobet && vm.lot.autobet.customer_id === $window.localStorage.getItem('id')) {
-						console.log('Customer equals!')
 						socket.emit('update:autoBet:price', {
                             lot: vm.lot,
-							autobet: resolve
+							autobet: resolve,
+                            user_email: $window.localStorage.getItem('user'),
+                            time: moment().format('LLL')
 						});
-					} else {
-                        socket.emit('bet up', {
-                            price: vm.lot.price + deltaBet,
+					} else if ((vm.lot.customer === $window.localStorage.getItem('id') && (vm.lot.autobet && vm.lot.autobet.customer_id !== $window.localStorage.getItem('id'))) || (vm.lot.customer === $window.localStorage.getItem('id') && !vm.lot.autobet)) {
+                        socket.emit('add:own:autobet', {
+                            lot: vm.lot,
+                            autobet: resolve,
                             user_id: $window.localStorage.getItem('id'),
                             user_email: $window.localStorage.getItem('user'),
-                            lot: vm.lot,
-                            tradingLot: settings.tradingLot,
-                            deltaTime: deltaTime,
-                            currentDelta: currentDelta,
-                            time: moment().format('LLL'),
-                            autobet: resolve
+                            time: moment().format('LLL')
                         });
+					} else {
+                        if (vm.lot.bets === 0) {
+                            socket.emit('bet up', {
+                                price: vm.lot.price,
+                                user_id: $window.localStorage.getItem('id'),
+                                user_email: $window.localStorage.getItem('user'),
+                                lot: vm.lot,
+                                tradingLot: settings.tradingLot,
+                                deltaTime: deltaTime,
+                                currentDelta: currentDelta,
+                                time: moment().format('LLL'),
+                                autobet: resolve
+                            });
+						} else {
+                            socket.emit('bet up', {
+                                price: vm.lot.price + deltaBet,
+                                user_id: $window.localStorage.getItem('id'),
+                                user_email: $window.localStorage.getItem('user'),
+                                lot: vm.lot,
+                                tradingLot: settings.tradingLot,
+                                deltaTime: deltaTime,
+                                currentDelta: currentDelta,
+                                time: moment().format('LLL'),
+                                autobet: resolve
+                            });
+						}
 					}
-				}, function(reject) {
-
 				});
 			};
 
@@ -208,7 +230,6 @@
 					return
 				} else {
 					vm.lot = data[0];
-
 					if(vm.lot.customer == $window.localStorage.getItem('id'))
 						vm.ownBet = true;
 					else
@@ -291,7 +312,6 @@
 
             modal.price = lot.price;
             modal.minBet = minBet;
-            console.log(lot);
 
 			if (lot.autobet && lot.autobet.customer_id === user) {
             	modal.ownBet = lot.autobet.price;

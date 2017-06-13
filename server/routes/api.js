@@ -37,8 +37,38 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
     io.on('connection', function(socket) {
 
         socket.on('update:autoBet:price', function (data) {
+            var split = data.user_email.split('@');
+
             Lot.findById(data.lot._id, function(err, lot) {
+                var updateStatus = data.autobet > lot.autobet.price ? 'Поднята' : 'Снижена';
                 lot.autobet.price = data.autobet;
+                lot.autobet_history.push({
+                    customer: split[0],
+                    price: data.autobet,
+                    time: data.time,
+                    status: updateStatus
+                });
+                lot.save(function(err) {
+                    io.emit('lot update', [lot])
+                });
+            });
+        });
+
+        socket.on('add:own:autobet', function (data) {
+            var split = data.user_email.split('@');
+
+            Lot.findById(data.lot._id, function(err, lot) {
+                lot.autobet = {
+                    customer_id: data.user_id,
+                    customer_email: split[0],
+                    price: data.autobet
+                };
+                lot.autobet_history.push({
+                    customer: split[0],
+                    price: data.autobet,
+                    time: data.time,
+                    status: 'Добавлена'
+                });
                 lot.save(function(err) {
                     io.emit('lot update', [lot])
                 });
@@ -104,10 +134,16 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
 
                                     lot.bets++
                                     lot.customer = data.user_id;
-                                    lot.price = data.price;
+
+                                    if(data.autobet && data.autobet < lot.autobet.price) {
+                                        lot.price = data.autobet;
+                                    } else {
+                                        lot.price = data.price;
+                                    }
+
                                     lot.history.push({
                                         customer: split[0],
-                                        price: data.price,
+                                        price: lot.price,
                                         time: data.time,
                                     });
 
@@ -129,6 +165,13 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                             customer_email: split[0],
                                             price: data.autobet
                                         };
+
+                                        lot.autobet_history.push({
+                                            customer: split[0],
+                                            price: data.autobet,
+                                            time: data.time,
+                                            status: 'Добавлена'
+                                        });
                                     }
 
                                     if(data.autobet && data.autobet < lot.autobet.price) {
@@ -141,6 +184,12 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                             customer: lot.autobet.customer_email,
                                             price: lot.price,
                                             time: data.time,
+                                        });
+                                        lot.autobet_history.push({
+                                            customer: split[0],
+                                            price: data.autobet,
+                                            time: data.time,
+                                            status: 'Добавлена'
                                         });
                                     }
 
@@ -165,7 +214,13 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                             customer_id: data.user_id,
                                             customer_email: split[0],
                                             price: data.autobet
-                                        }
+                                        };
+                                        lot.autobet_history.push({
+                                            customer: split[0],
+                                            price: data.autobet,
+                                            time: data.time,
+                                            status: 'Добавлена'
+                                        });
                                     }
 
                                     lot.save(function(err, savedLot) {
@@ -242,7 +297,40 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
         }); 
 
         socket.on('recount trading time', function(data) {
-            io.emit('recounting lots', data)     
+            var settings = undefined;
+            Settings.findOne({}, function(err, sets) {
+                settings = sets
+                Auction.find({}, function(err, auctions) {
+                    var current = auctions.filter(function(auc) {
+                        return auc.status != "archived"
+                    });
+                    if (current.length === 0) {
+                        return;
+                    } else {
+                        current = current[0];
+                        var lotsToSave = [];
+                        function sortByNumber (a, b) {
+                            if( a.number > b.number) return 1;
+                            if(a.number < b.number) return -1
+                        }
+                        current.lots = current.lots.sort(sortByNumber);
+                        current.lots.forEach(function(item, i) {
+                            lotsToSave.push(function(callback) {
+                                Lot.findById(item, function(err, lot) {
+                                    lot.startTrading = Number(current.timeToStart) + (i * settings.tradingLot);
+                                    lot.endTrading = Number(lot.startTrading) + settings.tradingLot;
+                                    lot.save(function(err) {
+                                        callback(null, lot);
+                                    });
+                                });
+                            });
+                        });
+                        async.parallel(lotsToSave, function(err, results) {
+                            io.emit('recounting lots', results)
+                        });
+                    }
+                });
+            });
         });
 
         socket.on('change settings', function(data) {
@@ -251,12 +339,10 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
             })
         });
 
-
-
         socket.on('buy monets', function(monets) {
             io.emit('change availability', monets)
         })
-    })
+    });
 
     return apiRouter;
 };

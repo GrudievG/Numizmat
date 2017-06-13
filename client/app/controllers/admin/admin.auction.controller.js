@@ -182,7 +182,6 @@
 
 			modal.save = function() {
 				modal.auction.lots.forEach(function(el, i) {
-					console.log(el.number)
 					el.startTrading = currentTimestamp + (i * tradingLot);
 					el.endTrading = el.startTrading + tradingLot;
 				})

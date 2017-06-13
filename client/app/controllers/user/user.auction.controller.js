@@ -43,7 +43,7 @@
 					vm.auctionExist = 'yes';
 					auctionStartTrading = Number(resolve.data.auction.timeToStart);
 					auction_id = resolve.data.auction._id;
-					return $http.get('api/lots/' + auction_id)
+					return $http.get('api/lots/' + auction_id);
 				} else {
 					vm.auctionExist = 'no';
 					throw new Error()
@@ -65,9 +65,6 @@
 					vm.pagination.currentPage = $rootScope.paginationPosition
 				}
 				vm.changePage();
-				setTimeout(function() { 
-					document.body.scrollTop = $rootScope.pageYOffset;
-				}, 0);
 				return $http.get('api/getCategories')	
 			}).then(function(resolve) {
 				var cats = resolve.data.filter(function(item) {
@@ -179,6 +176,7 @@
                 } else {
                 	vm.pagination.filtered = vm.lots;
                 }
+                document.body.scrollTop = 0;
 			};
 
 			function recount(data) {
