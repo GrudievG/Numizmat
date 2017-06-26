@@ -126,7 +126,7 @@
 			<div class="col-md-4" ng-repeat="lot in home.topLots">
 				<div class="lot" ui-sref="lot({ lot_id: lot._id })">
 					<img class="badge-new" src="assets/img/top.svg">
-					<h4 class="text-center">Лот №{{lot.number}}</h4>
+					<h4 class="text-center">Лот {{lot.number}}</h4>
 					<h4 class="text-center">"{{lot.name}}"</h4>
 					<img class="center-block" ng-src="http://res.cloudinary.com/dsimmrwjb/image/upload/c_scale,g_center,h_250/{{lot.imgIds[0]}}.png">
 					<div class="row">
