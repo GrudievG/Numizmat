@@ -77,10 +77,10 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
 
         socket.on('bet up', function (data) {
             User.findById(data.user_id).populate('bets.lot').exec(function(err, user) {
-                if(!user) {
+                if (!user) {
                     socket.emit('error msg', {message: "Error!"})
-                } else if(user) {
-                    if(data.user_email != user.email) {
+                } else if (user) {
+                    if (data.user_email != user.email) {
                         socket.emit('error msg', {message: "Error!"})
                     } else {
                         var betExist = false;
@@ -132,10 +132,10 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                             betStep = settings.betSteps.fromFiveHundredMile;
                                     }
 
-                                    lot.bets++
+                                    lot.bets++;
                                     lot.customer = data.user_id;
 
-                                    if(data.autobet && data.autobet < lot.autobet.price) {
+                                    if (data.autobet && data.autobet < lot.autobet.price) {
                                         lot.price = data.autobet;
                                     } else {
                                         lot.price = data.price;
@@ -149,7 +149,7 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
 
                                     if(!data.autobet && lot.autobet && data.price < lot.autobet.price) {
                                         checkBetStep();
-                                        lot.bets++
+                                        lot.bets++;
                                         lot.customer = lot.autobet.customer_id;
                                         lot.price = data.price + betStep;
                                         lot.history.push({
@@ -175,11 +175,15 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                     }
 
                                     if(data.autobet && data.autobet < lot.autobet.price) {
-                                        lot.bets++
+                                        lot.bets++;
                                         lot.customer = lot.autobet.customer_id;
-                                        lot.price = data.autobet;
+                                        // lot.price = data.autobet;
                                         checkBetStep();
-                                        lot.price = lot.price + betStep;
+                                        if ((lot.autobet.price - lot.price) < betStep) {
+                                            lot.price = lot.autobet.price;
+                                        } else {
+                                            lot.price = lot.price + betStep;
+                                        }
                                         lot.history.push({
                                             customer: lot.autobet.customer_email,
                                             price: lot.price,
@@ -193,23 +197,26 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                         });
                                     }
 
-                                    if(data.autobet && data.autobet > lot.autobet.price) {
-                                        lot.bets++
+                                    if (data.autobet && data.autobet > lot.autobet.price) {
+                                        lot.bets++;
+                                        lot.customer = lot.autobet.customer_id;
+                                        lot.price = lot.autobet.price;
                                         lot.history.push({
                                             customer: lot.autobet.customer_email,
                                             price: lot.autobet.price,
                                             time: data.time,
                                         });
-                                        lot.customer = data.user_id;
-                                        lot.price = lot.autobet.price;
                                         checkBetStep();
-                                        lot.price = lot.price + betStep;
-                                        lot.bets++
-                                        lot.history.push({
-                                            customer: split[0],
-                                            price: lot.price,
-                                            time: data.time,
-                                        });
+                                        if ((data.autobet-lot.price) >= betStep) {
+                                            lot.customer = data.user_id;
+                                            lot.price = lot.price + betStep;
+                                            lot.bets++;
+                                            lot.history.push({
+                                                customer: split[0],
+                                                price: lot.price,
+                                                time: data.time,
+                                            });
+                                        }
                                         lot.autobet = {
                                             customer_id: data.user_id,
                                             customer_email: split[0],
@@ -222,7 +229,6 @@ var productsRoutes         = require('./protected.routes/products.routes')(expre
                                             status: 'Добавлена'
                                         });
                                     }
-
                                     lot.save(function(err, savedLot) {
                                         if(userToEmail != savedLot.customer && Date.now() < savedLot.startTrading) {
                                             socket.emit('send email', {

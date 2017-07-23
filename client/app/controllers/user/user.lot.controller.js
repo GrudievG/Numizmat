@@ -38,11 +38,16 @@
 			});
 
 			$http.get('/api/getSettings').then(function(resolve) {
-				settings = resolve.data
+				settings = resolve.data;
 				deltaTime = settings.prolongTime;
 				return $http.get('api/lot/' + $stateParams.lot_id)
 			}).then(function(resolve) {
 				vm.lot = resolve.data.current;
+				console.log(vm.lot);
+				console.log(Number(vm.lot.startTrading) < Date.now());
+				if (Number(vm.lot.startTrading) < Date.now()) {
+					vm.onlineTrading = true;
+				}
 				vm.prevId = resolve.data.prev_id;
 				vm.nextId = resolve.data.next_id;
 				if(vm.lot.customer == $window.localStorage.getItem('id')) {
@@ -141,6 +146,7 @@
                     var currentDelta = Number(vm.lot.endTrading) - Date.now();
 
 					if (vm.lot.autobet && vm.lot.autobet.customer_id === $window.localStorage.getItem('id')) {
+						console.log('update:autoBet:price');
 						socket.emit('update:autoBet:price', {
                             lot: vm.lot,
 							autobet: resolve,
@@ -148,6 +154,7 @@
                             time: moment().format('LLL')
 						});
 					} else if ((vm.lot.customer === $window.localStorage.getItem('id') && (vm.lot.autobet && vm.lot.autobet.customer_id !== $window.localStorage.getItem('id'))) || (vm.lot.customer === $window.localStorage.getItem('id') && !vm.lot.autobet)) {
+                        console.log('add:own:autobet');
                         socket.emit('add:own:autobet', {
                             lot: vm.lot,
                             autobet: resolve,
@@ -157,6 +164,7 @@
                         });
 					} else {
                         if (vm.lot.bets === 0) {
+                            console.log('bet up');
                             socket.emit('bet up', {
                                 price: vm.lot.price,
                                 user_id: $window.localStorage.getItem('id'),
@@ -223,7 +231,7 @@
 			        	}
 			      	}
 			    });
-			}
+			};
 
 			function lotUpdate (data) {
 				if(data[0]._id != $stateParams.lot_id) {

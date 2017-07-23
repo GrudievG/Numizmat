@@ -105,10 +105,14 @@
 				</div>
 				<div class="row" ng-if="lot.available && !lot.errorMessage">
 					<div class="col-sm-7 col-md-8 col-lg-7 hidden-xs">
-						<button type="button" class="btn btn-primary btn-lg" style="margin-top: 20px; width: 100%;" ng-click="lot.configAutobet()">Настроить автоповышение</button>
+						<button type="button" class="btn btn-primary btn-lg" style="margin-top: 20px; width: 100%;"
+								ng-click="lot.configAutobet()"
+								ng-disabled="lot.onlineTrading">Настроить автоповышение</button>
 					</div>
 					<div class="col-xs-12 visible-xs">
-						<button type="button" class="btn btn-primary" style="margin-top: 15px; width: 100%;" ng-click="lot.configAutobet()">Настроить автоповышение</button>
+						<button type="button" class="btn btn-primary" style="margin-top: 15px; width: 100%;"
+								ng-click="lot.configAutobet()"
+								ng-disabled="lot.onlineTrading">Настроить автоповышение</button>
 					</div>
 				</div>
 				<div class="row">
@@ -218,22 +222,21 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-sm-6">
-							<button type="button" class="btn btn-success center-block" ng-click="modal.ok()" ng-disabled="modal.autoBet < modal.minBet || !modal.autoBet">Сохранить</button>
+						<div class="col-sm-6 hidden-xs">
+							<button type="button" class="btn btn-success center-block"
+									ng-click="modal.ok()" ng-disabled="modal.autoBet < modal.minBet || !modal.autoBet">Сохранить</button>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-6 hidden-xs">
 							<button type="button" class="btn btn-danger center-block" ng-click="modal.cancel()">Отмена</button>
+						</div>
+						<div class="col-xs-12 visible-xs">
+							<button type="button" class="btn btn-success btn-block"
+									ng-click="modal.ok()" ng-disabled="modal.autoBet < modal.minBet || !modal.autoBet">Сохранить</button>
+							<button type="button" class="btn btn-danger btn-block"
+									ng-click="modal.cancel()">Отмена</button>
 						</div>
 					</div>
 				</form>
 			</div>
 	</script>
-    <script type="text/ng-template" id="mobileautobetPopover.html">
-    	<div class="auto-bet-popover">
-    		<h5>Автоматически повышать до:</h5>
-    		<input type="number" class="form-control" ng-min="lot.minBet" ng-model="lot.autobet" auto-focus>
-    		<button type="button" class="btn btn-success" style="margin-top: 15px; width: 100%;" ng-disabled="lot.autobet < lot.minBet || !lot.autobet" ng-click="lot.saveAutobet(); lot.toggleMobilePopover = false">Сохранить</button>
-    		<button type="button" class="btn btn-danger" style="margin-top: 15px; width: 100%;" ng-click="lot.toggleMobilePopover = false">Отмена</button>
-    	</div>
-    </script>
 </div>

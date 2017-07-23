@@ -17,7 +17,7 @@
 			totalItems: undefined,
 			currentPage:1,
 			filtered: []
-		}
+		};
 
 		$http.get('/api/admin/auctionIsExist').then(function(resolve) {
 			if(resolve.data.auction) {
@@ -33,7 +33,7 @@
 		}).then(function(resolve) {
 			if(resolve.data.success)
 				vm.superAdmin = true;
-		})	
+		});
 
 		function getUsers () {
 			var users = []
@@ -97,7 +97,7 @@
         	var end = begin + vm.pagination.pageSize;
         	vm.pagination.totalItems = vm.currentAuction.lots.length;
             vm.pagination.filtered = vm.currentAuction.lots.slice(begin, end);
-		}
+		};
 
 		vm.changeStatus = function() {
 			$http.get('/api/admin/updateAuctionStatus/'+vm.currentAuction._id).then(function(resolve) {
@@ -134,7 +134,7 @@
 			$scope.$apply();
 		}
 
-		socket.on('update statistic', updateStats)
+		socket.on('update statistic', updateStats);
 
 		$scope.$on('$destroy', function() {
 			socket.off('update statistic', updateStats)

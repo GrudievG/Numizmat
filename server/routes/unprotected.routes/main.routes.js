@@ -112,7 +112,7 @@ module.exports = function(express) {
     });
 
     apiRouter.get('/searchLots/:query', function(req, res) {
-        var query = new RegExp(req.params.query, 'i')        
+        var query = new RegExp(req.params.query, 'i');
         Lot.find({"name": query}, function(err, lots) {
             res.json(lots)
         })
@@ -221,7 +221,21 @@ module.exports = function(express) {
     });
 
     apiRouter.post('/filterLots', function(req, res) {
-        var query = new RegExp(req.body.query, 'i');
+        var query;
+        var searchOptions;
+        if (req.body.mode === 'name') {
+            query = new RegExp(req.body.query, 'i');
+            searchOptions = {
+                name: query,
+                auction: req.body.auction
+            };
+        } else {
+            query = req.body.query;
+            searchOptions = {
+                number: query,
+                auction: req.body.auction
+            };
+        }
         var propKeys;
         if (req.body.filter) {
             propKeys = Object.keys(req.body.filter);
@@ -229,10 +243,7 @@ module.exports = function(express) {
             propKeys = [];
         }
         var filteredLots = [];
-        Lot.find({
-            name: query,
-            auction: req.body.auction
-        }, function(err, lots) {
+        Lot.find(searchOptions, function(err, lots) {
             if(req.body.category != 'all') {
                 lots = lots.filter(function(lot) {
                     return lot.category == req.body.category
@@ -248,9 +259,9 @@ module.exports = function(express) {
             filteredLots = filteredLots.map(function(lot) {
                 lot.props.forEach(function(prop, i) {
                    lot[prop.meta] = prop.value;
-                })
+                });
                 return lot; 
-            })
+            });
             if (req.body.filter) {
                 filteredLots = filteredLots.filter(function(lot) {
                     return propKeys.every(function(prop) {

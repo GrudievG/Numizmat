@@ -40,18 +40,25 @@
 					</h5>
 				</div>
 				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
-					<button type="button" class="btn btn-success btn-lg center-block" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
+					<button type="button" class="btn btn-success btn-lg center-block"
+							ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
 				</div>
-				<div class="col-xs-12 visible-xs" style="margin-top: 15px;">
-					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.filterLots()">
+				<div class="visible-xs" style="margin-top: 15px;">
+					<div class="col-xs-2">
+						<label for="search">Поиск:</label>
+					</div>
+					<div class="col-xs-10">
+						<select class="form-control" ng-model="auction.searchMode" ng-change="auction.filterLots()">
+							<option value="name">По названию</option>
+							<option value="number">По номеру</option>
+						</select>
+					</div>
+					<div class="col-xs-12" style="margin-top: 15px;">
+						<input type="search" id="search" class="form-control"
+							   ng-model="auction.query" ng-change="auction.filterLots()">
+					</div>
 				</div>
-				<div class="col-lg-6 visible-lg">
-					<input type="search" class="form-control" placeholder="Поиск по названию лота" ng-model="auction.query" ng-change="auction.filterLots()">
-				</div>
-				<div class="col-sm-4 visible-sm visible-md">
-					<input type="search" class="form-control" placeholder="Поиск по названию" ng-model="auction.query" ng-change="auction.filterLots()">
-				</div>
-				<div class="col-sm-3 col-md-3 col-lg-2 hidden-xs">
+				<div class="col-sm-3 col-md-3 col-lg-2 col-sm-offset-4 col-lg-offset-6 hidden-xs">
 					<button class="btn pull-right toggle-view" ng-class="{ 'active-tab': $root.showAsBlocks == true }" ng-click="auction.changeActiveTab('block')">
 						<i class="fa fa-th-large fa-lg" aria-hidden="true"></i>
 					</button>
@@ -59,13 +66,28 @@
 						<i class="fa fa-list fa-lg" aria-hidden="true"></i>
 					</button>	
 				</div>
-				<div class="col-sm-12 visible-sm" style="margin-top: 15px;">
+				<div class="col-sm-12 visible-sm" style="margin-top: 15px; margin-bottom: 15px;">
 					<h4 ng-if="auction.filterCat">
 						<span>Фильтр: </span>
 						<span class="label label-primary">{{auction.filterCat}}</span>
 						<span ng-if="auction.filterSubcat"> / </span>
 						<span class="label label-primary" ng-if="auction.filterSubcat">{{auction.filterSubcat}}</span>
 					</h4>
+				</div>
+				<div class="visible-sm" style="margin-top: 15px;">
+					<div class="col-xs-1">
+						<label for="search">Поиск:</label>
+					</div>
+					<div class="col-xs-3">
+						<select class="form-control" ng-model="auction.searchMode" ng-change="auction.filterLots()">
+							<option value="name">По названию</option>
+							<option value="number">По номеру</option>
+						</select>
+					</div>
+					<div class="col-xs-8">
+						<input type="search" id="search" class="form-control"
+							   ng-model="auction.query" ng-change="auction.filterLots()">
+					</div>
 				</div>
 				<div class="col-sm-12 visible-sm" style="margin-top: 15px;">
 					<button type="button" class="btn btn-success btn-lg center-block" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
@@ -107,7 +129,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row hidden-xs hidden-sm" style="margin-bottom:20px">
+			<div class="row hidden-xs hidden-sm" style="margin-bottom:15px">
 				<div class="col-md-12">
 					<h4 ng-if="auction.filterCat">
 						<span>Фильтр: </span>
@@ -120,7 +142,22 @@
 					<button type="button" class="btn btn-success btn-lg center-block" ng-click="auction.goToActiveLot()" ng-if="auction.onlineTrading">К активному лоту</button>
 				</div>
 			</div>
-			<div class="row" ng-show="$root.showAsBlocks">
+			<div class="row visible-md visible-lg">
+				<div class="col-xs-1" style="margin-bottom: 15px;">
+					<label for="search">Поиск:</label>
+				</div>
+				<div class="col-xs-3" style="margin-bottom: 15px;">
+					<select class="form-control" ng-model="auction.searchMode" ng-change="auction.filterLots()">
+						<option value="name">По названию</option>
+						<option value="number">По номеру</option>
+					</select>
+				</div>
+				<div class="col-xs-8" style="margin-bottom: 15px;">
+					<input type="search" id="search" class="form-control"
+						   ng-model="auction.query" ng-change="auction.filterLots()">
+				</div>
+			</div>
+			<div class="row" ng-if="$root.showAsBlocks">
 				<div class="col-xs-12 col-sm-6" ng-repeat="product in auction.pagination.filtered">
 					<div class="lot" ui-sref="lot({ lot_id: product._id })">
 						<h4 class="text-center">Лот {{product.number}}</h4>
@@ -147,7 +184,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" ng-show="$root.showAsList">
+			<div class="row" ng-if="$root.showAsList">
 				<div class="col-xs-12">
 					<div class="card-container table-responsive" style="margin-bottom: 30px;">
 						<table class="table table-hover product-list">

@@ -3,7 +3,7 @@
 
 	angular
 		.module('numizmat')
-		.controller('AuctionController', ['$state', '$scope', '$http', '$rootScope', 'socket', function ($state, $scope, $http, $rootScope, socket) {
+		.controller('AuctionController', ['$window', '$state', '$scope', '$http', '$rootScope', 'socket', function ($window, $state, $scope, $http, $rootScope, socket) {
 
 			moment.locale('ru');
 
@@ -25,10 +25,11 @@
 			vm.filterSubcat = "";
 			vm.mode = 'pagination';
 			vm.pageSizeVars = [10, 20, 40, 80, 100];
+            vm.searchMode = 'name';
 			vm.pagination = {
 				currentPage: 1,
-				pageSize: vm.pageSizeVars[0],
 				filtered: [],
+				pageSize: Number($window.localStorage.getItem('pageSize')) || vm.pageSizeVars[0],
 				totalItems: 0
 			};
 			vm.onlineTrading = false;
@@ -155,7 +156,8 @@
 					filter: vm.filter,
 					auction: auction_id,
 					category: currentCategory,
-					subcategory: currentSubcategory
+					subcategory: currentSubcategory,
+					mode: vm.searchMode
 				}).then(function(resolve) {
 					var sortedLots = resolve.data.sort(sortByNumber);
 					vm.lots = sortedLots;
@@ -167,6 +169,7 @@
 			};
 
 			vm.changePage = function() {
+				$window.localStorage.setItem('pageSize', vm.pagination.pageSize);
 				$rootScope.paginationPosition = vm.pagination.currentPage;
 				var begin = ((vm.pagination.currentPage - 1) * vm.pagination.pageSize);
             	var end = begin + vm.pagination.pageSize;

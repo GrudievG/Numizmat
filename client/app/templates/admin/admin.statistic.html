@@ -60,8 +60,8 @@
 			    			<span>{{lot.price}} грн</span>
 		    			</td>
 						<td class="text-center">
-							<i class="fa fa-check text-success" aria-hidden="true" ng-if="lot.autobet"></i>
-							<i class="fa fa-times text-danger" aria-hidden="true" ng-if="!lot.autobet"></i>
+							<i class="fa fa-check fa-lg" aria-hidden="true" style="color: #36ad39" ng-if="lot.autobet && (lot.autobet.price > lot.price)"></i>
+							<i class="fa fa-times fa-lg" aria-hidden="true" style="color: #fb2c26" ng-if="!lot.autobet || (lot.autobet.price === lot.price)"></i>
 						</td>
 		    		</tr>
 	    		</tbody>
